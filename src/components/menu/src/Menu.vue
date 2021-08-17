@@ -5,7 +5,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
+import { defineComponent, inject, PropType } from 'vue';
 import MenuItem from './MenuItem.vue';
 import { IMenuItem } from './type';
 
@@ -23,8 +23,13 @@ export default defineComponent({
     }
   },
   setup (props) {
-
-    return {}
+    let vars = {
+      colorPrimary: '#332269'
+    }
+    inject
+    return {
+      vars
+    }
   }
 })
 </script>
@@ -36,6 +41,7 @@ export default defineComponent({
 <style lang="less" scoped>
 .cg-menu{
   height: 100%;
+  --color-primary: v-bind(vars.colorPrimary);
 }
 .horizontal{
   display: inline-flex;

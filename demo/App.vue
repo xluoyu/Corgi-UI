@@ -1,7 +1,6 @@
 <template>
   <div class="layout">
     <site-header />
-    <cg-button>asd</cg-button>
     <router-view></router-view>
   </div>
 </template>

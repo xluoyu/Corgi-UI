@@ -1,6 +1,13 @@
 <template>
-  <div>
-    这是组件
+  <div class="container">
+    <aside>
+      <div class="cg-nav">
+        
+      </div>
+    </aside>
+    <div class="main">
+      <router-view></router-view>
+    </div>
   </div>
 </template>
 

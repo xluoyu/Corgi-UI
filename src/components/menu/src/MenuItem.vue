@@ -1,6 +1,6 @@
 <template>
   <div class="cg-menu-item">
-    {{item.label}}
+    <a :href="item.path">{{item.label}}</a>
   </div>
 </template>
 
@@ -38,6 +38,7 @@ export default defineComponent({
   align-items: center;
   cursor: pointer;
   transition: all .3s;
+  background: var(--color-primary);
   &:hover{
     color: v-bind(hoverColor);
     background: v-bind(hoverBackground);
