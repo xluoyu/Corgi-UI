@@ -1,6 +1,6 @@
 <template>
   <div>
-    这是组件
+    <aside></aside>
   </div>
 </template>
 
