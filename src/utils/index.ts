@@ -41,7 +41,7 @@ export const colorToRgba = (color: string, a?: number, type: 'string' | 'array' 
     if (type === 'string') {
       return "rgba(" + colorChange.join(", ") + (a ? ', ' + a : '') +")";
     } else {
-      return colorChange.join(", ")
+      return colorChange
     }
   } else {
     if (type === 'string') {
@@ -54,7 +54,6 @@ export const colorToRgba = (color: string, a?: number, type: 'string' | 'array' 
       }
       res = res.map(Number)
       a && res.push(a)
-      console.log(res)
       return res;
     }
   }
@@ -67,7 +66,7 @@ export const colorToRgba = (color: string, a?: number, type: 'string' | 'array' 
  */
 export const isLight = (bgColor: string):Boolean => {
   let rgbArr = colorToRgba(bgColor, 1, 'array') as number[]
-  console.log(rgbArr)
+  console.log((0.213 * rgbArr[0] + 0.715 * rgbArr[1] + 0.072 * rgbArr[2]), bgColor)
   return (0.213 * rgbArr[0] + 0.715 * rgbArr[1] + 0.072 * rgbArr[2] > 255/2)
 }
 
@@ -89,13 +88,14 @@ export const getCssVar = () => {
  * @returns 
  */
 export const assignThemecustom = (customTheme: IThemeCssVar, defaultTheme: IThemeCssVar):IThemeCssVar => {
+  let newTheme = Object.assign({}, defaultTheme)
   Object.keys(customTheme).forEach(key => {
-    if (isObject(customTheme[key]) && defaultTheme[key] && isObject(defaultTheme[key])) {
-      defaultTheme[key] = Object.assign({}, defaultTheme[key], customTheme[key])
-    } else if (defaultTheme[key]) {
-      defaultTheme[key] = customTheme[key]
+    if (isObject(customTheme[key]) && newTheme[key] && isObject(newTheme[key])) {
+      newTheme[key] = Object.assign({}, newTheme[key], customTheme[key])
+    } else if (newTheme[key]) {
+      newTheme[key] = customTheme[key]
     }
   })
 
-  return defaultTheme
+  return newTheme
 }

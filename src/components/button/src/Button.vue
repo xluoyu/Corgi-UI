@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, PropType, computed, inject, ref, reactive } from 'vue';
+import { defineComponent, PropType, computed, inject, ref, reactive, onMounted, watchEffect, Ref, watch } from 'vue';
 import { assignThemecustom, isLight } from '../../../utils';
 import { IThemeCssVar } from '../../../utils/type';
 import { isFunction, isArray, isString } from '../../../utils/typeTool'
@@ -22,13 +22,14 @@ export default defineComponent({
     color: String,
     loading: Boolean,
     disabled: Boolean,
+    ghost: Boolean,
     size: {
       type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
       default: 'medium'
     },  
     type: {
       type: String as PropType<'default' | 'primary' | 'success' | 'info' | 'warning' | 'error'>,
-      default: 'primary'
+      default: 'default'
     },
     tag: {
       type: String as PropType<keyof HTMLElementTagNameMap>,
@@ -55,22 +56,21 @@ export default defineComponent({
     }
 
     let cssVar = computed(() => {
-      let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : styleVar
+      let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : Object.assign({}, styleVar)
       composeVar.background = props.color ? props.color : styleVar[props.type]
-
       if (props.color) {
         composeVar.color = isLight(props.color) ? '#000' : '#fff'
-        console.log(composeVar.color)
       }
 
       return composeVar
     })
 
     let buttonSizeVar = computed(() => {
+
       let sizeAboutVar = cssVar.value[props.size]
       
       if (props.round && isString(props.round)) {
-        buttonSizeVar.value.round = props.round
+        sizeAboutVar.round = props.round
       }
 
       return sizeAboutVar
@@ -89,8 +89,10 @@ export default defineComponent({
         class={[
           `cg-button`,
           {
+            'cg-button-default': this.type === 'default',
             'cg-button-circle': this.circle,
-            'cg-button-round': this.round
+            'cg-button-round': this.round,
+            'cg-button-ghost': this.ghost
           }
         ]}
         style={{
@@ -122,11 +124,25 @@ export default defineComponent({
   &:hover{
     opacity: .7;
   }
+  &.cg-button-default{
+    border: 1px solid #eee;
+    color: #333;
+    background: #fff;
+  }
   &.cg-button-circle{
     border-radius: v-bind('buttonSizeVar.circle');
   }
   &.cg-button-round{
     border-radius: v-bind('cssVar.round');
+  }
+  &.cg-button-ghost{
+    background: transparent;
+    border: 1px solid v-bind('cssVar.background');
+    color: v-bind('cssVar.background');
+    &:hover{
+      background: v-bind('cssVar.background');
+      color: #fff;
+    }
   }
 }
 </style>

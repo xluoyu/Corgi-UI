@@ -6,14 +6,13 @@ describe("test utils", () => {
   //   expect(res).toBe("rgba(245, 165, 26, 0.7)")
   // })
 
-  // test("colorToRgba2", () => {
-  //   const res = colorToRgba('rgba(127,235,142)', 1, 'array')
-  //   expect(res).toStrictEqual([127, 235, 142, 1])
-  // })
+  test("colorToRgba2", () => {
+    const res = colorToRgba('rgba(255,255,255)', 1, 'array')
+    expect(res).toStrictEqual([255, 255, 255, 1])
+  })
 
   test('changeBg to color', () => {
     const res = isLight('#fff')
-    console.log(res)
-    expect(res).toBeFalsy()
+    expect(res).not.toBeFalsy()
   })
 })
