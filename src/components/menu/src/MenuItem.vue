@@ -32,16 +32,20 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .cg-menu-item{
-  height: 100%;
+  height: 42px;
   padding: 0 20px;
   display: flex;
   align-items: center;
   cursor: pointer;
   transition: all .3s;
-  background: var(--color-primary);
+  color: #333;
   &:hover{
     color: v-bind(hoverColor);
     background: v-bind(hoverBackground);
+  }
+  a{
+    color: inherit;
+    text-decoration: none;
   }
 }
 </style>

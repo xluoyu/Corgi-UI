@@ -1,21 +1,42 @@
 <template>
-  <div>
-    这是测试
+  <div style="margin: 20px">
+    <cg-theme-config :theme="themeConfig">
+      <cg-button :onClick="clickHandle" size="tiny" style="margin-right: 10px;" type="error">tiny</cg-button>
+      <cg-button :onClick="clickHandle" size="small" style="margin-right: 10px;" type="success">small</cg-button>
+      <cg-button :onClick="clickHandle" size="medium" style="margin-right: 10px;" type="info" color="#fff">medium</cg-button>
+      <cg-button :onClick="clickHandle" size="large" style="margin-right: 10px;" type="warning">large</cg-button>
+    </cg-theme-config>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, computed } from 'vue';
 
 export default defineComponent({
   setup () {
-    
+    const size = ref('medium')
+    const clickHandle = () => {
+      console.log('点击了')
+      size.value = size.value == 'large' ? 'small' : 'large'
+    }
 
-    return {}
+    const themeConfig = {
+      // small: {
+      //   fontSize: '20px'
+      // }
+    }
+
+    return {
+      size,
+      themeConfig,
+      clickHandle
+    }
   }
 })
 </script>
 
 <style scoped>
-
+.box{
+  color: #f3dede;
+}
 </style>

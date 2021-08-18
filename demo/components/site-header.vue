@@ -63,5 +63,8 @@ export default defineComponent({
 
 .nav-menu{
   height: 100%;
+  :deep(.cg-menu-item){
+    height: 100% !important;
+  }
 }
 </style>

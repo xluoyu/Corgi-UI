@@ -1,10 +1,10 @@
 import { App } from 'vue'
 import version from './version'
+import {componentPrefix} from './config'
 import * as components from './components'
 
 const componentArray = Object.keys(components).map(key => components[key as keyof typeof components])
 
-const componentPrefix = 'Cg'
 
 const create = {
   version,

@@ -1,22 +1,132 @@
-<template>
-  <div>
-    这里时按钮
-  </div>
-</template>
-
-<script lang="ts">
-import { defineComponent } from 'vue'
+<script lang="tsx">
+import { defineComponent, PropType, computed, inject, ref, reactive } from 'vue';
+import { assignThemecustom, isLight } from '../../../utils';
+import { IThemeCssVar } from '../../../utils/type';
+import { isFunction, isArray, isString } from '../../../utils/typeTool'
+import { warn } from '../../../utils/warn';
+import styleVar from './styleVar'
 
 export default defineComponent({
   name: 'Button',
-  setup () {
-    
+  props: {
+    attrType: {
+      type: String,
+      default: 'Button'
+    },
+    round: {
+      type: [Boolean, String],
+      default: true
+    },
+    circle: Boolean,
+    block: Boolean,
+    color: String,
+    loading: Boolean,
+    disabled: Boolean,
+    size: {
+      type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
+      default: 'medium'
+    },  
+    type: {
+      type: String as PropType<'default' | 'primary' | 'success' | 'info' | 'warning' | 'error'>,
+      default: 'primary'
+    },
+    tag: {
+      type: String as PropType<keyof HTMLElementTagNameMap>,
+      default: 'button'
+    },
+    onClick: [Function, Array]
+  },
+  setup (props) {
+    const customTheme = inject<IThemeCssVar>('theme')
 
-    return {}
+    const handleClick = (e: MouseEvent) => {
+      const {onClick} = props
+      if (onClick) {
+        if (isFunction(onClick)) {
+          onClick(e)
+        } else if (isArray(onClick)) {
+          onClick.forEach(fn => {
+            isFunction(fn) ? fn(e) : warn('button', '传入的onClick无法执行')
+          })
+        } else {
+          warn('button', '传入的onClick无法执行')
+        }
+      }
+    }
+
+    let cssVar = computed(() => {
+      let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : styleVar
+      composeVar.background = props.color ? props.color : styleVar[props.type]
+
+      if (props.color) {
+        composeVar.color = isLight(props.color) ? '#000' : '#fff'
+        console.log(composeVar.color)
+      }
+
+      return composeVar
+    })
+
+    let buttonSizeVar = computed(() => {
+      let sizeAboutVar = cssVar.value[props.size]
+      
+      if (props.round && isString(props.round)) {
+        buttonSizeVar.value.round = props.round
+      }
+
+      return sizeAboutVar
+    })
+    
+    return {
+      cssVar,
+      buttonSizeVar,
+      handleClick
+    }
+  },
+  render () {
+    const {$slots, tag: Component} = this
+    return (
+      <Component
+        class={[
+          `cg-button`,
+          {
+            'cg-button-circle': this.circle,
+            'cg-button-round': this.round
+          }
+        ]}
+        style={{
+          'display': this.block ? 'flex' : 'inline-flex'
+        }}
+        type={this.attrType}
+        onClick={this.onClick}
+      >
+        <span>{$slots.default && $slots.default()}</span>
+      </Component>
+    )
   }
 })
 </script>
 
-<style scoped>
-
+<style lang="less" scoped>
+.cg-button{
+  background: v-bind('cssVar.background');
+  height: v-bind('buttonSizeVar.height');
+  font-size: v-bind('buttonSizeVar.fontSize');
+  color: v-bind('cssVar.color');
+  padding: v-bind('buttonSizeVar.padding');
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  border: none;
+  cursor: pointer;
+  &:hover{
+    opacity: .7;
+  }
+  &.cg-button-circle{
+    border-radius: v-bind('buttonSizeVar.circle');
+  }
+  &.cg-button-round{
+    border-radius: v-bind('cssVar.round');
+  }
+}
 </style>

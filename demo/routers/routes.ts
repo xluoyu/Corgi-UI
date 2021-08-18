@@ -5,10 +5,20 @@ const routes = [
     name: 'home',
   },
   {
+    path: '/doc',
+    component: () => import('../views/test.vue'),
+    name: 'test',
+  },
+  {
     path: '/component',
     component: () => import('../views/component/layout.vue'),
     name: 'component',
-    children: []
+    children: [
+      {
+        path: 'button',
+        component: () => import('../views/component/page/doc-template.vue')
+      }
+    ]
   }
 ]
 

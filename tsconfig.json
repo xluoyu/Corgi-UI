@@ -11,7 +11,8 @@
     "lib": ["esnext", "dom"],
     "paths": {
       "@": ["./src"]
-    }
+    },
+    "suppressImplicitAnyIndexErrors": true
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue", "shims-vue.d.ts"],
   "exclude": [
