@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, PropType, computed, inject, ref, reactive, onMounted, watchEffect, Ref, watch } from 'vue';
+import { defineComponent, PropType, computed, inject } from 'vue';
 import { assignThemecustom, isLight } from '../../../utils';
 import { IThemeCssVar } from '../../../utils/type';
 import { isFunction, isArray, isString } from '../../../utils/typeTool'
@@ -17,12 +17,14 @@ export default defineComponent({
       type: [Boolean, String],
       default: true
     },
+    text: Boolean,
     circle: Boolean,
     block: Boolean,
     color: String,
     loading: Boolean,
     disabled: Boolean,
     ghost: Boolean,
+    dashed: Boolean,
     size: {
       type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
       default: 'medium'
@@ -57,7 +59,7 @@ export default defineComponent({
 
     let cssVar = computed(() => {
       let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : Object.assign({}, styleVar)
-      composeVar.background = props.color ? props.color : styleVar[props.type]
+      composeVar.theme = props.color ? props.color : styleVar[props.type]
       if (props.color) {
         composeVar.color = isLight(props.color) ? '#000' : '#fff'
       }
@@ -66,7 +68,6 @@ export default defineComponent({
     })
 
     let buttonSizeVar = computed(() => {
-
       let sizeAboutVar = cssVar.value[props.size]
       
       if (props.round && isString(props.round)) {
@@ -89,15 +90,19 @@ export default defineComponent({
         class={[
           `cg-button`,
           {
-            'cg-button-default': this.type === 'default',
-            'cg-button-circle': this.circle,
-            'cg-button-round': this.round,
-            'cg-button-ghost': this.ghost
+            'cg-button--default': this.type === 'default',
+            'cg-button--circle': this.circle,
+            'cg-button--round': this.round,
+            'cg-button--ghost': this.ghost,
+            'cg-button--dashed': this.dashed,
+            'cg-button--disabled': this.disabled,
+            'cg-button--text': this.text
           }
         ]}
         style={{
           'display': this.block ? 'flex' : 'inline-flex'
         }}
+        disabled={this.disabled}
         type={this.attrType}
         onClick={this.onClick}
       >
@@ -109,40 +114,52 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+@import url('@/components/_style/mixin.less');
+
 .cg-button{
-  background: v-bind('cssVar.background');
+  background: v-bind('cssVar.theme');
   height: v-bind('buttonSizeVar.height');
   font-size: v-bind('buttonSizeVar.fontSize');
   color: v-bind('cssVar.color');
   padding: v-bind('buttonSizeVar.padding');
   box-sizing: border-box;
-  display: flex;
-  align-items: center;
-  justify-items: center;
   border: none;
   cursor: pointer;
+  .flex-center();
   &:hover{
     opacity: .7;
   }
-  &.cg-button-default{
+  &.cg-button--default{
     border: 1px solid #eee;
     color: #333;
     background: #fff;
   }
-  &.cg-button-circle{
+  &.cg-button--circle{
     border-radius: v-bind('buttonSizeVar.circle');
   }
-  &.cg-button-round{
+  &.cg-button--round{
     border-radius: v-bind('cssVar.round');
   }
-  &.cg-button-ghost{
+  &.cg-button--ghost{
     background: transparent;
-    border: 1px solid v-bind('cssVar.background');
-    color: v-bind('cssVar.background');
+    border: 1px solid v-bind('cssVar.theme');
+    color: v-bind('cssVar.theme');
     &:hover{
-      background: v-bind('cssVar.background');
-      color: #fff;
+      background: v-bind('cssVar.theme');
+      color: v-bind('cssVar.color');
     }
+    &.cg-button--dashed{
+      border-style: dashed;
+    }
+  }
+  &.cg-button--disabled{
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+  &.cg-button--text{
+    border: none;
+    background: none;
+    color: v-bind('cssVar.theme');
   }
 }
 </style>

@@ -1,0 +1,1 @@
+export {default as Cgicon} from './src/icon.vue'

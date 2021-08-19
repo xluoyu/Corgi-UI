@@ -39,7 +39,7 @@ export default defineComponent({
 .cg-nav{
   width: 272px;
   height: calc(100vh - var(--header-height));
-  border-right: 1px solid #eee;
+  border-right: 1px solid var(--border-color);
   overflow-y: auto;
   .menu{
     width: 100%;
@@ -51,9 +51,6 @@ export default defineComponent({
     align-items: center;
     box-sizing: border-box;
     padding: 0 20px;
-    &:hover{
-
-    }
   }
 }
 .main{

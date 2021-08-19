@@ -4,6 +4,7 @@
 
 ```demo
 color
+type
 ```
 
 ## props

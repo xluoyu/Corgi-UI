@@ -1,7 +1,7 @@
 import cssvar from '../../_style/cssvar'
 
 const buttonVar = {
-  background: cssvar.primary,
+  theme: cssvar.primary,
   color: '#fff',
   round: '3px',
   tiny: {

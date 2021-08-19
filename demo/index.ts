@@ -1,8 +1,8 @@
 import { createApp } from 'vue'
 import Corgi from '../src/index'
 import App from './App.vue'
-import MdComponent from './components/md-component.vue'
-import './styles/base.css'
+import MdComponent from './views/component/page/demo-box.vue'
+import './styles/base.less'
 import router from './routers'
 
 const app = createApp(App)

@@ -44,7 +44,7 @@ export default defineComponent({
 .site-header{
   width: 100%;
   height: var(--header-height);
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--border-color);
   padding: 0 32px;
   box-sizing: border-box;
   display: grid;

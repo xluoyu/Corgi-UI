@@ -5,7 +5,7 @@
       <p class="cg-p">用来触发一些操作</p>
       <h2 class="cg-h2">演示</h2>
       <div class="grid">
-        <demo-template />
+        <demo-template/>
       </div>
       <h2 class="cg-h2">Props</h2>
       <h3 class="cg-h3">Button Props</h3>
@@ -32,6 +32,18 @@
                 按钮颜色(支持形如<code>#fff</code>, <code>#ffffff</code>的颜色)
               </td>
             </tr>
+            <tr>
+              <td>type</td>
+              <td>
+                <code class="cg-text cg-text--code">string</code>
+              </td>
+              <td>
+                <code class="cg-text cg-text--code">undefind</code>
+              </td>
+              <td>
+                按钮颜色(支持形如<code>#fff</code>, <code>#ffffff</code>的颜色)
+              </td>
+            </tr>
           </tbody>
         </table>
       </div>
@@ -46,7 +58,6 @@ export default {
   components: {
     demoTemplate
   }
-  
 }
 </script>
 
@@ -69,5 +80,26 @@ export default {
 .cg-p{
   font-size: 14px;
   margin: 6px 0;
+}
+.grid{
+  display: grid;
+  grid-template-columns: repeat(3, 45%);
+}
+
+.cg-table-wrapper{
+  width: 100%;
+  table{
+    width: 100%;
+    text-align: center;
+    padding: 0;
+    margin: 0;
+    border: 1px solid var(--border-color);
+    border-spacing: 0;
+    line-height: 40px;
+
+  }
+  thead{
+    background: rgb(244, 244, 248);
+  }
 }
 </style>

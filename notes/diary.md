@@ -49,7 +49,7 @@ if (path.endsWith('.demo.md')){
 
 渲染文档页面时，使用字符串的形式进行拼接
 
-![image-20210818110820985](C:\Users\Administrator\AppData\Roaming\Typora\typora-user-images\image-20210818110820985.png)
+![image-20210818110820985](https://cdn.jsdelivr.net/gh/xluoyu/image-riverbed@latest/images/image-20210818110820985.png)
 
 > 如何引入代码示例？
 
@@ -133,4 +133,19 @@ components: {
 
 ## 2021-08-18
 
-今天的任务是做md解析工作！
+基本完成了`button`组件的开发
+
+对于样式变量的方案，还是决定采用vue3.2的`v-bind`来做
+
+将样式变量分为全局和组件专有
+
+全局主要存放主题等通用变量
+
+![image-20210819100201746](https://cdn.jsdelivr.net/gh/xluoyu/image-riverbed@latest/images/image-20210819100201746.png)
+
+在使用时需要与组件变量混合，以组件变量为主。
+
+记得在使用变量组时要做下浅拷贝，避免修改某个变量后会对后续的组件造成影响。
+
+![image-20210819101745773](https://cdn.jsdelivr.net/gh/xluoyu/image-riverbed@latest/images/image-20210819101745773.png)
+
