@@ -1,11 +1,15 @@
-import marked from 'marked'
-import hljs from 'highlight.js'
+// import marked from 'marked'
+// import hljs from 'highlight.js'
+const marked = require('marked')
 
 function createRenderer() {
   const renderer = new marked.Renderer()
   const overrides = {
     code (content, language) {
      return content 
+    },
+    heading (test, level) {
+      
     }
   }
 
@@ -16,4 +20,5 @@ function createRenderer() {
   return renderer
 }
 
-export default createRenderer
+// export default createRenderer
+module.exports = createRenderer
