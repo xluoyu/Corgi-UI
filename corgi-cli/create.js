@@ -2,9 +2,17 @@ const fs = require('fs')
 const ejs = require('ejs')
 const path = require('path')
 
+function resulve(url) {
+  return path.resolve(__dirname, url)
+}
+
+const indexTemplate = resulve('./template/component/index.ejs')
+const styleTemplate = resulve('./template/component/styleVar.ejs')
+const componentTemplate = resulve('./template/component/component.ejs')
+
 const createComponentIndex = (url, options) => {
   return new Promise((reslove) => {
-    ejs.renderFile('./template/component/index.ejs', {options: options}, (err, str) => {
+    ejs.renderFile(indexTemplate, {options: options}, (err, str) => {
       if (err) {console.log(err); return}
       try {
         fs.opendirSync(url)
@@ -20,7 +28,7 @@ const createComponentIndex = (url, options) => {
 
 const createComponentCssVal = (url, options) => {
   return new Promise((reslove) => {
-    ejs.renderFile('./template/component/styleVar.ejs', {options: options}, (err, str) => {
+    ejs.renderFile(styleTemplate, {options: options}, (err, str) => {
       if (err) {console.log(err); return}
       try {
         fs.opendirSync(url)
@@ -36,7 +44,7 @@ const createComponentCssVal = (url, options) => {
 
 const createComponentVue = (url, options) => {
   return new Promise((reslove) => {
-    ejs.renderFile('./template/component/component.ejs', {options: options}, (err, str) => {
+    ejs.renderFile(componentTemplate, {options: options}, (err, str) => {
       if (err) {console.log(err); return}
   
       fs.writeFileSync(path.join(url, `./${options.fileName}.vue`), str)

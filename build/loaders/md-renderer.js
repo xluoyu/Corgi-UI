@@ -1,15 +1,32 @@
 // import marked from 'marked'
-// import hljs from 'highlight.js'
+const hljs = require('highlight.js')
 const marked = require('marked')
 
 function createRenderer() {
   const renderer = new marked.Renderer()
   const overrides = {
-    code (content, language) {
-     return content 
+    code (code, language) {
+      return code
     },
-    heading (test, level) {
-      
+    codespan(code) {
+
+      return `<code class="cg-text--code">${code}</code>`
+    },
+    heading (text, level) {
+      return `<h${level} class="cg-h${level}">${text}</h${level}>`
+    },
+    table (header, body) {
+      return `<div class="cg-table-wrapper">
+        <table>
+        <thead>
+          ${header}
+        </thead>
+          <tbody>
+            ${body}
+          </tbody>
+        </table>
+      </div>
+      `
     }
   }
 

@@ -8,11 +8,11 @@
       </div>
       <div class="cg-card-content">
         <slot name="content"/>
+        <slot name="demo" />
       </div>
     </div>
     <div class="cg-show-demo-code">
-      <div class="cg-show-demo-code-content" :style="{maxHeight: showCode? '600px': '0px'}">
-        <slot name="code" />
+      <div class="cg-show-demo-code-content" :style="{maxHeight: showCode? '600px': '0px'}"  v-html="sfcCode">
       </div>
       <div class="showcode-button" @click="changeShowCode">
         <cg-button type="primary" text>{{showCode ? '隐藏' : '显示'}}代码</cg-button>
@@ -27,9 +27,16 @@
 <script lang="ts">
 import { useToggle } from '@'
 import { defineComponent } from 'vue'
+import hljs from '../../../utils/hljs'
 
 export default defineComponent({
-  setup () {
+  props: {
+    code: {
+      type: String,
+      default: ''
+    },
+  },
+  setup (props) {
     const [showCode, changeShowCode] = useToggle(false)
 
     const copyCode = () => {
@@ -39,7 +46,11 @@ export default defineComponent({
       })
     }
 
+    let sfcCode = hljs.highlight(props.code, {language: 'html'}).value
+    sfcCode = `<pre>${sfcCode}</pre>`
+
     return {
+      sfcCode,
       showCode,
       changeShowCode,
       copyCode
@@ -53,12 +64,19 @@ export default defineComponent({
   border: 1px solid var(--border-color);
   border-radius: 4px;
   transition: all .3s;
+  margin-bottom: 20px;
   &:hover{
     box-shadow: 0 0 6px rgba(0, 0, 0, .2);
   }
 }
 .cg-card{
   padding: 20px;
+}
+.cg-card-header-main{
+  font-size: 18px;
+}
+.cg-card-content{
+  font-size: 14px;
 }
 .cg-show-demo-code{
   border-top: 1px solid var(--boder-color);
@@ -68,6 +86,8 @@ export default defineComponent({
     transition: all .6s;
     box-sizing: border-box;
     overflow-y: auto;
+    font-size: 16px;
+    line-height: 24px;
   }
   .showcode-button{
     text-align: center;
@@ -87,4 +107,6 @@ export default defineComponent({
     }
   }
 }
+
+
 </style>

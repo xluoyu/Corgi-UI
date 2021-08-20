@@ -1,0 +1,1 @@
+export {default as CgSpace} from './src/Space.vue'

@@ -66,7 +66,6 @@ export const colorToRgba = (color: string, a?: number, type: 'string' | 'array' 
  */
 export const isLight = (bgColor: string):Boolean => {
   let rgbArr = colorToRgba(bgColor, 1, 'array') as number[]
-  console.log((0.213 * rgbArr[0] + 0.715 * rgbArr[1] + 0.072 * rgbArr[2]), bgColor)
   return (0.213 * rgbArr[0] + 0.715 * rgbArr[1] + 0.072 * rgbArr[2] > 255/2)
 }
 

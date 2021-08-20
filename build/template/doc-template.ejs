@@ -1,0 +1,25 @@
+<template>
+  <div class="doc">
+    <div class="content">
+      <%- content %>
+    </div>
+    <div class="doc-nav"></div>
+  </div>
+</template>
+
+<script>
+<% componentList.forEach(function(item) { %>
+  import <%= item.component %> from "./<%= item.fileName %>"
+<% }) %>
+export default {
+  components: {
+    <% componentList.forEach(function(item) { %>
+      <%= item.component %>,
+    <% }) %>
+  }
+}
+</script>
+
+<style lang="less">
+@import url('site/styles/doc.less');
+</style>

@@ -1,0 +1,23 @@
+<template>
+  <md-component
+    code="<%= options.code %>"
+  >
+    <template #title>
+      <%- options.title %>
+    </template>
+    <template #content>
+      <%- options.content %>
+    </template>
+    <template #demo>
+      <%- options.template %>
+    </template>
+  </md-component>
+</template>
+
+<script>
+  <%- options.script %>
+</script>
+
+<style scoped>
+  <%- options.style %>
+</style>

@@ -1,15 +1,14 @@
-# 自定义颜色
+# 透明背景
+
+`Ghost` 按钮有透明的背景。
 
 ```html
-<div style="color: red">这是红色</div>
-```
-
-```js
-setup() {
-  const color = ref('blue)
-
-  return {
-    color
-  }
-}
+<cg-space>
+  <cg-button>Default</cg-button>
+  <cg-button type="primary" ghost>Primary</cg-button>
+  <cg-button type="info" ghost>Info</cg-button>
+  <cg-button type="success" ghost>Success</cg-button>
+  <cg-button type="warning" ghost>Warning</cg-button>
+  <cg-button type="error" ghost>Error</cg-button>
+</cg-space>
 ```

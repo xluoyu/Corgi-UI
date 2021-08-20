@@ -40,7 +40,7 @@ export default defineComponent({
     onClick: [Function, Array]
   },
   setup (props) {
-    const customTheme = inject<IThemeCssVar>('theme')
+    const customTheme = inject<IThemeCssVar | null>('theme', null)
 
     const handleClick = (e: MouseEvent) => {
       const {onClick} = props
@@ -129,16 +129,12 @@ export default defineComponent({
   &:hover{
     opacity: .7;
   }
-  &.cg-button--default{
-    border: 1px solid #eee;
-    color: #333;
-    background: #fff;
+  
+  &.cg-button--round{
+    border-radius: v-bind('cssVar.round');
   }
   &.cg-button--circle{
     border-radius: v-bind('buttonSizeVar.circle');
-  }
-  &.cg-button--round{
-    border-radius: v-bind('cssVar.round');
   }
   &.cg-button--ghost{
     background: transparent;
@@ -160,6 +156,11 @@ export default defineComponent({
     border: none;
     background: none;
     color: v-bind('cssVar.theme');
+  }
+  &.cg-button--default{
+    border: 1px solid #eee;
+    color: #333;
+    background: #fff;
   }
 }
 </style>

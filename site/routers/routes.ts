@@ -13,12 +13,17 @@ const routes = [
     path: '/component',
     component: () => import('../views/component/layout.vue'),
     name: 'component',
+    redirect: '/component/button',
     children: [
       {
         path: 'button',
-        component: () => import('../views/component/page/doc-template.vue')
+        component: () => import('../../src/components/button/demos/index.md')
       }
     ]
+  },
+  {
+    path: '/:pathMatch(.*)*',
+    component: () => import('../views/home/index.vue')
   }
 ]
 
