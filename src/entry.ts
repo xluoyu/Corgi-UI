@@ -14,7 +14,6 @@ const create = {
       const {name} = component
       const registered = app.component(componentPrefix + name)
       if (!registered) {
-      console.log(componentPrefix + name)
         app.component(componentPrefix + name, component)
       }
     })

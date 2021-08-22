@@ -42,12 +42,12 @@ const getCompoentCode = (obj) => {
     code += `\n</template>\n`
   }
   if (obj.script) {
-    code += `<script>\n`
+    code += `\n<script>\n`
     code += obj.script
     code += `\n</script>\n`
   }
   if (obj.style) {
-    code += `<style>\n`
+    code += `\n<style>\n`
     code += obj.style
     code += `\n</style>\n`
   }
@@ -67,9 +67,16 @@ const renderVueComponent = (componentObj) => {
   })
 }
 
+const getFileId = (path) => {
+  const dirs = path.split('/')
+  const fileNames = dirs[dirs.length - 1].split('.')
+  return fileNames[0]
+}
+
 const demoLoader = (code, path) => {
   const tokens = marked.lexer(code)
   const demoCompoentObj = getCompoentObj(tokens)
+  demoCompoentObj.id = getFileId(path)
   return renderVueComponent(demoCompoentObj)
 }
 

@@ -27,7 +27,10 @@ function createRenderer() {
         </table>
       </div>
       `
-    }
+    },
+    paragraph: (text) => {
+      return `<p class="cg-p">${text}</p>`
+    },
   }
 
   Object.keys(overrides).forEach((key) => {

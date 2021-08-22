@@ -9,7 +9,7 @@ export default defineComponent({
   },
   render () {
     const children = this.$slots.default && this.$slots.default()
-    const childrens = [[], []]
+    const childrens: any[] = [[], []]
     children?.forEach((e, index) => {
       if (index % 2 === 0) {
         childrens[0].push(e)
@@ -17,7 +17,6 @@ export default defineComponent({
         childrens[1].push(e)
       }
     })
-    console.log(childrens)
     return (
       <div class="grid">
         <div>

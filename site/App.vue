@@ -14,9 +14,6 @@ export default {
   },
   setup(props, ctx) {
     let demoContent = ref('')
-    // import('../src/button/demos/index.md').then(demo => {
-    //   demoContent.value = demo.default
-    // })
 
     return {
       demoContent
@@ -25,6 +22,6 @@ export default {
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="less" scoped>
 
 </style>

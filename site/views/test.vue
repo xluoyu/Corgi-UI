@@ -7,22 +7,21 @@
       <cg-button size="large" style="margin-right: 10px;" type="warning" >large</cg-button>
       <cg-button size="medium" style="margin-right: 10px;" type="info" ghost dashed>ghost</cg-button>
       <cg-button size="large" style="margin-right: 10px;">default</cg-button>
-      
     </cg-theme-config>
 
-  <md-component>
-    <template #demo>
-      <cg-button @click="handleClick" size="large" style="margin-right: 10px;" type="warning" text>default</cg-button>
-      <div>{{val}}</div>
-    </template>
-  </md-component>
+    <cg-icon size="34px" color="#336699">
+      <edit/>
+    </cg-icon>
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent, ref, computed, watchEffect } from 'vue';
-
+import { Edit } from '@element-plus/icons'
 export default defineComponent({
+  components: {
+    Edit,
+  },
   setup () {
     const size = ref('medium')
     const clickHandle = () => {

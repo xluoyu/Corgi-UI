@@ -2,6 +2,7 @@
   <div class="container">
     <aside class="cg-nav">
       <cg-menu :list="menuList"/>
+      <div class="shrink"></div>
     </aside>
     <div class="main">
       <router-view></router-view>
@@ -10,7 +11,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, App } from 'vue';
+import { defineComponent } from 'vue';
 
 export default defineComponent({
   setup () {
@@ -22,6 +23,10 @@ export default defineComponent({
       {
         label: '菜单',
         path: '/component/menu'
+      },
+      {
+        label: '图标',
+        path: '/component/icon'
       }
     ]
 
@@ -37,7 +42,7 @@ export default defineComponent({
   display: flex;
 }
 .cg-nav{
-  width: 272px;
+  width: 240px;
   height: calc(100vh - var(--header-height));
   border-right: 1px solid var(--border-color);
   overflow-y: auto;
@@ -55,9 +60,9 @@ export default defineComponent({
 }
 .main{
   flex: 1;
-  padding: 20px;
   box-sizing: border-box;
   height: calc(100vh - var(--header-height));
   overflow-y: auto;
+  scroll-behavior:smooth;
 }
 </style>

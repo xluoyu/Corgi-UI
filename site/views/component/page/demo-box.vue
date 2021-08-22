@@ -1,8 +1,8 @@
 <template>
-  <div class="cg-show-demo">
+  <div :class="{'cg-show-demo':true, 'active': activeComponentKey == id}" :id="id">
     <div class="cg-card">
       <div class="cg-card-header">
-        <div class="cg-card-header-main">
+        <div class="cg-card-header-main cg-h2">
           <slot name="title"/>
         </div>
       </div>
@@ -17,7 +17,7 @@
       <div class="showcode-button" @click="changeShowCode">
         <cg-button type="primary" text>{{showCode ? '隐藏' : '显示'}}代码</cg-button>
         <div class="right-botton flex-center">
-          <cg-button type="primary" text @click.stop="copyCode">复制代码</cg-button>
+          <cg-button type="primary" text @click.stop="copyCode" v-show="showCode">复制代码</cg-button>
         </div>
       </div>
     </div>
@@ -28,20 +28,21 @@
 import { useToggle } from '@'
 import { defineComponent } from 'vue'
 import hljs from '../../../utils/hljs'
+import { useCompoent } from '../hooks/compoent'
 
 export default defineComponent({
   props: {
     code: {
       type: String,
-      default: ''
+      required: true
     },
+    id: String
   },
   setup (props) {
     const [showCode, changeShowCode] = useToggle(false)
 
     const copyCode = () => {
-      console.log('copy')
-      navigator.clipboard.writeText('526516484').then(() => {
+      navigator.clipboard.writeText(props.code).then(() => {
         alert('拷贝成功')
       })
     }
@@ -49,10 +50,13 @@ export default defineComponent({
     let sfcCode = hljs.highlight(props.code, {language: 'html'}).value
     sfcCode = `<pre>${sfcCode}</pre>`
 
+    const { activeComponentKey } = useCompoent()
+
     return {
       sfcCode,
       showCode,
       changeShowCode,
+      activeComponentKey,
       copyCode
     }
   }
@@ -65,6 +69,10 @@ export default defineComponent({
   border-radius: 4px;
   transition: all .3s;
   margin-bottom: 20px;
+  background: #fff;
+  &.active{
+    border: 1px solid var(--theme);
+  }
   &:hover{
     box-shadow: 0 0 6px rgba(0, 0, 0, .2);
   }
@@ -72,22 +80,23 @@ export default defineComponent({
 .cg-card{
   padding: 20px;
 }
-.cg-card-header-main{
-  font-size: 18px;
-}
 .cg-card-content{
   font-size: 14px;
 }
 .cg-show-demo-code{
-  border-top: 1px solid var(--boder-color);
+  border-top: 1px dashed var(--border-color);
   .cg-show-demo-code-content{
-    background: #fafafa;
-    padding: 0 20px;
+    background: url("site/assets/paper.png");
     transition: all .6s;
     box-sizing: border-box;
     overflow-y: auto;
+    box-sizing: border-box;
     font-size: 16px;
-    line-height: 24px;
+    line-height: 28px;
+    letter-spacing: 2px;
+    :deep(pre) {
+      padding: 20px;
+    }
   }
   .showcode-button{
     text-align: center;
@@ -107,6 +116,4 @@ export default defineComponent({
     }
   }
 }
-
-
 </style>

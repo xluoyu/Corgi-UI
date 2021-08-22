@@ -9,6 +9,8 @@
     "new": "node ./corgi-cli/index.js"
   },
   "dependencies": {
+    "@element-plus/icons": "^0.0.11",
+    "lodash": "^4.17.21",
     "vue": "^3.2.3",
     "vue-router": "4"
   },

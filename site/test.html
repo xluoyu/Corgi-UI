@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <link href="https://cdn.bootcdn.net/ajax/libs/perfect-scrollbar/1.5.2/css/perfect-scrollbar.css" rel="stylesheet">
+  <script src="https://cdn.bootcdn.net/ajax/libs/perfect-scrollbar/1.5.2/perfect-scrollbar.js"></script>
+</head>
+<style>
+  *{margin:0;padding: 0;}
+  .box{
+    width: 400px;
+    height: 400px;
+    position: relative;
+  }
+  .content{
+    width: 800px;
+    height: 800px;
+    background: linear-gradient(to bottom, #336699, #aa2299);
+  }
+</style>
+<body>
+  <div class="box">
+    <div class="content"></div>
+  </div>
+</body>
+<script>
+  const container = document.querySelector('.box');
+  const ps = new PerfectScrollbar(container);
+</script>
+</html>

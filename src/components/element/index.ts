@@ -1,0 +1,1 @@
+export {default as P} from './src/P.vue'

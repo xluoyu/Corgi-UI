@@ -3,7 +3,7 @@
     <div class="content">
       <%- content %>
     </div>
-    <div class="doc-nav"></div>
+    <doc-nav :list="list" />
   </div>
 </template>
 
@@ -16,6 +16,18 @@ export default {
     <% componentList.forEach(function(item) { %>
       <%= item.component %>,
     <% }) %>
+  },
+  setup () {
+    const list = [
+      <% componentList.forEach(function(item) { %>
+        <% obj = {id: item.id, title: item.title}%>
+        <%- JSON.stringify(obj) %>,
+      <% }) %>
+    ]
+
+    return {
+      list
+    }
   }
 }
 </script>

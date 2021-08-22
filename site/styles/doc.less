@@ -1,26 +1,26 @@
 .cg-h1{
-  font-size: 30px;
-  font-weight: 500;
-  margin: 20px 0;
-}
-.cg-h2{
   font-size: 24px;
   font-weight: 500;
-  margin: 16px 0;
+  margin-bottom: 18px;
+}
+.cg-h2{
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 16px;
 }
 .cg-h3{
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 500;
   margin: 12px 0;
 }
 .cg-p{
   font-size: 14px;
-  margin: 6px 0;
+  margin: 10px 0;
 }
 .grid{
   display: grid;
   grid-gap: 20px 20px;
-  grid-template-columns: repeat(2, auto);
+  grid-template-columns: minmax(0px, 1fr) minmax(0px, 1fr);
 }
 
 .cg-table-wrapper{
@@ -34,7 +34,6 @@
     border: 1px solid var(--border-color);
     border-spacing: 0;
     line-height: 40px;
-
   }
   thead{
     background: rgb(244, 244, 248);
@@ -45,4 +44,18 @@
   padding: 2px 6px;
   color: #333639;
   background-color: #f4f4f8;
+}
+
+.doc{
+  display: flex;
+  padding: 20px;
+  .content{
+    flex: 1;
+    height: 100%;
+    overflow: auto;
+  }
+  .doc-nav{
+    width: 140px;
+    flex-shrink: 0;
+  }
 }

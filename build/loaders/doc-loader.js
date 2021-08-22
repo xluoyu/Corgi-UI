@@ -7,29 +7,39 @@ const { resolve } = require('path')
 
 const docTemplate = resolve(__dirname, '../template/doc-template.ejs')
 
-const filterDemos = (string) => {
-  return string.split('\n').map(e => {
+async function resolveDemoTitle (fileName, demoEntryPath) {
+  const demoStr = fs.readFileSync(
+    resolve(demoEntryPath, '..', fileName),
+    'utf-8'
+  )
+  return demoStr.match(/# ([^\n]+)/)[1]
+}
+
+const filterDemos = (string, url) => {
+  return Promise.all(string.split('\n').map(async e => {
     let component = `${e}Demo`
+    let fileName = `${e}.demo.md`
     return {
       id: e,
       component,
-      fileName: `${e}.demo.md`,
-      tag: `<${component} />`
+      fileName,
+      title: await resolveDemoTitle(fileName, url),
+      tag: `<${component} ref="${component}"/>`,
     }
-  })
+  }))
 }
 
 const genDemosTemplate = (demos) => {
   return `<demos>${demos.map(e => e.tag).join('\n')}</demos>`
 }
 
-const docLoader = (code, path) => {
+const docLoader = async (code, path) => {
   let codeObject = marked.lexer(code)
 
   const demoIndex =  codeObject.findIndex(e => e.type === 'code' && e.lang === 'demo')
   let compoentList = []
   if (demoIndex !== -1) {
-    compoentList = filterDemos(codeObject[demoIndex].text)
+    compoentList = await filterDemos(codeObject[demoIndex].text, path)
     codeObject.splice(demoIndex, 1, {
       type: 'html',
       pre: false,
@@ -57,8 +67,4 @@ const renderDocVueComponent = (content, componentList) => {
   })
 }
 
-// let res = getTargetFile('../../src/components/button/demos/index.md')
-// res.then(res => {
-  // console.log(res)
-// })
 module.exports = docLoader

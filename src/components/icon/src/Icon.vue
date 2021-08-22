@@ -1,11 +1,15 @@
 <template>
-  <div 
+  <i 
     :class="[
     'cg-icon'
     ]"
+    :style="{
+      color: color,
+      fontSize: size
+    }"
   >
-
-  </div>
+    <slot />
+  </i>
 </template>
 
 <script lang="ts">
@@ -15,10 +19,8 @@ import styleVar from './styleVar'
 export default defineComponent({
   name: 'Icon',
   props: {
-    type: {
-      type: String,
-      default: 'default'
-    }
+    size: String,
+    color: String
   },
   setup () {
     
@@ -32,5 +34,12 @@ export default defineComponent({
 <style lang="less" scoped>
 @import url('@/components/_style/mixin.less');
 
-
+.cg-icon{
+  display: inline-block;
+  height: 1em;
+  width: 1em;
+  font-size: 1em;
+  fill: currentColor;
+  color: inherit;
+}
 </style>

@@ -18,6 +18,10 @@ const routes = [
       {
         path: 'button',
         component: () => import('../../src/components/button/demos/index.md')
+      },
+      {
+        path: 'icon',
+        component: () => import('../../src/components/icon/demos/index.md')
       }
     ]
   },

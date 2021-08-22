@@ -7,18 +7,15 @@ import path from 'path'
 export default defineConfig({
   plugins: [vueJsx(), transformDemo()],
   resolve: {
-    alias: 
-      process.env.NODE_ENV !== 'production'
-      ? [
-          {
-            find: '@',
-            replacement: path.resolve(__dirname, './src')
-          },
-          {
-            find: 'site',
-            replacement: path.resolve(__dirname, './site')
-          }
-        ]
-      : undefined
+    alias: [
+      {
+        find: '@',
+        replacement: path.resolve(__dirname, './src')
+      },
+      {
+        find: 'site',
+        replacement: path.resolve(__dirname, './site')
+      }
+    ]
   }
 })

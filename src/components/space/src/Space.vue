@@ -1,7 +1,6 @@
 <script lang="tsx">
 import { defineComponent, PropType } from 'vue'
 import styleVar from './styleVar'
-import { warn } from '../../../utils/warn';
 
 export default defineComponent({
   name: 'Space',
@@ -16,8 +15,7 @@ export default defineComponent({
       default: true
     }
   },
-  setup (props, {slots}) {
-    console.log(slots)
+  setup (props) {
 
     return {
       styleVar
@@ -36,7 +34,8 @@ export default defineComponent({
             <div
               style={{
                 marginRight: index !== children?.length ? '10px' : 0,
-                marginBottom: '10px'
+                marginBottom: '10px',
+                marginTop: '10px',
               }}
             >
               {child}
