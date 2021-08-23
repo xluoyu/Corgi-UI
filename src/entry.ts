@@ -5,17 +5,12 @@ import * as components from './components'
 
 const componentArray = Object.keys(components).map(key => components[key as keyof typeof components])
 
-
 const create = {
   version,
   componentPrefix,
   install (app: App) {
     componentArray.forEach(component => {
-      const {name} = component
-      const registered = app.component(componentPrefix + name)
-      if (!registered) {
-        app.component(componentPrefix + name, component)
-      }
+      app.use(component.default)
     })
   }
 }

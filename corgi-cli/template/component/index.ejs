@@ -1,1 +1,8 @@
-export {default as <%= options.prefixBig + options.fileName %>} from './src/<%= options.fileName %>.vue'
+import <%= options.fileName %> from './src/<%= options.fileName %>.vue'
+import {componentPrefix} from '../../config'
+
+export default {
+  install (app) {
+    app.component(componentPrefix + <%= options.fileName %>.name, <%= options.fileName %>);
+  }
+}

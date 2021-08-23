@@ -1,1 +1,8 @@
-export {default as CgSpace} from './src/Space.vue'
+import { componentPrefix } from '../../config';
+import Space from './src/Space.vue'
+
+export default {
+  install (app) {
+    app.component(componentPrefix + Space.name, Space);
+  }
+}

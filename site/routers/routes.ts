@@ -22,6 +22,10 @@ const routes = [
       {
         path: 'icon',
         component: () => import('../../src/components/icon/demos/index.md')
+      },
+      {
+        path: 'scrollbar',
+        component: () => import('../../src/components/scrollbar/demos/index.md')
       }
     ]
   },

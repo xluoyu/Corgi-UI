@@ -27,7 +27,11 @@ export default defineComponent({
       {
         label: '图标',
         path: '/component/icon'
-      }
+      },
+      {
+        label: '滚动条',
+        path: '/component/scrollbar'
+      },
     ]
 
     return {

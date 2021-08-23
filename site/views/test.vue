@@ -12,6 +12,12 @@
     <cg-icon size="34px" color="#336699">
       <edit/>
     </cg-icon>
+
+    <div class="test-scrollbar">
+      <cg-scrollbar y x :loadMore="loadMore" ref="scroll">
+        <div class="main"></div>
+      </cg-scrollbar>
+    </div>
   </div>
 </template>
 
@@ -44,8 +50,21 @@ export default defineComponent({
       console.log(val.value)
     }
 
+    let height = 800
+    const mainHeight = ref(height + 'px')
+    const scroll = ref()
+    const loadMore = () => {
+      height += 400
+      mainHeight.value = height + 'px'
+      console.log(scroll)
+      scroll.value.update()
+    }
+
     return {
       size,
+      scroll,
+      mainHeight,
+      loadMore,
       themeConfig,
       clickHandle,
       showVal,
@@ -56,8 +75,19 @@ export default defineComponent({
 })
 </script>
 
-<style scoped>
+<style lang="less" scoped>
 .box{
   color: #f3dede;
 }
+
+.test-scrollbar{
+  width: 400px;
+  height: 400px;
+  .main{
+    width: 800px;
+    height: v-bind(mainHeight);
+    background: linear-gradient(to bottom, #336696, #aa3377);
+  }
+}
+
 </style>
