@@ -7,7 +7,7 @@ import less from 'rollup-plugin-less'
 import alias from '@rollup/plugin-alias'
 import fs from "fs-extra"; // 写文件
 import path from "path";
-import typescripts from 'rollup-plugin-typescript'
+import typescripts from 'rollup-plugin-typescript2'
 import css from 'rollup-plugin-css-only'
 import postcss from 'rollup-plugin-postcss';
 import image from '@rollup/plugin-image';
@@ -23,40 +23,63 @@ const aliasConfig = {
   ]
 }
 
+const plugins = [
+  resolve({ extensions: [".vue"] }),
+  alias(aliasConfig),
+  vue({
+    preprocessStyles: true,
+    template: {
+      isProduction: true,
+    }
+  }),
+  postcss(),
+  vueJsx({jsxFactory: "vueJsxCompat"}),
+  esbuild(),
+  commonjs()
+]
+
+const onwarn = (warning) => {
+  // 跳过某些警告
+  if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return;
+
+  // 抛出异常
+  if (warning.code === 'NON_EXISTENT_EXPORT') throw new Error(warning.message);
+  // 控制台打印一切警告
+  console.warn(warning.message);
+}
+
+// let types = []
+
 let dirs = fs.readdirSync(`${INPUT_PATH}/components`).filter(name => name[0] !== '_').map((name) => {
+  // types.push({
+  //   input: `${INPUT_PATH}/components/${name}/index.ts`,
+  //   output: {
+  //     file: `${OUTPUT_PATH}/${name}/index.d.ts`,
+  //   }
+  // })
   return {
     input: `${INPUT_PATH}/components/${name}/index.ts`,
     external: ["vue"],
-    plugins: [resolve({ extensions: [".vue"] }), alias(aliasConfig), vue({
-      preprocessStyles: true,
-      template: {
-        isProduction: true,
-      }
-    }), postcss(), babel({
-      presets: ["@vue/babel-plugin-jsx"]
-    }), esbuild(), commonjs()],
+    plugins: [...plugins],
     output: {
       name: "index",
       file: `${OUTPUT_PATH}/${name}/index.js`,
       format: "es",
     },
+    onwarn 
   };
 });
 
 dirs.push({
   input: `${INPUT_PATH}/entry.ts`,
   external: ["vue"],
-  plugins: [resolve({ extensions: [".vue"] }), alias(aliasConfig), vue({
-    preprocessStyles: true,
-    template: {
-      isProduction: true,
-    }
-  }), postcss(), vueJsx(), esbuild(), commonjs()],
+  plugins,
   output: {
     name: "index",
     file: `${OUTPUT_PATH}/index.js`,
     format: "es"
-  }
+  },
+  onwarn
 })
 
 export default dirs;

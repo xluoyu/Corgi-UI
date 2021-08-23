@@ -4,9 +4,11 @@
     "module": "esnext",
     "moduleResolution": "node",
     "strict": true,
+    "strictNullChecks": true,
     "jsx": "preserve",
     "resolveJsonModule": true,
     "esModuleInterop": true,
+    "declaration": true,
     "lib": ["esnext", "dom"],
     "baseUrl": "./",
     "paths": {
