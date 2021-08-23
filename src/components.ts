@@ -1,3 +1,5 @@
+import './components/_style/mixins.less';
+
 export * as button from './components/button'
 export * as Menu from './components/menu'
 export * as themeConfig from './components/themeConfig'

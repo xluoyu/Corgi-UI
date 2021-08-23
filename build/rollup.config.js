@@ -39,9 +39,19 @@ let dirs = [
   {
     input: `${INPUT_PATH}/components/test/test.vue`,
       external: ["vue"],
-      plugins: [alias(aliasConfig), resolve({ extensions: [".vue"] }),image(),  vue({preprocessStyles: true,template: {
-      isProduction: true,
-  }}), postcss(), vueJsx(), esbuild(), commonjs()],
+      plugins: [alias(aliasConfig), resolve({ extensions: [".vue"] }),image(),  vue(
+        {
+          preprocessStyles: true,
+          template: {
+            isProduction: true,
+          },
+          preprocessOptions: {
+            less: {
+              additionalData: `@import 'src/components/_style/mixin.less';`
+            }
+          }
+        }
+  ), postcss(), vueJsx(), esbuild(), commonjs()],
       output: {
         name: "index",
         file: `${OUTPUT_PATH}/scrollbar/index.js`,
