@@ -4,14 +4,17 @@
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "build:package": "cross-env NODE_ENV=production yarn rollup -c build/rollup.config.js",
+    "build:package": "rimraf lib && cross-env NODE_ENV=production yarn rollup -c build/rollup.config.js",
     "serve": "vite preview",
     "test": "jest",
     "new": "node ./corgi-cli/index.js"
   },
   "dependencies": {
+    "-": "^0.0.1",
     "@element-plus/icons": "^0.0.11",
+    "D": "^1.0.0",
     "lodash": "^4.17.21",
+    "rollup-plugin-babel": "^4.4.0",
     "vue": "^3.2.3",
     "vue-router": "4"
   },
@@ -23,6 +26,7 @@
     "@types/jest": "^27.0.1",
     "@vitejs/plugin-vue": "^1.3.0",
     "@vitejs/plugin-vue-jsx": "^1.1.7",
+    "@vue/babel-preset-jsx": "^1.2.4",
     "@vue/compiler-sfc": "^3.0.5",
     "ejs": "^3.1.6",
     "fs-extra": "^10.0.0",

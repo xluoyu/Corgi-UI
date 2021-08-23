@@ -10,7 +10,7 @@
     "lib": ["esnext", "dom"],
     "baseUrl": "./",
     "paths": {
-      "@/*": ["./src/*"]
+      "@": ["./src/*"]
     },
     "suppressImplicitAnyIndexErrors": true,
     "noImplicitAny": false

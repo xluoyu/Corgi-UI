@@ -49,7 +49,6 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import url('@/components/_style/mixin.less');
 
 .cg-space{
   display: flex;

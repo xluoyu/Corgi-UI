@@ -32,7 +32,6 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import url('@/components/_style/mixin.less');
 
 .cg-icon{
   display: inline-block;

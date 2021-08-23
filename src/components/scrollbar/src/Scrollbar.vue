@@ -150,7 +150,6 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import url('../../_style/mixin.less');
 
 .cg-scrollbar{
   width: 100%;
