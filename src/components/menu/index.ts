@@ -1,1 +1,8 @@
-export {default as CgMenu} from './src/Menu.vue'
+import { componentPrefix } from '../../config';
+import Menu from './src/Menu.vue'
+
+export default {
+  install (app) {
+    app.component(componentPrefix + Menu.name, Menu);
+  }
+}

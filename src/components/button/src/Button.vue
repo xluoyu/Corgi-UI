@@ -114,7 +114,7 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import url('@/components/_style/mixin.less');
+@import url('../../_style/mixin.less');
 
 .cg-button{
   background: v-bind('cssVar.theme');
