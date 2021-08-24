@@ -71,7 +71,7 @@ let dirs = fs.readdirSync(`${INPUT_PATH}/components`).filter(name => name[0] !==
 });
 
 dirs.push({
-  input: `${INPUT_PATH}/entry.ts`,
+  input: `${INPUT_PATH}/index.ts`,
   external: ["vue"],
   plugins,
   output: {
