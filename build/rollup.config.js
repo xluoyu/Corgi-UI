@@ -11,7 +11,6 @@ import typescripts from 'rollup-plugin-typescript2'
 import css from 'rollup-plugin-css-only'
 import postcss from 'rollup-plugin-postcss';
 import image from '@rollup/plugin-image';
-import babel from 'rollup-plugin-babel'
 
 const INPUT_PATH = path.resolve(__dirname, "../src");
 const OUTPUT_PATH = path.resolve(__dirname, "../lib");
@@ -24,7 +23,7 @@ const aliasConfig = {
 }
 
 const plugins = [
-  resolve({ extensions: [".vue"] }),
+  resolve(),
   alias(aliasConfig),
   vue({
     preprocessStyles: true,
@@ -33,30 +32,20 @@ const plugins = [
     }
   }),
   postcss(),
-  vueJsx({jsxFactory: "vueJsxCompat"}),
-  esbuild(),
-  commonjs()
+  vueJsx(),
+  esbuild({jsxFactory: "vueJsxCompat"}),
 ]
 
 const onwarn = (warning) => {
   // 跳过某些警告
   if (warning.code === 'UNUSED_EXTERNAL_IMPORT') return;
-
   // 抛出异常
   if (warning.code === 'NON_EXISTENT_EXPORT') throw new Error(warning.message);
   // 控制台打印一切警告
   console.warn(warning.message);
 }
 
-// let types = []
-
 let dirs = fs.readdirSync(`${INPUT_PATH}/components`).filter(name => name[0] !== '_').map((name) => {
-  // types.push({
-  //   input: `${INPUT_PATH}/components/${name}/index.ts`,
-  //   output: {
-  //     file: `${OUTPUT_PATH}/${name}/index.d.ts`,
-  //   }
-  // })
   return {
     input: `${INPUT_PATH}/components/${name}/index.ts`,
     external: ["vue"],
@@ -66,14 +55,51 @@ let dirs = fs.readdirSync(`${INPUT_PATH}/components`).filter(name => name[0] !==
       file: `${OUTPUT_PATH}/${name}/index.js`,
       format: "es",
     },
-    onwarn 
+    onwarn
   };
 });
 
+// let components = fs.readdirSync(`${INPUT_PATH}/components`).filter(name => name[0] !== '_').map(name => {
+//   return {
+//     name: "index",
+//     file: `${OUTPUT_PATH}/${name}/index.js`,
+//     format: "es",
+//   }
+// })
+
+
 dirs.push({
   input: `${INPUT_PATH}/index.ts`,
-  external: ["vue"],
-  plugins,
+  external: ["vue", ".vue"],
+  plugins: [
+    resolve({extensions: ".vue"}),
+    vue({
+      preprocessStyles: true,
+      template: {
+        isProduction: true,
+      },
+      target: 'browser',
+      css: false,
+      exposeFilename: false,
+    }),
+    postcss(),
+    alias(aliasConfig),
+    typescripts({
+      tsconfigOverride: {
+        'include': [
+          'src/components/**/*',
+          'src/vue-shim.d.ts',
+        ],
+        'exclude': [
+          'node_modules',
+          'packages/**/__tests__/*',
+        ],
+      },
+      abortOnError: false,
+    }),
+    vueJsx(),
+  esbuild({jsxFactory: "vueJsxCompat"}),
+  ],
   output: {
     name: "index",
     file: `${OUTPUT_PATH}/index.js`,

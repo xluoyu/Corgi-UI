@@ -1,8 +1,10 @@
-import { componentPrefix } from '../../config';
+import { SFCWithInstall } from '@/utils/type';
 import ThemeConfig from './src/ThemeConfig.vue'
 
-export default {
-  install (app) {
-    app.component(componentPrefix + ThemeConfig.name, ThemeConfig);
-  }
+ThemeConfig.install = (app) => {
+  app.component(ThemeConfig.name, ThemeConfig);
 }
+
+const _ThemeConfig: SFCWithInstall<typeof ThemeConfig> = ThemeConfig
+
+export default _ThemeConfig

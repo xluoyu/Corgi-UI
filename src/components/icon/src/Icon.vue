@@ -17,7 +17,7 @@ import { defineComponent } from 'vue'
 import styleVar from './styleVar'
 
 export default defineComponent({
-  name: 'Icon',
+  name: 'CgIcon',
   props: {
     size: String,
     color: String

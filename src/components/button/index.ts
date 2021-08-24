@@ -1,8 +1,10 @@
+import { SFCWithInstall } from '@/utils/type'
 import Button from './src/Button.vue'
-import {componentPrefix} from '../../config'
 
-export default {
-  install (app) {
-    app.component(componentPrefix + Button.name, Button);
-  }
+Button.install = (app) => {
+  app.component(Button.name, Button);
 }
+
+const _Button: SFCWithInstall<typeof Button> = Button
+
+export default _Button

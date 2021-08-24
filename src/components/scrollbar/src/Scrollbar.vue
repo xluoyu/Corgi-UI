@@ -9,6 +9,7 @@
         <slot />
       </div>
     </div>
+    
     <div class="scrollbar-vertical" :ref="el => vertical.el = el">
       <div
         class="scrollbar-thrumb scrollbar-thrumb--vertical"
@@ -52,7 +53,7 @@ interface IHorizontal {
 }
 
 export default defineComponent({
-  name: 'Scrollbar',
+  name: 'CgScrollbar',
   props: {
     y: Boolean,
     x: Boolean,
@@ -81,15 +82,15 @@ export default defineComponent({
 
 
     const getVerticalHeight = () => {
-      let contentH = contentEl.value?.clientHeight as number
+      let contentH = (contentEl.value as HTMLElement).clientHeight as number
       vertical.thrumbHeight = containerHeight / contentH * vertical.height
     }
 
     let hasLoad = false
     const addScroll = () => {
       containerEl.value?.addEventListener('scroll', () => {
-        let boxScrollTop = containerEl.value?.scrollTop as number
-        let contentH = contentEl.value?.clientHeight as number
+        let boxScrollTop = (containerEl.value as HTMLElement).scrollTop as number
+        let contentH = (contentEl.value as HTMLElement).clientHeight as number
 
         vertical.thrumbY = boxScrollTop / contentH * vertical.height
 
@@ -106,8 +107,8 @@ export default defineComponent({
     }
 
     onMounted(() => {
-      containerHeight = containerEl.value?.clientHeight as number
-      vertical.height = vertical.el?.clientHeight as number
+      containerHeight = (containerEl.value as HTMLElement).clientHeight as number
+      vertical.height = (vertical.el as HTMLElement).clientHeight as number
 
       getVerticalHeight()
       addScroll()
@@ -116,7 +117,7 @@ export default defineComponent({
     const thrumbVerticalMouseDown = (e) => {
       e.stopPropagation();
       let start = e.pageY
-      let contentH = contentEl.value?.clientHeight as number
+      let contentH = (contentEl.value as HTMLElement).clientHeight as number
       let scrollTop = (containerEl.value as HTMLElement).scrollTop
       // let thrumbH = thrumbY.value
       console.log('开始')

@@ -8,8 +8,10 @@
 import { computed, defineComponent, PropType, unref } from 'vue';
 import { getCssVar } from '../../../utils';
 import {IMenuItem} from './type'
+import styleVar from './styleVar'
 
 export default defineComponent({
+  name: 'CgMenuItem',
   props: {
     item: {
       type: Object as PropType<IMenuItem>,
@@ -17,14 +19,9 @@ export default defineComponent({
     }
   },
   setup () {
-    let {
-      hoverBackground,
-      hoverColor
-    } = unref(computed(getCssVar))
 
     return {
-      hoverBackground,
-      hoverColor
+      styleVar
     }
   }
 })
@@ -40,8 +37,8 @@ export default defineComponent({
   transition: all .3s;
   color: #333;
   &:hover{
-    color: v-bind(hoverColor);
-    background: v-bind(hoverBackground);
+    color: v-bind('styleVar.color');
+    background: v-bind('styleVar.theme');
   }
   a{
     color: inherit;

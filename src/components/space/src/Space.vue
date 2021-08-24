@@ -3,7 +3,7 @@ import { defineComponent, PropType, VNode } from 'vue'
 import styleVar from './styleVar'
 
 export default defineComponent({
-  name: 'Space',
+  name: 'CgSpace',
   props: {
     align: {
       type: String as PropType<'start' | 'end' | 'center'>,
@@ -23,17 +23,16 @@ export default defineComponent({
   },
   render () {
     let children = this.$slots.default && this.$slots.default()
-
     return (
       <div
         class={[
           'cg-space'
         ]}
       >
-        {children && children.length && children?.map((child, index) => (
+        {children && children.length && children.map((child, index) => (
             <div
               style={{
-                marginRight: index !== (children as VNode[]).length ? '10px' : 0,
+                marginRight: children && index !== (children as VNode[]).length ? '10px' : 0,
                 marginBottom: '10px',
                 marginTop: '10px'
               }}

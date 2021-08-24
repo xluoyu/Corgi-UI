@@ -10,7 +10,7 @@ import MenuItem from './MenuItem.vue';
 import { IMenuItem } from './type';
 
 export default defineComponent({
-  name: 'Menu',
+  name: 'CgMenu',
   components: { MenuItem },
   props: {
     mode: {

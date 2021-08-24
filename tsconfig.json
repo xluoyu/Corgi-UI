@@ -3,16 +3,14 @@
     "target": "esnext",
     "module": "esnext",
     "moduleResolution": "node",
-    "strict": true,
-    "strictNullChecks": true,
+    "strict": false,
     "jsx": "preserve",
     "resolveJsonModule": true,
     "esModuleInterop": true,
     "declaration": true,
     "lib": ["esnext", "dom"],
-    "baseUrl": "./",
     "paths": {
-      "@": ["./src/*"]
+      "@/*": ["./src/*"]
     },
     "suppressImplicitAnyIndexErrors": true,
     "noImplicitAny": false

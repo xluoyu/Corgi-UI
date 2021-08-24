@@ -1,22 +1,24 @@
 {
   "name": "corgi-box",
-  "version": "0.0.0",
+  "version": "0.0.0-beta0.02",
+  "main": "lib/index.js",
+  "module": "lib/index.js",
   "scripts": {
     "dev": "vite",
     "build": "vue-tsc --noEmit && vite build",
-    "build:package": "rimraf lib && cross-env NODE_ENV=production yarn rollup -c build/rollup.config.js",
+    "build:package": "rimraf lib && cross-env NODE_ENV=production yarn rollup -c ./build/rollup.config.js",
     "serve": "vite preview",
     "test": "jest",
     "new": "node ./corgi-cli/index.js"
   },
   "dependencies": {
-    "-": "^0.0.1",
     "@element-plus/icons": "^0.0.11",
-    "D": "^1.0.0",
     "lodash": "^4.17.21",
-    "rollup-plugin-babel": "^4.4.0",
     "vue": "^3.2.3",
     "vue-router": "4"
+  },
+  "peerDependencies": {
+    "vue": "^3.2.0"
   },
   "devDependencies": {
     "@rollup/plugin-alias": "^3.1.5",
@@ -33,14 +35,18 @@
     "highlight.js": "^11.2.0",
     "inquirer": "^8.1.2",
     "jest": "^27.0.6",
+    "lerna": "^4.0.0",
     "less": "^4.1.1",
     "marked": "^3.0.0",
     "rollup": "^2.56.3",
     "rollup-plugin-alias": "^2.2.0",
+    "rollup-plugin-buble": "^0.19.8",
+    "rollup-plugin-commonjs": "^10.1.0",
     "rollup-plugin-css-only": "^3.1.0",
     "rollup-plugin-esbuild": "^4.5.0",
     "rollup-plugin-less": "^1.1.3",
     "rollup-plugin-postcss": "^4.0.1",
+    "rollup-plugin-replace": "^2.2.0",
     "rollup-plugin-typescript": "^1.0.1",
     "rollup-plugin-typescript2": "^0.30.0",
     "rollup-plugin-vue": "^6.0.0",
@@ -49,5 +55,10 @@
     "typescript": "^4.3.2",
     "vite": "^2.4.4",
     "vue-tsc": "^0.2.2"
-  }
+  },
+  "files": [
+    "es",
+    "lib",
+    "README.md"
+  ]
 }
