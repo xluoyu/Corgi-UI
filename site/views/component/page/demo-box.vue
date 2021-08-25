@@ -25,7 +25,7 @@
 </template>
 
 <script lang="ts">
-import { useToggle } from '@'
+import { useToggle } from '@hooks'
 import { defineComponent } from 'vue'
 import hljs from '../../../utils/hljs'
 import { useCompoent } from '../hooks/compoent'

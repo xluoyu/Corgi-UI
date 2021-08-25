@@ -1,4 +1,4 @@
-import cssvar from '../../_style/cssvar'
+import cssvar from '@components/style/index'
 
 const MenubarVar = {
   theme: cssvar.primary,

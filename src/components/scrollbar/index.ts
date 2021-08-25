@@ -1,4 +1,4 @@
-import { SFCWithInstall } from '@/utils/type';
+import { SFCWithInstall } from '@utils/type';
 import ScrollBar from './src/Scrollbar.vue'
 
 ScrollBar.install = (app) => {

@@ -1,9 +1,9 @@
 <script lang="tsx">
 import { defineComponent, PropType, computed, inject } from 'vue';
-import { assignThemecustom, isLight } from '../../../utils';
-import { IThemeCssVar } from '../../../utils/type';
-import { isFunction, isArray, isString } from '../../../utils/typeTool'
-import { warn } from '../../../utils/warn';
+import { assignThemecustom, isLight } from '@utils/index';
+import { IThemeCssVar } from '@utils/type';
+import { isFunction, isArray, isString } from '@utils/typeTool'
+import { warn } from '@utils/warn';
 import styleVar from './styleVar'
 
 const props = {
@@ -116,7 +116,7 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import url('../../_style/mixin.less');
+@import url('../../style/mixin.less');
 
 .cg-button{
   background: v-bind('cssVar.theme');

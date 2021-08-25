@@ -1,4 +1,4 @@
-import { SFCWithInstall } from '@/utils/type'
+import { SFCWithInstall } from '@utils/type'
 import Button from './src/Button.vue'
 
 Button.install = (app) => {

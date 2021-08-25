@@ -1,12 +1,15 @@
 {
   "name": "corgi-box",
-  "version": "0.0.0-beta0.02",
+  "version": "0.0.0-beta0.03",
   "main": "lib/index.js",
   "module": "lib/index.js",
   "scripts": {
     "dev": "vite",
-    "build": "vue-tsc --noEmit && vite build",
-    "build:package": "rimraf lib && cross-env NODE_ENV=production yarn rollup -c ./build/rollup.config.js",
+    "build:site": "vue-tsc --noEmit && vite build",
+    "build:components": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.components.config.js",
+    "build:hooks": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.hooks.config.js",
+    "build:src": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.config.js",
+    "build:type": "node ./build/gen-type",
     "serve": "vite preview",
     "test": "jest",
     "new": "node ./corgi-cli/index.js"
@@ -35,6 +38,7 @@
     "highlight.js": "^11.2.0",
     "inquirer": "^8.1.2",
     "jest": "^27.0.6",
+    "klaw-sync": "^6.0.0",
     "lerna": "^4.0.0",
     "less": "^4.1.1",
     "marked": "^3.0.0",
@@ -52,6 +56,8 @@
     "rollup-plugin-vue": "^6.0.0",
     "rollup-plugin-vue-jsx-compat": "^0.0.6",
     "ts-jest": "^27.0.5",
+    "ts-morph": "^11.0.3",
+    "ts-transformer-keys": "^0.4.3",
     "typescript": "^4.3.2",
     "vite": "^2.4.4",
     "vue-tsc": "^0.2.2"

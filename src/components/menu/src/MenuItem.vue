@@ -5,8 +5,7 @@
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType, unref } from 'vue';
-import { getCssVar } from '../../../utils';
+import { computed, defineComponent, PropType } from 'vue';
 import {IMenuItem} from './type'
 import styleVar from './styleVar'
 
