@@ -124,7 +124,7 @@ const getTypes = async() => {
   }
 }
 
-const spinner = ora('Generate types...\n').start()
+const spinner = ora('打包类型文件中...\n').start()
 
 getTypes()
   .then(() => spinner.succeed('Success !\n'))
