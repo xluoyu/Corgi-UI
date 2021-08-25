@@ -8,17 +8,27 @@ const copyFile = async (input) => {
   const files = await fs.readdirSync(input)
   
   files.forEach(async file => {
-    let inputFile = INPUT_PATH + '/' + file
+    let inputFile = input + '/' + file
+    console.log(input)
     if (await fs.lstatSync(inputFile).isDirectory()) {
-      copyFile(inputFile)
+      if (inputFile.includes('src')) {
+        let names = input.split('/')
+        let output = OUTPUT_PATH + '/cg-' + names[names.length - 2] + '/src'
+        fs.rename(inputFile, output, (err) => {
+          err && console.log(err)
+        })
+      } else {
+        copyFile(inputFile)
+      }
     } else {
       let output = OUTPUT_PATH + '/'
       if (input.includes('components')) {
-        output += 'cg-' + file
+        output += 'cg-' + input.split('/').pop() + '/' + file
+        return
       } else if (input.includes('hooks')) {
-        output += 'hooks' + file
+        output += 'hooks/' + input.split('/').pop() + '.' + file.split('.').slice(1).join('.')
       } else if (input.includes('utils')) {
-        output += 'utils' + file
+        output += 'utils/' + file
       }
       fs.rename(inputFile, output, (err) => {
         err && console.log(err)

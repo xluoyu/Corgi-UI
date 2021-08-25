@@ -2,7 +2,7 @@ declare var _default: import("vue").DefineComponent<{
     y: BooleanConstructor;
     x: BooleanConstructor;
     show: {
-        type: PropType<"always" | "never" | "hover">;
+        type: PropType<"always" | "hover" | "never">;
         default: string;
     };
     thrumbClass: StringConstructor;
@@ -43,9 +43,9 @@ declare var _default: import("vue").DefineComponent<{
     loadHeight?: unknown;
     loadMore?: unknown;
 } & {
-    show: "always" | "never" | "hover";
-    x: boolean;
     y: boolean;
+    x: boolean;
+    show: "always" | "hover" | "never";
 } & {
     thrumbClass?: string;
     thrumbStyle?: string;
@@ -54,9 +54,9 @@ declare var _default: import("vue").DefineComponent<{
     loadHeight?: number;
     loadMore?: Function;
 }> & {}, {
-    show: "always" | "never" | "hover";
-    x: boolean;
     y: boolean;
+    x: boolean;
+    show: "always" | "hover" | "never";
 }>;
 export default _default;
 import { PropType } from "@vue/runtime-core";

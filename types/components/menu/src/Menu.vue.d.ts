@@ -1,6 +1,6 @@
 declare var _default: import("vue").DefineComponent<{
     mode: {
-        type: PropType<"vertical" | "horizontal">;
+        type: PropType<"horizontal" | "vertical">;
         default: string;
     };
     list: {
@@ -15,11 +15,11 @@ declare var _default: import("vue").DefineComponent<{
     mode?: unknown;
     list?: unknown;
 } & {
-    mode: "vertical" | "horizontal";
+    mode: "horizontal" | "vertical";
 } & {
     list?: IMenuItem[];
 }> & {}, {
-    mode: "vertical" | "horizontal";
+    mode: "horizontal" | "vertical";
 }>;
 export default _default;
 import { PropType } from "@vue/runtime-core";
