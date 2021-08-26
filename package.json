@@ -1,11 +1,11 @@
 {
   "name": "corgi-box",
-  "version": "0.0.0-beta0.03",
-  "main": "lib/index.js",
+  "version": "0.0.0-beta0.0.9",
+  "main": "lib/index.esm.js",
   "module": "lib/index.js",
   "scripts": {
     "dev": "vite",
-    "build": "rimraf lib && yarn build:components && yarn build:hooks && yarn build:src && yarn build:type && yarn build:merge",
+    "build": "rimraf lib && yarn build:components && yarn build:hooks && yarn build:type && yarn build:merge",
     "build:site": "vue-tsc --noEmit && vite build",
     "build:components": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.components.config.js",
     "build:hooks": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.hooks.config.js",
@@ -15,12 +15,6 @@
     "serve": "vite preview",
     "test": "jest",
     "new": "node ./corgi-cli/index.js"
-  },
-  "dependencies": {
-    "@element-plus/icons": "^0.0.11",
-    "lodash": "^4.17.21",
-    "vue": "^3.2.3",
-    "vue-router": "4"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
@@ -62,10 +56,14 @@
     "ts-transformer-keys": "^0.4.3",
     "typescript": "^4.3.2",
     "vite": "^2.4.4",
-    "vue-tsc": "^0.2.2"
+    "vue-tsc": "^0.2.2",
+    "@element-plus/icons": "^0.0.11",
+    "lodash": "^4.17.21",
+    "vue": "^3.2.3",
+    "vue-router": "4"
   },
+  "sideEffects": false,
   "files": [
-    "es",
     "lib",
     "README.md"
   ]

@@ -1,7 +1,7 @@
 import { createApp } from 'vue'
-// import {CgMenu} from '../lib/index'
+import Corgi from '../lib/index'
 
-import Corgi from '../src'
+// import Corgi from '../src'
 import App from './App.vue'
 import MdComponent from './views/component/page/demo-box.vue'
 import Demos from './views/component/page/demos.vue'

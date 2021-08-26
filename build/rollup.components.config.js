@@ -4,7 +4,7 @@ const esbuild = require("rollup-plugin-esbuild")
 const vue = require("rollup-plugin-vue") // 处理vue文件
 const fs = require("fs-extra") // 写文件
 const postcss = require('rollup-plugin-postcss')
-const {INPUT_PATH, OUTPUT_PATH, onwarn, alias} = require('./config')
+const {INPUT_PATH, OUTPUT_PATH, onwarn} = require('./config')
 
 const plugins = [
   nodeResolve(),

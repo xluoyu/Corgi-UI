@@ -19,7 +19,7 @@ Corgi-UI
 
 目前只是先大致列出了项目的结构，后续可能会再做出调整
 
-
+#### 关于markdown的解析
 
 当前的难点：markdown的解析。
 
@@ -181,5 +181,155 @@ ok，写这篇日记的时候已经20号了。
 
 加油吧~！
 
-## 2021-08-21
+## 2021-08-25
+已经是25号了，今天终于把打包搞定了。
+
+```
+// 打包前
+src                           
+├─ components                  
+│  └─ button      
+│     ├─ demos                
+│     │  ├─ index.md            
+│     │  └─ type.demo.md   
+│     ├─ src      
+│     │  ├─ Button.vue        
+│     │  └─ styleVar.ts     
+│     └─ index.ts             
+├─ hooks                      
+│  └─ useToggle               
+│     └─ index.ts             
+├─ styles                     
+│  ├─ base.less               
+│  └─ variable.less           
+├─ utils                             
+│  ├─ index.ts                 
+│  └─ error.ts                 
+├─ components.ts              
+├─ config.ts                  
+├─ hooks.ts                   
+├─ index.ts                   
+├─ preset.ts                  
+├─ version.ts                 
+└─ vue-shim.d.ts              
+
+```
+
+```
+// 打包后
+lib                            
+├─ cg-button                   
+│  ├─ src                      
+│  │  ├─ Button.vue.d.ts       
+│  │  └─ styleVar.d.ts         
+│  ├─ index.d.ts               
+│  └─ index.js                           
+├─ hooks                       
+│  ├─ useToggle.d.ts           
+│  └─ useToggle.js             
+├─ utils                       
+│  ├─ index.d.ts               
+│  ├─ index.js                            
+│  ├─ error.d.ts                
+│  └─ error.js                  
+├─ components.d.ts             
+├─ components.js               
+├─ config.d.ts                 
+├─ config.js                   
+├─ hooks.d.ts                  
+├─ hooks.js                    
+├─ index.d.ts                  
+├─ index.esm.js                
+├─ index.js                    
+├─ preset.d.ts                 
+├─ preset.js                   
+├─ version.d.ts                
+└─ version.js                  
+
+```
+
+本次打包主要采用rollup，参考了`Element UI`的打包方式
+
+#### 打包思路
+
+虽然EL在`scripts`中放置了很多打包时用到的命令，但是其主要打包方式还是走`build.sh`的shell命令。
+
+EL使用`lerna`来做包管理，具体用法明天再分析
+
+先是使用`yarn build:type`来打包出`ts`的类型文件，由于使用SFC形式来写组件，普通的`tsc`无法做到对`.vue`文件的类型输出，所以使用`ts-morph`来灵活的处理类型打包。
+
+(以下代码来自 corgi 的打包方案，与EL有所不同)
+
+首先是对组件的打包
+
+```
+yarn build:component
+```
+
+所用到的插件
+
+```
+const plugins = [
+  nodeResolve(), // rollup查找外部模块 @rollup/plugin-node-resolve
+  vue({
+    preprocessStyles: true,
+    target: 'browser'
+  }), // vue解析 rollup-plugin-vue
+  postcss(), // vue中css解析 rollup-plugin-postcss
+  vueJsx(), // vue中jsx的解析  rollup-plugin-vue-jsx-compat
+  esbuild({jsxFactory: "vueJsxCompat"}) //rollup-plugin-esbuild
+]
+```
+
+由于corgi编写组件时使用了vue的SFC方式，加上jsx的语法，所以需要额外引用解析jsx的插件。
+
+没有做样式分离，直接将组件的样式打进该组件的包中
+
+```js
+/**
+ * 使用fs对所有的组件进行遍历、打包
+ */
+const INPUT_PATH = path.resolve(__dirname, "../src")
+
+export default fs.readdirSync(`${INPUT_PATH}/components`).map((name) => {
+  const input = `${INPUT_PATH}/components/${name}/index.ts`
+  return {
+    input,
+    plugins: [...plugins],
+    external: ['vue'],
+    output: {
+      name: "index",
+      file: `${OUTPUT_PATH}/cg-${name}/index.js`,
+      format: "es",
+      paths: (id) => {
+        // 这里对于组件引用到的其他工具做了路径解析
+        // 生成的位置还要看个人的打包需求
+        // 改写了路径之后就不会将这些包在打入组件包中了，也实现了功能的分离
+        if (/@components/.test(id)) {
+          return '../cg-' + id.slice('@components/'.length);
+        }
+        if (/@hooks/.test(id)) {
+          return '../hooks/' + id.slice('@hooks/'.length)
+        }
+        if (/@utils/.test(id)) {
+          return '../utils/' + id.slice('@utils/'.length)
+        }
+      }
+    },
+    onwarn
+  };
+})
+```
+
+对与Hooks、Utils的打包就可以直接使用常规的rollup打包方式进行打包了。
+
+注意，如果使用了alias，也尽量与组件中的paths一样，做一下转义。
+
+
+
+
+
+
+
+
 

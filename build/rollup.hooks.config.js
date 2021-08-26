@@ -5,11 +5,8 @@ const {INPUT_PATH, OUTPUT_PATH, onwarn, alias} = require('./config')
 
 const plugins = [
   nodeResolve(),
-  esbuild(),
+  esbuild()
 ]
-
-const getName = (item) => item.split('.')[0]
-
 
 const hooks = fs.readdirSync(`${INPUT_PATH}/hooks`).filter(e => e !== 'test').map((name) => {
   const input = `${INPUT_PATH}/hooks/${name}/index.ts`
@@ -32,7 +29,7 @@ const hooks = fs.readdirSync(`${INPUT_PATH}/hooks`).filter(e => e !== 'test').ma
 })
 
 const utils = fs.readdirSync(`${INPUT_PATH}/utils`).filter(e => e !== 'test').map((item) => {
-  const name = getName(item)
+  const name = item.split('.')[0]
   const input = `${INPUT_PATH}/utils/${name}.ts`
   return {
     input,

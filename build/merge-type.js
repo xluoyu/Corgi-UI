@@ -1,22 +1,37 @@
 const fs = require('fs')
 const path = require('path')
 const ora = require('ora')
+const klawSync = require('klaw-sync')
+
 
 const INPUT_PATH = path.resolve(__dirname, '../types')
 const OUTPUT_PATH = path.resolve(__dirname, "../lib")
 
+const filePaths = klawSync(INPUT_PATH, {
+  nodir: true,
+}).map(item => item.path)
+  .filter(e => !/\.js/.test(e))
+
+
 const copyFile = async (input) => {
-  const files = await fs.readdirSync(input)
+  const files = fs.readdirSync(input)
   
-  await files.forEach(async file => {
+  return Promise.all(files.map(async file => {
     let inputFile = input + '/' + file
+    if (/types\/\w+\/\w+\.js/.test(inputFile)) return ''
     if (fs.statSync(inputFile).isDirectory()) {
       if (inputFile.includes('src')) {
         let names = input.split('/')
         let output = OUTPUT_PATH + '/cg-' + names[names.length - 1] + '/src'
-        await fs.renameSync(inputFile, output)
+        return fs.rename(inputFile, output, (err) => {
+          if (err) {
+            console.log(err)
+            return
+          }
+          Promise.resolve()
+        })
       } else {
-        await copyFile(inputFile)
+        return await copyFile(inputFile)
       }
     } else {
       let output = OUTPUT_PATH + '/'
@@ -29,9 +44,16 @@ const copyFile = async (input) => {
       } else {
         output += file
       }
-      await fs.renameSync(inputFile, output)
+
+      return fs.rename(inputFile, output, (err) => {
+        if (err) {
+          console.log(err)
+          return
+        }
+        Promise.resolve()
+      })
     }
-  })
+  }))
 }
 
 async function deleteFolderRecursive(path) {
@@ -48,12 +70,26 @@ async function deleteFolderRecursive(path) {
   }
 };
 
+function clearJS () {
+  klawSync(INPUT_PATH, {
+    nodir: true,
+  }).map(item => item.path)
+    .filter(e => /\.js/.test(e))
+    .filter(e => !/types\\\w+\.js/.test(e))
+    .forEach(file => {
+      fs.unlinkSync(file)
+    })
+}
+
+
 const stats = () => {
+  clearJS()
   return copyFile(INPUT_PATH).then(() => {
     console.log('复制文件完成')
-    return deleteFolderRecursive(INPUT_PATH)
-  }).then(() => {
-    console.log('移除临时文件夹完成')
+    setTimeout(() => {
+      deleteFolderRecursive(INPUT_PATH)
+      console.log('移除临时文件夹完成')
+    }, 500)
   }).catch(err => console.log(err))
 }
 
