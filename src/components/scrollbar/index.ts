@@ -1,8 +1,10 @@
-import { componentPrefix } from '../../config';
+import { SFCWithInstall } from '@utils/type';
 import ScrollBar from './src/Scrollbar.vue'
 
-export default {
-  install (app) {
-    app.component(componentPrefix + ScrollBar.name, ScrollBar);
-  }
+ScrollBar.install = (app) => {
+  app.component(ScrollBar.name, ScrollBar);
 }
+
+const _ScrollBar: SFCWithInstall<typeof ScrollBar> = ScrollBar
+
+export default _ScrollBar

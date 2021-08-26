@@ -1,8 +1,10 @@
-import { componentPrefix } from '../../config';
+import { SFCWithInstall } from '@utils/type';
 import Space from './src/Space.vue'
 
-export default {
-  install (app) {
-    app.component(componentPrefix + Space.name, Space);
-  }
+Space.install = (app) => {
+  app.component(Space.name, Space);
 }
+
+const _Space: SFCWithInstall<typeof Space> = Space
+
+export default _Space

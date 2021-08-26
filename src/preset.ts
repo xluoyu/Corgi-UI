@@ -1,7 +1,7 @@
-import { App } from 'vue'
+import * as components from './components'
 import version from './version'
 import {componentPrefix} from './config'
-import * as components from './components'
+import { App } from 'vue'
 
 const componentArray = Object.keys(components).map(key => components[key as keyof typeof components])
 
@@ -10,7 +10,7 @@ const create = {
   componentPrefix,
   install (app: App) {
     componentArray.forEach(component => {
-      app.use(component.default)
+      app.use(component)
     })
   }
 }

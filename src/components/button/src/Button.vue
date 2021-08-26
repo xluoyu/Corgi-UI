@@ -1,46 +1,48 @@
 <script lang="tsx">
 import { defineComponent, PropType, computed, inject } from 'vue';
-import { assignThemecustom, isLight } from '../../../utils';
-import { IThemeCssVar } from '../../../utils/type';
-import { isFunction, isArray, isString } from '../../../utils/typeTool'
-import { warn } from '../../../utils/warn';
+import { assignThemecustom, isLight } from '@utils/index';
+import { IThemeCssVar } from '@utils/type';
+import { isFunction, isArray, isString } from '@utils/typeTool'
+import { warn } from '@utils/warn';
 import styleVar from './styleVar'
 
-export default defineComponent({
-  name: 'Button',
-  props: {
-    attrType: {
-      type: String,
-      default: 'Button'
-    },
-    round: {
-      type: [Boolean, String],
-      default: true
-    },
-    text: Boolean,
-    circle: Boolean,
-    block: Boolean,
-    color: String,
-    loading: Boolean,
-    disabled: Boolean,
-    ghost: Boolean,
-    dashed: Boolean,
-    size: {
-      type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
-      default: 'medium'
-    },  
-    type: {
-      type: String as PropType<'default' | 'primary' | 'success' | 'info' | 'warning' | 'error'>,
-      default: 'default'
-    },
-    tag: {
-      type: String as PropType<keyof HTMLElementTagNameMap>,
-      default: 'button'
-    },
-    onClick: [Function, Array]
+const props = {
+  attrType: {
+    type: String,
+    default: 'Button'
   },
+  round: {
+    type: [Boolean, String],
+    default: true
+  },
+  text: Boolean,
+  circle: Boolean,
+  block: Boolean,
+  color: String,
+  loading: Boolean,
+  disabled: Boolean,
+  ghost: Boolean,
+  dashed: Boolean,
+  size: {
+    type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
+    default: 'medium'
+  },  
+  type: {
+    type: String as PropType<'default' | 'primary' | 'success' | 'info' | 'warning' | 'error'>,
+    default: 'default'
+  },
+  tag: {
+    type: String as PropType<keyof HTMLElementTagNameMap>,
+    default: 'button'
+  },
+  onClick: [Function, Array]
+}
+
+export default defineComponent({
+  name: 'CgButton',
+  props,
   setup (props) {
-    const customTheme = inject<IThemeCssVar | null>('theme', null)
+    const customTheme = inject<IThemeCssVar>('theme', {})
 
     const handleClick = (e: MouseEvent) => {
       const {onClick} = props
@@ -114,7 +116,7 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import url('../../_style/mixin.less');
+@import url('../../style/mixin.less');
 
 .cg-button{
   background: v-bind('cssVar.theme');

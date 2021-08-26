@@ -1,9 +1,9 @@
 
 <script lang="ts">
-import { defineComponent, h, provide } from 'vue'
+import { defineComponent, provide } from 'vue'
 
 export default defineComponent({
-  name: 'ThemeConfig',
+  name: 'CgThemeConfig',
   props: {
     theme: {
       type: Object,

@@ -5,12 +5,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, inject, PropType } from 'vue';
+import { defineComponent, PropType } from 'vue';
 import MenuItem from './MenuItem.vue';
 import { IMenuItem } from './type';
 
 export default defineComponent({
-  name: 'Menu',
+  name: 'CgMenu',
   components: { MenuItem },
   props: {
     mode: {
@@ -26,7 +26,6 @@ export default defineComponent({
     let vars = {
       colorPrimary: '#332269'
     }
-    inject
     return {
       vars
     }
@@ -34,9 +33,6 @@ export default defineComponent({
 })
 </script>
 
-<style>
-@import url(@/styles/base.less);
-</style>
 
 <style lang="less" scoped>
 .cg-menu{

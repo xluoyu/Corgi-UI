@@ -17,7 +17,7 @@ import { defineComponent } from 'vue'
 import styleVar from './styleVar'
 
 export default defineComponent({
-  name: 'Icon',
+  name: 'CgIcon',
   props: {
     size: String,
     color: String
@@ -32,7 +32,6 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-@import url('@/components/_style/mixin.less');
 
 .cg-icon{
   display: inline-block;
