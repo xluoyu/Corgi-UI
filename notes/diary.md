@@ -19,7 +19,7 @@ Corgi-UI
 
 目前只是先大致列出了项目的结构，后续可能会再做出调整
 
-#### 关于markdown的解析
+### 关于markdown的解析
 
 当前的难点：markdown的解析。
 
@@ -129,8 +129,6 @@ components: {
 
 * 以js字符串拼接的形式个人感觉不太清晰，最好可以将模板单独抽离，虽然对灵活性有一定影响，但可以是代码更直观，方便后续修改
 
-
-
 ## 2021-08-18
 
 基本完成了`button`组件的开发
@@ -217,7 +215,7 @@ src
 
 ```
 // 打包后
-lib                            
+es                            
 ├─ cg-button                   
 │  ├─ src                      
 │  │  ├─ Button.vue.d.ts       
@@ -250,7 +248,7 @@ lib
 
 本次打包主要采用rollup，参考了`Element UI`的打包方式
 
-#### 打包思路
+### 打包思路
 
 虽然EL在`scripts`中放置了很多打包时用到的命令，但是其主要打包方式还是走`build.sh`的shell命令。
 
@@ -260,9 +258,9 @@ EL使用`lerna`来做包管理，具体用法明天再分析
 
 (以下代码来自 corgi 的打包方案，与EL有所不同)
 
-首先是对组件的打包，
+#### 首先是对组件的打包
 
-[源码]: 
+[源码]: https://github.com/xluoyu/Corgi-UI/blob/master/build/rollup.components.config.js	"github"
 
 
 
@@ -325,17 +323,214 @@ export default fs.readdirSync(`${INPUT_PATH}/components`).map((name) => {
 })
 ```
 
+#### 对Hooks、Utils的打包
+
 对与Hooks、Utils的打包就可以直接使用常规的rollup打包方式进行打包了。
-
-
 
 注意，如果使用了alias，也尽量与组件中的paths一样，做一下转义。
 
+[源码]: https://github.com/xluoyu/Corgi-UI/blob/master/build/rollup.components.config.js	"github"
+以上两步顺利完成之后我们就得到了这些
+```
+es                            
+├─ cg-button                           
+│  └─ index.js                           
+├─ hooks                                
+│  └─ useToggle.js             
+└─ utils                                   
+   ├─ index.js                                           
+   └─ error.js   
+```
 
+此时还需要对入口的文件进行打包，由于入口文件只要是对组件各个组件、hooks中各个功能的引用，所以也不需要特殊处理，可以放在后面做ts导出类型时直接导出js源文件。
 
+#### 导出类型
 
+由于使用了.vue文件，无法直接通过tsc导出.vue的类型文件
 
+所以需要做些特殊处理 
 
+[源码]: https://github.com/xluoyu/Corgi-UI/blob/master/build/gen-type.js	"GitHub"
 
+主要使用的第三方包为
 
+```js
+const { Project } = require('ts-morph') // 可以更灵活的配置ts类型的导出
+const vueCompiler = require('@vue/compiler-sfc') // 用来解析vue的sfc文件
+const klawSync = require('klaw-sync') // 用来批量获取文件 
+```
 
+```js
+// 配置下ts用到的配置
+const project = new Project({
+    compilerOptions: {
+      allowJs: true,
+      declaration: true, // 生成声明文件
+      noEmitOnError: false, // 发送错误时不输出任何文件
+      outDir: getFilePath('../types'), // 目标目录
+      baseUrl: getFilePath('../'),
+      paths: {
+        '@components/*': ["src/components/*"],
+        '@hooks/*': ["src/hooks/*"],
+        '@utils/*': ["src/utils/*"],
+      },
+      exclude: [
+        "node_modules"
+      ]
+    },
+    tsConfigFilePath: TSCONFIG_PATH,
+    skipAddingFilesFromTsConfig: true,
+  })
+```
+
+```js
+
+/**
+   * 读取src下的所有文件
+   * 
+   * 过滤测试用文件，只留下.ts/.vue类型的文件
+   */
+  const filePaths = klawSync(getFilePath('../src'), {
+    nodir: true,
+  }).map(item => item.path)
+    .filter(e => !/\.spec/.test(e))
+    .filter(e => /\.ts|\.vue/.test(e))
+```
+
+```js
+// 待编译文件数组
+ const sourceFiles = []
+  
+await Promise.all(
+    filePaths.map(async file => {
+      /**
+       * 对vue文件生成vue.d.ts
+       */
+      if (file.endsWith('.vue')) {
+        const content = await fs.promises.readFile(file, 'utf-8')
+        const sfc = vueCompiler.parse(content)
+        const {script, scriptSetup} = sfc.descriptor
+        /**
+         * 因为ts只能是对ts的编译，所以要提取.vue中的ts内容
+         */
+        if (script || scriptSetup) {
+          let content = ''
+          let isTS = false
+          // 获取<script>的内容、并标记语言
+          if (script && script.content) {
+            content += script.content
+            if (script.lang === 'ts') isTs = true
+          }
+          /**
+            * 因为是<script setup>的语法，需要额外调用compileScript
+            * 
+            *	该api可以从vue描述符中获取script的内容
+
+            * 这里需要一个必填的第二个参数 options{id: string}
+            * 主要是用来生成css的hash的，所以此时可以随意填
+            */
+          if (scriptSetup) {
+            const compiled = vueCompiler.compileScript(sfc.descriptor, {
+              id: 'xxx',
+            })
+            content += compiled.content
+            if (scriptSetup.lang === 'ts') isTS = true
+          }
+          // 将处理好的内容使用ts-morph的APi生成待编译文件
+          const sourceFile = project.createSourceFile(
+            path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js'),
+            content
+          )
+          // 放到待编译数组中
+          sourceFiles.push(sourceFile)
+        }
+      } else if (file.endsWith('.ts')) {
+        // 对于普通的ts 直接添加上文件链接，放到数组中
+        const sourceFile = project.addSourceFileAtPath(file)
+        sourceFiles.push(sourceFile)
+      }
+    })
+  )
+
+/**
+ * 开始执行编译
+ */
+await project.emit({
+   emitOnlyDtsFiles: true, // 只编译指定内容
+})
+ 
+// 输入编译好的文件
+ for (const sourceFile of sourceFiles) {
+    const emitOutput = sourceFile.getEmitOutput()
+    for (const outputFile of emitOutput.getOutputFiles()) {
+      const filepath = outputFile.getFilePath()
+      await fs.promises.writeFile(filepath, outputFile.getText(), 'utf-8')
+    }
+ }
+
+```
+
+此时通过ts编译我们得到了types文件夹，在这个文件夹中既有.d.ts的类型文件，还有源码的js文件。(EL在`compilerOptions`配置了`emitDeclarationOnly： true`，没有生成js文件)。
+
+#### 整合
+
+[源码]: https://github.com/xluoyu/Corgi-UI/blob/master/build/merge-type.js	"github"
+
+现在我们要做的就是将types中的类型文件和生成的入口文件都放到`es`文件夹中
+
+首先我们要删除一些文件，由于之前的组件、hooks都是通过rollup打包好的，所以不需要在添加源码的js文件了，我们需要把这些没用的文件删除掉。(生成的vue源码文件只有script中的内容，无法正常使用)
+
+```js
+const INPUT_PATH = path.resolve(__dirname, '../types')
+/**
+ * 遍历types文件夹
+ * 
+ * 删除掉除types根目录以外的.js文件
+ */
+function clearJS () {
+  klawSync(INPUT_PATH, {
+    nodir: true,
+  }).map(item => item.path)
+    .filter(e => /\.js/.test(e))
+    .filter(e => !/types\\\w+\.js/.test(e))
+    .forEach(file => {
+      fs.unlinkSync(file)
+    })
+}
+```
+
+之后就可以进行文件移动了。
+
+由于代码有点长就不贴了。可以去看源码，这里简单讲下。
+
+通过fs进行遍历，对每个文件进行判断，如果是文件就直接移动到es中相应的位置，如果时文件夹就进行递归处理。对于`components -> button -> src` 这种src文件夹可以直接移动src文件夹。
+
+移动API `fs.rename(oldPath, newPath, callback)`
+
+判断文件夹API `fs.statSync(file).isDirectory()`
+
+在全部移动完后，types文件夹只剩下一个空壳子了。我们就可以删掉它了。
+
+```js
+function deleteFolderRecursive(path) {
+  if( fs.existsSync(path) ) {
+      fs.readdirSync(path).forEach(function(file) {
+          var curPath = path + "/" + file;
+          if(fs.statSync(curPath).isDirectory()) {
+              deleteFolderRecursive(curPath);
+          } else {
+              fs.unlinkSync(curPath);
+          }
+      });
+      fs.rmdirSync(path);
+  }
+};
+```
+
+至此，打包已完成。
+
+#### 按需加载
+
+因为这次做打包的目的就是奔着按需加载去的，所以打的都是ES包。
+
+在`package.json`中添加`"sideEffects": false`就可以在使用该组件库的项目打包时启用`tree shaking`功能，只打包用到的内容。

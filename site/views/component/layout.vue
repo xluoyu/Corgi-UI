@@ -5,7 +5,9 @@
       <div class="shrink"></div>
     </aside>
     <div class="main">
-      <router-view></router-view>
+      <cg-scrollbar y color="#f5a51a">
+        <router-view></router-view>
+      </cg-scrollbar>
     </div>
   </div>
 </template>
@@ -66,7 +68,6 @@ export default defineComponent({
   flex: 1;
   box-sizing: border-box;
   height: calc(100vh - var(--header-height));
-  overflow-y: auto;
   scroll-behavior:smooth;
 }
 </style>

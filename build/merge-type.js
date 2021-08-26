@@ -5,7 +5,7 @@ const klawSync = require('klaw-sync')
 
 
 const INPUT_PATH = path.resolve(__dirname, '../types')
-const OUTPUT_PATH = path.resolve(__dirname, "../lib")
+const OUTPUT_PATH = path.resolve(__dirname, "../es")
 
 const filePaths = klawSync(INPUT_PATH, {
   nodir: true,
@@ -18,7 +18,6 @@ const copyFile = async (input) => {
   
   return Promise.all(files.map(async file => {
     let inputFile = input + '/' + file
-    if (/types\/\w+\/\w+\.js/.test(inputFile)) return ''
     if (fs.statSync(inputFile).isDirectory()) {
       if (inputFile.includes('src')) {
         let names = input.split('/')
@@ -70,6 +69,11 @@ async function deleteFolderRecursive(path) {
   }
 };
 
+/**
+ * 遍历types文件夹
+ * 
+ * 删除掉除types根目录以外的.js文件
+ */
 function clearJS () {
   klawSync(INPUT_PATH, {
     nodir: true,
@@ -95,7 +99,7 @@ const stats = () => {
 
 
 
-const spinner = ora('开始整合lib...\n').start()
+const spinner = ora('开始整合...\n').start()
 
 stats()
   .then(() => spinner.succeed('Success !\n'))

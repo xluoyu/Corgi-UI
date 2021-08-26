@@ -1,8 +1,10 @@
+import { SFCWithInstall } from '@utils/type'
 import <%= options.fileName %> from './src/<%= options.fileName %>.vue'
-import {componentPrefix} from '../../config'
 
-export default {
-  install (app) {
-    app.component(componentPrefix + <%= options.fileName %>.name, <%= options.fileName %>);
-  }
+<%= options.fileName %>.install = (app) => {
+  app.component(<%= options.fileName %>.name, <%= options.fileName %>);
 }
+
+const _<%= options.fileName %>: SFCWithInstall<typeof <%= options.fileName %>> = <%= options.fileName %>
+
+export default _<%= options.fileName %>

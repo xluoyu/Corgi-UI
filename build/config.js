@@ -1,7 +1,7 @@
 const {resolve} = require('path')
 
 const INPUT_PATH = resolve(__dirname, "../src")
-const OUTPUT_PATH = resolve(__dirname, "../lib")
+const OUTPUT_PATH = resolve(__dirname, "../es")
 exports.INPUT_PATH = INPUT_PATH
 exports.OUTPUT_PATH = OUTPUT_PATH
 

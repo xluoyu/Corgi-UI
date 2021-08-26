@@ -1,8 +1,6 @@
 <template>
   <div 
-    :class="[
-    '<%= options.prefix %>-<%= options.name%>'
-    ]"
+    class="<%= options.prefix %>-<%= options.name%>"
   >
 
   </div>
@@ -13,7 +11,7 @@ import { defineComponent } from 'vue'
 import styleVar from './styleVar'
 
 export default defineComponent({
-  name: '<%= options.fileName %>',
+  name: '<%= options.prefixBig %><%= options.fileName %>',
   props: {
     type: {
       type: String,
@@ -22,9 +20,16 @@ export default defineComponent({
   },
   setup () {
     
+    let cssVar = computed(() => {
+      let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : styleVar
+      if (props.color) {
+        composeVar.color = props.color
+      }
+      return composeVar
+    })
 
     return {
-      styleVar
+      cssVar
     }
   }
 })

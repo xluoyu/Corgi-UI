@@ -32,4 +32,4 @@ const buttonVar = {
   }
 }
 
-export default Object.assign(cssvar, buttonVar)
+export default Object.assign({}, cssvar, buttonVar)

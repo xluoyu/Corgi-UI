@@ -4,7 +4,13 @@
     'cg-scrollbar',
     ]"
   >
-    <div class="scrollbar-container" ref="containerEl">
+    <div :class="[
+      'scrollbar-container',
+      {
+        'scrollbar-Y': y,
+        'scrollbar-X': x,
+      }
+    ]" ref="containerEl">
       <div class="scrollbar-content" ref="contentEl">
         <slot />
       </div>
@@ -36,7 +42,9 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, reactive, Ref, ref } from 'vue'
+import { assignThemecustom } from '@utils/index'
+import { IThemeCssVar } from '@utils/type'
+import { computed, defineComponent, inject, onMounted, PropType, reactive, Ref, ref } from 'vue'
 import styleVar from './styleVar'
 
 interface IVertical {
@@ -61,6 +69,7 @@ export default defineComponent({
       type: String as PropType<'always' | 'hover' | 'never'>,
       default: 'hover'
     },
+    color: String,
     thrumbClass: String,
     thrumbStyle: String,
     scrollClass: String,
@@ -69,6 +78,8 @@ export default defineComponent({
     loadMore: Function
   },
   setup (props) {
+    const customTheme = inject<IThemeCssVar>('theme', {})
+
     const containerEl:Ref<null | HTMLElement> = ref(null)
     let containerHeight = 0
     const contentEl:Ref<null | HTMLElement> = ref(null)
@@ -119,8 +130,6 @@ export default defineComponent({
       let start = e.pageY
       let contentH = (contentEl.value as HTMLElement).clientHeight as number
       let scrollTop = (containerEl.value as HTMLElement).scrollTop
-      // let thrumbH = thrumbY.value
-      console.log('开始')
       
       const move = (event) => {
         let distance = event.pageY - start
@@ -128,7 +137,6 @@ export default defineComponent({
       }
 
       const up = () => {
-        console.log('up')
         document.removeEventListener('mousemove', move)
         document.removeEventListener('mouseup', up)
       }
@@ -137,6 +145,14 @@ export default defineComponent({
       document.addEventListener('mouseup', up)
     }
 
+    let cssVar = computed(() => {
+      let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : styleVar
+      if (props.color) {
+        composeVar.color = props.color
+      }
+      return composeVar
+    })
+
     return {
       verticalEl,
       vertical,
@@ -144,7 +160,7 @@ export default defineComponent({
       update,
       thrumbVerticalMouseDown,
       contentEl,
-      styleVar
+      cssVar
     }
   }
 })
@@ -158,8 +174,14 @@ export default defineComponent({
   overflow: hidden;
   position: relative;
   .scrollbar-container{
-    overflow: auto;
+    overflow: hidden;
     height: inherit;
+    &.scrollbar-Y{
+      overflow-y: auto;
+    }
+    &.scrollbar-X{
+      overflow-X: auto;
+    }
     &::-webkit-scrollbar{
       display: none;
     }
@@ -176,7 +198,7 @@ export default defineComponent({
     position: relative;
     width: 4px;
     height: 40px;
-    background: rgb(255, 255, 255);
+    background: v-bind('cssVar.color');
     border-radius: 8px;
     transform: translateY();
     opacity: .4;
