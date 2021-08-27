@@ -4,4 +4,4 @@ const MenubarVar = {
   theme: cssvar.primary,
 }
 
-export default Object.assign(cssvar, MenubarVar)
+export default Object.assign({}, cssvar, MenubarVar)

@@ -3,7 +3,7 @@
 import { defineComponent, provide } from 'vue'
 
 export default defineComponent({
-  name: 'CgThemeConfig',
+  name: 'CgThemeconfig',
   props: {
     theme: {
       type: Object,

@@ -534,3 +534,4 @@ function deleteFolderRecursive(path) {
 因为这次做打包的目的就是奔着按需加载去的，所以打的都是ES包。
 
 在`package.json`中添加`"sideEffects": false`就可以在使用该组件库的项目打包时启用`tree shaking`功能，只打包用到的内容。
+

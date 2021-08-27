@@ -4,11 +4,13 @@
       <cg-menu :list="menuList"/>
       <div class="shrink"></div>
     </aside>
+    <!-- <cg-themeconfig :theme="customTheme"> -->
     <div class="main">
-      <cg-scrollbar y color="#f5a51a">
+      <cg-scrollbar y>
         <router-view></router-view>
       </cg-scrollbar>
     </div>
+  <!-- </cg-themeconfig> -->
   </div>
 </template>
 
@@ -36,7 +38,12 @@ export default defineComponent({
       },
     ]
 
+    const customTheme = {
+      color: '#c33696'
+    }
+
     return {
+      customTheme,
       menuList
     }
   }

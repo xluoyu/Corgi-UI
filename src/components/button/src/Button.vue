@@ -9,7 +9,7 @@ import styleVar from './styleVar'
 const props = {
   attrType: {
     type: String,
-    default: 'Button'
+    default: 'button'
   },
   round: {
     type: [Boolean, String],
@@ -26,7 +26,7 @@ const props = {
   size: {
     type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
     default: 'medium'
-  },  
+  },
   type: {
     type: String as PropType<'default' | 'primary' | 'success' | 'info' | 'warning' | 'error'>,
     default: 'default'
@@ -61,7 +61,7 @@ export default defineComponent({
 
     let cssVar = computed(() => {
       let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : Object.assign({}, styleVar)
-      composeVar.theme = props.color ? props.color : styleVar[props.type]
+      composeVar.theme = props.color ? props.color : composeVar[props.type]
       if (props.color) {
         composeVar.color = isLight(props.color) ? '#000' : '#fff'
       }
@@ -81,8 +81,7 @@ export default defineComponent({
     
     return {
       cssVar,
-      buttonSizeVar,
-      handleClick
+      buttonSizeVar
     }
   },
   render () {
