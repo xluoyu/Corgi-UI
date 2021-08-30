@@ -5,6 +5,6 @@ import <%= options.fileName %> from './src/<%= options.fileName %>.vue'
   app.component(<%= options.fileName %>.name, <%= options.fileName %>);
 }
 
-const _<%= options.fileName %>: SFCWithInstall<typeof <%= options.fileName %>> = <%= options.fileName %>
+const _<%= options.fileName %> = <%= options.fileName %> as SFCWithInstall<typeof <%= options.fileName %>>
 
 export default _<%= options.fileName %>

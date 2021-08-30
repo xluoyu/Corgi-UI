@@ -5,6 +5,6 @@ ThemeConfig.install = (app) => {
   app.component(ThemeConfig.name, ThemeConfig);
 }
 
-const _ThemeConfig: SFCWithInstall<typeof ThemeConfig> = ThemeConfig
+const _ThemeConfig = ThemeConfig as SFCWithInstall<typeof ThemeConfig>
 
 export default _ThemeConfig

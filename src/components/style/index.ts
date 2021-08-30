@@ -1,5 +1,5 @@
 export default {
-  primary: '#f5a51a',
+  primary: '#F4AD5A',
   success: '#18a058',
   info: '#2080f0',
   warning: '#f0a020',
@@ -12,5 +12,8 @@ export default {
   fontSizeH4: '14px', // 正文
   fontSizeH5: '12px', // 辅助文字
 
-  pMargin: '10px'
+  pMargin: '10px',
+
+  hoverTheme: '#F4AD5A',
+  hoverOpacity: .7
 }

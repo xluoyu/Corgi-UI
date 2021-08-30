@@ -33,11 +33,11 @@ export default defineComponent({
   display: flex;
   align-items: center;
   cursor: pointer;
-  transition: all .3s;
   color: #333;
   &:hover{
-    color: v-bind('styleVar.color');
+    color: #fff;
     background: v-bind('styleVar.theme');
+    opacity: v-bind('styleVar.hoverOpacity');
   }
   a{
     color: inherit;

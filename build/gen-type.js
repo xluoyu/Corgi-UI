@@ -1,3 +1,6 @@
+/**
+ * 生成TS类型声明文件
+ */
 const path = require('path')
 const fs = require('fs')
 const { Project } = require('ts-morph')
@@ -133,7 +136,7 @@ const getTypes = async() => {
         let replacer = importAlias[importAliasKey] + importItem
         let originalPath = path.relative(sourceFilePathName, ROOT_PATH)
         if (sourceFilePathName.includes('src/components')) {
-          originalPath = originalPath.slice(6) // 减去一级 ../../
+          originalPath = originalPath.slice(6) // 减去两级 ../../
         }
         if (sourceFilePathName.includes('src/hooks')) {
           originalPath = originalPath.slice(3) // 减去一级 ../

@@ -1,5 +1,5 @@
 <template>
-  <div :class="{'cg-show-demo':true, 'active': activeComponentKey == id}" :id="id">
+  <div :class="{'cg-show-demo':true, 'active': activeComponentKey == id}" :id="id" ref="demoEl">
     <div class="cg-card">
       <div class="cg-card-header">
         <div class="cg-card-header-main cg-h2">
@@ -12,8 +12,7 @@
       </div>
     </div>
     <div class="cg-show-demo-code">
-      <div class="cg-show-demo-code-content" :style="{maxHeight: showCode? '600px': '0px'}"  v-html="sfcCode">
-      </div>
+      <div class="cg-show-demo-code-content" :style="{height: codeHeight}" v-html="sfcCode"></div>
       <div class="showcode-button" @click="changeShowCode">
         <cg-button type="primary" text>{{showCode ? '隐藏' : '显示'}}代码</cg-button>
         <div class="right-botton flex-center">
@@ -24,43 +23,44 @@
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { useToggle } from '@hooks'
-import { defineComponent } from 'vue'
+import { defineComponent, ref, watch, nextTick, computed, watchEffect } from 'vue';
 import hljs from '../../../utils/hljs'
 import { useCompoent } from '../hooks/compoent'
 
-export default defineComponent({
-  props: {
+// export default defineComponent({
+  const props = defineProps({
     code: {
       type: String,
       required: true
     },
     id: String
-  },
-  setup (props) {
-    const [showCode, changeShowCode] = useToggle(false)
+  })
 
-    const copyCode = () => {
-      navigator.clipboard.writeText(props.code).then(() => {
-        alert('拷贝成功')
-      })
-    }
+  const demoEl = ref(null)
+  const [showCode, changeShowCode] = useToggle(false)
 
-    let sfcCode = hljs.highlight(props.code, {language: 'html'}).value
-    sfcCode = `<pre>${sfcCode}</pre>`
-
-    const { activeComponentKey } = useCompoent()
-
-    return {
-      sfcCode,
-      showCode,
-      changeShowCode,
-      activeComponentKey,
-      copyCode
-    }
+  const copyCode = () => {
+    navigator.clipboard.writeText(props.code).then(() => {
+      alert('拷贝成功')
+    })
   }
-})
+
+  let sfcCode = hljs.highlight(props.code, {language: 'html'}).value
+  sfcCode = `<pre class='code'>${sfcCode}</pre>`
+
+  const { activeComponentKey } = useCompoent()
+  const getCodeHeight = () => {
+    return demoEl.value.querySelector(".cg-show-demo-code-content pre").clientHeight
+  }
+  const codeHeight = ref('0px')
+  watch(showCode, () => {
+      codeHeight.value = showCode.value ? getCodeHeight() + 'px' : '0px'
+  })
+  // const codeHeight = computed(() => {
+  //   return showCode.value ? getCodeHeight() + 'px' : '0px'
+  // })
 </script>
 
 <style lang="less" scoped>
@@ -86,13 +86,14 @@ export default defineComponent({
 .cg-show-demo-code{
   border-top: 1px dashed var(--border-color);
   .cg-show-demo-code-content{
-    background: url("site/assets/paper.png");
-    transition: all .6s;
+    background-color: rgba(250, 250, 250, .6);
+    background-image: url('site/assets/paper.png');
+    transition: all .4s;
     box-sizing: border-box;
-    overflow-y: auto;
+    overflow: hidden;
     box-sizing: border-box;
-    font-size: 16px;
-    line-height: 28px;
+    font-size: 14px;
+    line-height: 24px;
     letter-spacing: 2px;
     :deep(pre) {
       padding: 20px;
@@ -103,7 +104,9 @@ export default defineComponent({
     line-height: 40px;
     cursor: pointer;
     transition: all .3s;
-    position: relative;
+    position: sticky;
+    bottom: 0;
+    background: #fff;
     &:hover{
       color: var(--theme);
       background: var(--theme-hover);

@@ -10,7 +10,7 @@
     </cg-theme-config>
 
     <cg-icon size="34px" color="#336699">
-      <edit/>
+      <edit />
     </cg-icon>
 
     <div class="test-scrollbar">
@@ -18,61 +18,64 @@
         <div class="main"></div>
       </cg-scrollbar>
     </div>
+
+    <div>
+      <cg-valid-code time="60" :getCode="getCode" v-model="code"/>
+
+      <cg-button @click="submit">提交</cg-button>
+    </div>
+    
+
   </div>
 </template>
 
-<script lang="ts">
+<script lang="ts" setup>
 import { defineComponent, ref, computed, watchEffect } from 'vue';
 import { Edit } from '@element-plus/icons'
-export default defineComponent({
-  components: {
-    Edit,
-  },
-  setup () {
-    const size = ref('medium')
-    const clickHandle = () => {
-      console.log('点击了')
-      size.value = size.value == 'large' ? 'small' : 'large'
-    }
+import _Button from '../../src/components/button/index';
+const size = ref('medium')
+const clickHandle = () => {
+  console.log('点击了')
+  size.value = size.value == 'large' ? 'small' : 'large'
+}
 
-    const themeConfig = {
-      // small: {
-      //   fontSize: '20px'
-      // }
-    }
+const themeConfig = {
+  // small: {
+  //   fontSize: '20px'
+  // }
+}
 
-    const val = ref(1)
-    const handleClick = () => {
-      val.value = val.value + 1
-    }
+const val = ref(1)
+const handleClick = () => {
+  val.value = val.value + 1
+}
 
-    const showVal = () => {
-      console.log(val.value)
-    }
+const showVal = () => {
+  console.log(val.value)
+}
 
-    let height = 800
-    const mainHeight = ref(height + 'px')
-    const scroll = ref()
-    const loadMore = () => {
-      height += 400
-      mainHeight.value = height + 'px'
-      console.log(scroll)
-      scroll.value.update()
-    }
+let height = 800
+const mainHeight = ref(height + 'px')
+const scroll = ref()
+const loadMore = () => {
+  height += 400
+  mainHeight.value = height + 'px'
+  console.log(scroll)
+  scroll.value.update()
+}
 
-    return {
-      size,
-      scroll,
-      mainHeight,
-      loadMore,
-      themeConfig,
-      clickHandle,
-      showVal,
-      handleClick,
-      val
-    }
-  }
-})
+
+const code = ref('')
+const getCode = () => {
+  return new Promise(resolve => {
+    setTimeout(() => {
+      resolve()
+    }, 200);
+  })
+}
+const submit = () => {
+  console.log(code.value)
+}
 </script>
 
 <style lang="less" scoped>

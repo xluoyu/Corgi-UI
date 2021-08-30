@@ -1,4 +1,4 @@
-const {INPUT_PATH, OUTPUT_PATH, onwarn, alias} = require('./config')
+const {INPUT_PATH, OUTPUT_PATH, onwarn} = require('./config')
 const {nodeResolve} = require("@rollup/plugin-node-resolve") // 告诉 Rollup 如何查找外部模块
 const esbuild = require("rollup-plugin-esbuild")
 

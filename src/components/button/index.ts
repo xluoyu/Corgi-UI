@@ -5,6 +5,6 @@ Button.install = (app) => {
   app.component(Button.name, Button);
 }
 
-const _Button: SFCWithInstall<typeof Button> = Button
+const _Button = Button as SFCWithInstall<typeof Button>
 
 export default _Button

@@ -5,6 +5,6 @@ Icon.install = (app) => {
   app.component(Icon.name, Icon);
 }
 
-const _Icon: SFCWithInstall<typeof Icon> = Icon
+const _Icon = Icon as SFCWithInstall<typeof Icon>
 
 export default _Icon

@@ -16,7 +16,6 @@ export default defineComponent({
     }
   },
   setup (props) {
-
     return {
       styleVar
     }

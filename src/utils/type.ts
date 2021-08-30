@@ -1,4 +1,4 @@
-import type { Plugin } from 'vue'
+import type { Plugin, App } from 'vue'
 
 export interface IThemeCssVar {
   [propName: string]: any

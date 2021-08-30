@@ -24,7 +24,7 @@ export default defineComponent({
         let item = props.list[i]
         const {top} = getElInfo('#' + item.id)
 
-        if (top - 64 < 25 && top - 64 >= 0) {
+        if (top - 64 < 20 && top - 64 >= -20) {
           activeLink.value = item.id
           break;
         }

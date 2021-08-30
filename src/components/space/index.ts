@@ -5,6 +5,6 @@ Space.install = (app) => {
   app.component(Space.name, Space);
 }
 
-const _Space: SFCWithInstall<typeof Space> = Space
+const _Space = Space as SFCWithInstall<typeof Space>
 
 export default _Space
