@@ -1,8 +1,8 @@
 <template>
   <div class="demo-card">
-    <slot name="title"/>
-    <slot name="content"/>
-    <slot name="code"/>
+    <slot name="title"></slot>
+    <slot name="content"></slot>
+    <slot name="code"></slot>
   </div>
 </template>
 
@@ -12,7 +12,7 @@ import { defineComponent } from 'vue'
 export default defineComponent({
   setup () {
     return {}
-  }
+  },
 })
 </script>
 

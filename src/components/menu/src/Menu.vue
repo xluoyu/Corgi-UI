@@ -1,13 +1,13 @@
 <template>
   <div :class="['cg-menu', mode]">
-    <menu-item v-for="item in list" :item="item" :key="item.key"/>
+    <menu-item v-for="item in list" :key="item.key" :item="item" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, PropType } from 'vue';
-import MenuItem from './MenuItem.vue';
-import { IMenuItem } from './type';
+import { defineComponent, PropType } from 'vue'
+import MenuItem from './MenuItem.vue'
+import { IMenuItem } from './type'
 
 export default defineComponent({
   name: 'CgMenu',
@@ -15,21 +15,22 @@ export default defineComponent({
   props: {
     mode: {
       type: String as PropType<'vertical' | 'horizontal'>,
-      default: 'vertical'
+      default: 'vertical',
     },
     list: {
       type: Array as PropType<IMenuItem[]>,
-      dafault: []
+      dafault: [],
+    },
+  },
+  setup () {
+    let vars = {
+      colorPrimary: '#332269',
+    }
+
+    return {
+      vars,
     }
   },
-  setup (props) {
-    let vars = {
-      colorPrimary: '#332269'
-    }
-    return {
-      vars
-    }
-  }
 })
 </script>
 

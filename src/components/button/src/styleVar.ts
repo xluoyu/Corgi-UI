@@ -29,7 +29,7 @@ const buttonVar = {
     fontSize: cssvar.fontSizeH2,
     circle: '20px',
     padding: '0 18px',
-  }
+  },
 }
 
 export default Object.assign({}, cssvar, buttonVar)

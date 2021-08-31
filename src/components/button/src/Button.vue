@@ -1,19 +1,18 @@
 <script lang="tsx">
-import { defineComponent, PropType, computed, inject } from 'vue';
-import { assignThemecustom, isLight } from '@utils/index';
-import { IThemeCssVar } from '@utils/type';
-import { isFunction, isArray, isString } from '@utils/typeTool'
-import { warn } from '@utils/warn';
+import { defineComponent, PropType, computed, inject } from 'vue'
+import { assignThemecustom, isLight } from '@utils/index'
+import { IThemeCssVar } from '@utils/type'
+import { isString } from '@utils/typeTool'
 import styleVar from './styleVar'
 
 const props = {
   attrType: {
     type: String,
-    default: 'button'
+    default: 'button',
   },
   round: {
     type: [Boolean, String],
-    default: true
+    default: true,
   },
   text: Boolean,
   circle: Boolean,
@@ -25,17 +24,17 @@ const props = {
   dashed: Boolean,
   size: {
     type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
-    default: 'medium'
+    default: 'medium',
   },
   type: {
     type: String as PropType<'default' | 'primary' | 'success' | 'info' | 'warning' | 'error'>,
-    default: 'default'
+    default: 'default',
   },
   tag: {
     type: String as PropType<keyof HTMLElementTagNameMap>,
-    default: 'button'
+    default: 'button',
   },
-  onClick: [Function, Array]
+  onClick: [Function, Array],
 }
 
 export default defineComponent({
@@ -44,20 +43,20 @@ export default defineComponent({
   setup (props) {
     const customTheme = inject<IThemeCssVar>('theme', {})
 
-    const handleClick = (e: MouseEvent) => {
-      const {onClick} = props
-      if (onClick) {
-        if (isFunction(onClick)) {
-          onClick(e)
-        } else if (isArray(onClick)) {
-          onClick.forEach(fn => {
-            isFunction(fn) ? fn(e) : warn('button', '传入的onClick无法执行')
-          })
-        } else {
-          warn('button', '传入的onClick无法执行')
-        }
-      }
-    }
+    // const handleClick = (e: MouseEvent) => {
+    //   const { onClick } = props
+    //   if (onClick) {
+    //     if (isFunction(onClick)) {
+    //       onClick(e)
+    //     } else if (isArray(onClick)) {
+    //       onClick.forEach(fn => {
+    //         isFunction(fn) ? fn(e) : warn('button', '传入的onClick无法执行')
+    //       })
+    //     } else {
+    //       warn('button', '传入的onClick无法执行')
+    //     }
+    //   }
+    // }
 
     let cssVar = computed(() => {
       let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : Object.assign({}, styleVar)
@@ -65,27 +64,26 @@ export default defineComponent({
       if (props.color) {
         composeVar.color = isLight(props.color) ? '#000' : '#fff'
       }
-
       return composeVar
     })
 
     let buttonSizeVar = computed(() => {
       let sizeAboutVar = cssVar.value[props.size]
-      
+
       if (props.round && isString(props.round)) {
         sizeAboutVar.round = props.round
       }
 
       return sizeAboutVar
     })
-    
+
     return {
       cssVar,
-      buttonSizeVar
+      buttonSizeVar,
     }
   },
   render () {
-    const {$slots, tag: Component} = this
+    const { $slots, tag: Component } = this
     return (
       <Component
         class={[
@@ -97,11 +95,11 @@ export default defineComponent({
             'cg-button--ghost': this.ghost,
             'cg-button--dashed': this.dashed,
             'cg-button--disabled': this.disabled,
-            'cg-button--text': this.text
-          }
+            'cg-button--text': this.text,
+          },
         ]}
         style={{
-          'display': this.block ? 'flex' : 'inline-flex'
+          'display': this.block ? 'flex' : 'inline-flex',
         }}
         disabled={this.disabled}
         type={this.attrType}
@@ -110,14 +108,14 @@ export default defineComponent({
         <span>{$slots.default && $slots.default()}</span>
       </Component>
     )
-  }
+  },
 })
 </script>
 
 <style lang="less" scoped>
 @import url('../../style/mixin.less');
 
-.cg-button{
+.cg-button {
   background: v-bind('cssVar.theme');
   height: v-bind('buttonSizeVar.height');
   font-size: v-bind('buttonSizeVar.fontSize');
@@ -127,38 +125,38 @@ export default defineComponent({
   border: none;
   cursor: pointer;
   .flex-center();
-  &:hover{
-    opacity: .7;
+  &:hover {
+    opacity: v-bind('cssVar.hoverOpacity');
   }
-  
-  &.cg-button--round{
+
+  &.cg-button--round {
     border-radius: v-bind('cssVar.round');
   }
-  &.cg-button--circle{
+  &.cg-button--circle {
     border-radius: v-bind('buttonSizeVar.circle');
   }
-  &.cg-button--ghost{
+  &.cg-button--ghost {
     background: transparent;
     border: 1px solid v-bind('cssVar.theme');
     color: v-bind('cssVar.theme');
-    &:hover{
+    &:hover {
       background: v-bind('cssVar.theme');
       color: v-bind('cssVar.color');
     }
-    &.cg-button--dashed{
+    &.cg-button--dashed {
       border-style: dashed;
     }
   }
-  &.cg-button--disabled{
+  &.cg-button--disabled {
     opacity: 0.5;
     cursor: not-allowed;
   }
-  &.cg-button--text{
+  &.cg-button--text {
     border: none;
     background: none;
     color: v-bind('cssVar.theme');
   }
-  &.cg-button--default{
+  &.cg-button--default {
     border: 1px solid #eee;
     color: #333;
     background: #fff;

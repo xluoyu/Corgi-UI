@@ -6,10 +6,10 @@ const createVuePlugin = require('@vitejs/plugin-vue')
 const mdReg = /\.(md)$/
 
 const vuePlugin = createVuePlugin({
-  include: [/\.vue$/, /\.md$/]
+  include: [/\.vue$/, /\.md$/],
 })
 
-const getTargetFile = async (path) => {
+const getTargetFile = async path => {
   const code = await fs.readFileSync(path, 'utf-8')
   if (path.endsWith('.demo.md')) {
     return demoLoader(code, path)
@@ -32,10 +32,10 @@ const transformDemo = () => {
         const code = await getTargetFile(file)
         return vuePlugin.handleHotUpdate({
           ...ctx,
-          read: () => code
+          read: () => code,
         })
       }
-    }
+    },
   }
 
   return [demoVitePlugin, vuePlugin]

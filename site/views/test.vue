@@ -3,9 +3,24 @@
     <cg-theme-config :theme="themeConfig">
       <cg-button size="tiny" style="margin-right: 10px;" type="error">tiny</cg-button>
       <cg-button size="small" style="margin-right: 10px;" type="success">small</cg-button>
-      <cg-button size="medium" style="margin-right: 10px;" type="info" disabled>medium</cg-button>
-      <cg-button size="large" style="margin-right: 10px;" type="warning" >large</cg-button>
-      <cg-button size="medium" style="margin-right: 10px;" type="info" ghost dashed>ghost</cg-button>
+      <cg-button
+        size="medium"
+        style="margin-right: 10px;"
+        type="info"
+        disabled
+      >
+        medium
+      </cg-button>
+      <cg-button size="large" style="margin-right: 10px;" type="warning">large</cg-button>
+      <cg-button
+        size="medium"
+        style="margin-right: 10px;"
+        type="info"
+        ghost
+        dashed
+      >
+        ghost
+      </cg-button>
       <cg-button size="large" style="margin-right: 10px;">default</cg-button>
     </cg-theme-config>
 
@@ -14,25 +29,27 @@
     </cg-icon>
 
     <div class="test-scrollbar">
-      <cg-scrollbar y x :loadMore="loadMore" ref="scroll">
+      <cg-scrollbar
+        ref="scroll"
+        y
+        x
+        :load-more="loadMore"
+      >
         <div class="main"></div>
       </cg-scrollbar>
     </div>
 
     <div>
-      <cg-valid-code time="60" :getCode="getCode" v-model="code"/>
+      <cg-valid-code v-model="code" time="60" :get-code="getCode" />
 
       <cg-button @click="submit">提交</cg-button>
     </div>
-    
-
   </div>
 </template>
 
 <script lang="ts" setup>
-import { defineComponent, ref, computed, watchEffect } from 'vue';
+import { ref } from 'vue'
 import { Edit } from '@element-plus/icons'
-import _Button from '../../src/components/button/index';
 const size = ref('medium')
 const clickHandle = () => {
   console.log('点击了')
@@ -70,7 +87,7 @@ const getCode = () => {
   return new Promise(resolve => {
     setTimeout(() => {
       resolve()
-    }, 200);
+    }, 200)
   })
 }
 const submit = () => {

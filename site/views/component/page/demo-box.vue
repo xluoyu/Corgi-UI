@@ -1,22 +1,29 @@
 <template>
-  <div :class="{'cg-show-demo':true, 'active': activeComponentKey == id}" :id="id" ref="demoEl">
+  <div :id="id" ref="demoEl" :class="{'cg-show-demo':true, 'active': activeComponentKey == id}">
     <div class="cg-card">
       <div class="cg-card-header">
         <div class="cg-card-header-main cg-h2">
-          <slot name="title"/>
+          <slot name="title"></slot>
         </div>
       </div>
       <div class="cg-card-content">
-        <slot name="content"/>
-        <slot name="demo" />
+        <slot name="content"></slot>
+        <slot name="demo"></slot>
       </div>
     </div>
     <div class="cg-show-demo-code">
       <div class="cg-show-demo-code-content" :style="{height: codeHeight}" v-html="sfcCode"></div>
       <div class="showcode-button" @click="changeShowCode">
-        <cg-button type="primary" text>{{showCode ? '隐藏' : '显示'}}代码</cg-button>
+        <cg-button type="primary" text>{{ showCode ? '隐藏' : '显示' }}代码</cg-button>
         <div class="right-botton flex-center">
-          <cg-button type="primary" text @click.stop="copyCode" v-show="showCode">复制代码</cg-button>
+          <cg-button
+            v-show="showCode"
+            type="primary"
+            text
+            @click.stop="copyCode"
+          >
+            复制代码
+          </cg-button>
         </div>
       </div>
     </div>
@@ -24,43 +31,43 @@
 </template>
 
 <script lang="ts" setup>
-import { useToggle } from '@hooks'
-import { defineComponent, ref, watch, nextTick, computed, watchEffect } from 'vue';
+import { useToggle } from '@hooks/useToggle'
+import { ref, watch } from 'vue'
 import hljs from '../../../utils/hljs'
 import { useCompoent } from '../hooks/compoent'
 
 // export default defineComponent({
-  const props = defineProps({
-    code: {
-      type: String,
-      required: true
-    },
-    id: String
+const props = defineProps({
+  code: {
+    type: String,
+    required: true,
+  },
+  id: String,
+})
+
+const demoEl = ref(null)
+const [showCode, changeShowCode] = useToggle(false)
+
+const copyCode = () => {
+  navigator.clipboard.writeText(props.code).then(() => {
+    alert('拷贝成功')
   })
+}
 
-  const demoEl = ref(null)
-  const [showCode, changeShowCode] = useToggle(false)
+let sfcCode = hljs.highlight(props.code, { language: 'html' }).value
+sfcCode = `<pre class='code'>${sfcCode}</pre>`
 
-  const copyCode = () => {
-    navigator.clipboard.writeText(props.code).then(() => {
-      alert('拷贝成功')
-    })
-  }
-
-  let sfcCode = hljs.highlight(props.code, {language: 'html'}).value
-  sfcCode = `<pre class='code'>${sfcCode}</pre>`
-
-  const { activeComponentKey } = useCompoent()
-  const getCodeHeight = () => {
-    return demoEl.value.querySelector(".cg-show-demo-code-content pre").clientHeight
-  }
-  const codeHeight = ref('0px')
-  watch(showCode, () => {
-      codeHeight.value = showCode.value ? getCodeHeight() + 'px' : '0px'
-  })
-  // const codeHeight = computed(() => {
-  //   return showCode.value ? getCodeHeight() + 'px' : '0px'
-  // })
+const { activeComponentKey } = useCompoent()
+const getCodeHeight = () => {
+  return demoEl.value.querySelector('.cg-show-demo-code-content pre').clientHeight
+}
+const codeHeight = ref('0px')
+watch(showCode, () => {
+  codeHeight.value = showCode.value ? getCodeHeight() + 'px' : '0px'
+})
+// const codeHeight = computed(() => {
+//   return showCode.value ? getCodeHeight() + 'px' : '0px'
+// })
 </script>
 
 <style lang="less" scoped>

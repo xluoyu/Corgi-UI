@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <aside class="cg-nav">
-      <cg-menu :list="menuList"/>
+      <cg-menu :list="menuList" />
       <div class="shrink"></div>
     </aside>
     <!-- <cg-themeconfig :theme="customTheme"> -->
     <div class="main">
       <cg-scrollbar y>
-        <router-view></router-view>
+        <router-view />
       </cg-scrollbar>
     </div>
   <!-- </cg-themeconfig> -->
@@ -15,38 +15,38 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue';
+import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup () {
     let menuList = [
       {
         label: '按钮',
-        path: '/component/button'
+        path: '/component/button',
       },
       {
         label: '菜单',
-        path: '/component/menu'
+        path: '/component/menu',
       },
       {
         label: '图标',
-        path: '/component/icon'
+        path: '/component/icon',
       },
       {
         label: '滚动条',
-        path: '/component/scrollbar'
+        path: '/component/scrollbar',
       },
     ]
 
     const customTheme = {
-      color: '#c33696'
+      color: '#c33696',
     }
 
     return {
       customTheme,
-      menuList
+      menuList,
     }
-  }
+  },
 })
 </script>
 

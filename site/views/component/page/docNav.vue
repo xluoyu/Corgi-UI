@@ -1,7 +1,13 @@
 <template>
   <div class="doc-nav">
     <div class="nav-box">
-      <a :href="'#' + item.id" v-for="item in list" :key="item.id" :class="{active: activeLink === item.id}" @click="changeActiveComponenyKey(item.id)">{{item.title}}</a>
+      <a
+        v-for="item in list"
+        :key="item.id"
+        :href="'#' + item.id"
+        :class="{active: activeLink === item.id}"
+        @click="changeActiveComponenyKey(item.id)"
+      >{{ item.title }}</a>
     </div>
   </div>
 </template>
@@ -13,7 +19,7 @@ import { useCompoent } from '../hooks/compoent'
 
 export default defineComponent({
   props: {
-    list: Array as PropType<{id: string, title: string}[]>,
+    list: Array as PropType<{ id: string; title: string; }[]>,
   },
   setup (props) {
     let activeLink = ref('')
@@ -22,16 +28,16 @@ export default defineComponent({
       if (!props.list) return
       for (let i = 0; i < props.list?.length; i++) {
         let item = props.list[i]
-        const {top} = getElInfo('#' + item.id)
+        const { top } = getElInfo('#' + item.id)
 
         if (top - 64 < 20 && top - 64 >= -20) {
           activeLink.value = item.id
-          break;
+          break
         }
       }
     }, 60)
 
-    const getElInfo = (el) => {
+    const getElInfo = el => {
       const target = document.querySelector(el) as HTMLElement
       return target.getBoundingClientRect()
     }
@@ -41,13 +47,13 @@ export default defineComponent({
     })
 
     const { changeActiveComponenyKey } = useCompoent()
-    
+
 
     return {
       activeLink,
-      changeActiveComponenyKey
+      changeActiveComponenyKey,
     }
-  }
+  },
 })
 </script>
 

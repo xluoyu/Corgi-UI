@@ -3,7 +3,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup () {
-    
+
 
     return {}
   },
@@ -31,7 +31,7 @@ export default defineComponent({
         </div>
       </div>
     )
-  }
+  },
 })
 </script>
 

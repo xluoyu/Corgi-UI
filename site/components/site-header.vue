@@ -5,7 +5,7 @@
       <span>Corgi UI</span>
     </div>
     <div class="nav-menu">
-      <cg-menu :list="menuOptions" mode="horizontal"></cg-menu>
+      <cg-menu :list="menuOptions" mode="horizontal" />
     </div>
     <div class="nav-end"></div>
   </div>
@@ -20,23 +20,23 @@ export default defineComponent({
       {
         label: '首页',
         key: 'home',
-        path: '/'
+        path: '/',
       },
       {
         label: '文档',
         key: 'doc',
-        path: '/doc'
+        path: '/doc',
       },
       {
         label: '组件',
         key: 'component',
-        path: '/component'
-      }
+        path: '/component',
+      },
     ]
     return {
-      menuOptions
+      menuOptions,
     }
-  }
+  },
 })
 </script>
 

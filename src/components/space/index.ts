@@ -1,8 +1,8 @@
-import { SFCWithInstall } from '@utils/type';
+import { SFCWithInstall } from '@utils/type'
 import Space from './src/Space.vue'
 
-Space.install = (app) => {
-  app.component(Space.name, Space);
+Space.install = app => {
+  app.component(Space.name, Space)
 }
 
 const _Space = Space as SFCWithInstall<typeof Space>

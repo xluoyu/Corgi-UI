@@ -7,17 +7,17 @@ export default defineComponent({
   props: {
     align: {
       type: String as PropType<'start' | 'end' | 'center'>,
-      default: 'start'
+      default: 'start',
     },
     inline: Boolean,
     wrap: {
       type: Boolean,
-      default: true
-    }
+      default: true,
+    },
   },
-  setup (props) {
+  setup () {
     return {
-      styleVar
+      styleVar,
     }
   },
   render () {
@@ -25,24 +25,24 @@ export default defineComponent({
     return (
       <div
         class={[
-          'cg-space'
+          'cg-space',
         ]}
       >
         {children && children.length && children.map((child, index) => (
-            <div
-              style={{
-                marginRight: children && index !== (children as VNode[]).length ? '10px' : 0,
-                marginBottom: '10px',
-                marginTop: '10px'
-              }}
-            >
-              {child}
-            </div>
-          )
+          <div
+            style={{
+              marginRight: children && index !== (children as VNode[]).length ? '10px' : 0,
+              marginBottom: '10px',
+              marginTop: '10px',
+            }}
+          >
+            {child}
+          </div>
+        ),
         )}
       </div>
     )
-  }
+  },
 })
 </script>
 

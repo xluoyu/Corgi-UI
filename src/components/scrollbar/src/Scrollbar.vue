@@ -1,22 +1,25 @@
 <template>
-  <div 
+  <div
     :class="[
-    'cg-scrollbar',
+      'cg-scrollbar',
     ]"
   >
-    <div :class="[
-      'scrollbar-container',
-      {
-        'scrollbar-Y': y,
-        'scrollbar-X': x,
-      }
-    ]" ref="containerEl">
-      <div class="scrollbar-content" ref="contentEl">
-        <slot />
+    <div
+      ref="containerEl"
+      :class="[
+        'scrollbar-container',
+        {
+          'scrollbar-Y': y,
+          'scrollbar-X': x,
+        }
+      ]"
+    >
+      <div ref="contentEl" class="scrollbar-content">
+        <slot></slot>
       </div>
     </div>
-    
-    <div class="scrollbar-vertical" :ref="el => vertical.el = el">
+
+    <div :ref="el => vertical.el = el" class="scrollbar-vertical">
       <div
         class="scrollbar-thrumb scrollbar-thrumb--vertical"
         :style="{
@@ -48,17 +51,17 @@ import { computed, defineComponent, inject, onMounted, PropType, reactive, Ref, 
 import styleVar from './styleVar'
 
 interface IVertical {
-  el: null | HTMLElement | any,
-  height: number,
-  thrumbHeight: number,
+  el: null | HTMLElement | any
+  height: number
+  thrumbHeight: number
   thrumbY: number
 }
 
-interface IHorizontal {
-  width: number,
-  thrumbWidth: number,
-  thrumbX: number
-}
+// interface IHorizontal {
+//   width: number
+//   thrumbWidth: number
+//   thrumbX: number
+// }
 
 export default defineComponent({
   name: 'CgScrollbar',
@@ -67,7 +70,7 @@ export default defineComponent({
     x: Boolean,
     show: {
       type: String as PropType<'always' | 'hover' | 'never'>,
-      default: 'hover'
+      default: 'hover',
     },
     color: String,
     thrumbClass: String,
@@ -75,20 +78,20 @@ export default defineComponent({
     scrollClass: String,
     scrollStyle: String,
     loadHeight: Number,
-    loadMore: Function
+    loadMore: Function,
   },
   setup (props) {
     const customTheme = inject<IThemeCssVar>('theme', {})
 
-    const containerEl:Ref<null | HTMLElement> = ref(null)
+    const containerEl: Ref<null | HTMLElement> = ref(null)
     let containerHeight = 0
-    const contentEl:Ref<null | HTMLElement> = ref(null)
-    const verticalEl:Ref<null | HTMLElement> = ref(null)
+    const contentEl: Ref<null | HTMLElement> = ref(null)
+    const verticalEl: Ref<null | HTMLElement> = ref(null)
     const vertical = reactive<IVertical>({
       el: null,
       height: 0,
       thrumbHeight: 0,
-      thrumbY: 0
+      thrumbY: 0,
     })
 
 
@@ -125,13 +128,13 @@ export default defineComponent({
       addScroll()
     })
 
-    const thrumbVerticalMouseDown = (e) => {
-      e.stopPropagation();
+    const thrumbVerticalMouseDown = e => {
+      e.stopPropagation()
       let start = e.pageY
       let contentH = (contentEl.value as HTMLElement).clientHeight as number
       let scrollTop = (containerEl.value as HTMLElement).scrollTop
-      
-      const move = (event) => {
+
+      const move = event => {
         let distance = event.pageY - start
         ;(containerEl.value as HTMLElement).scrollTop = scrollTop + distance / vertical.height * contentH
       }
@@ -160,9 +163,9 @@ export default defineComponent({
       update,
       thrumbVerticalMouseDown,
       contentEl,
-      cssVar
+      cssVar,
     }
-  }
+  },
 })
 </script>
 

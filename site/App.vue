@@ -1,27 +1,33 @@
 <template>
   <div class="layout">
-    <div class="corgi-bg" v-if="route.name == 'home'">
-      <video src="https://vd4.bdstatic.com/mda-mhvcefp0804vmrat/1080p/cae_h264/1630313434720525820/mda-mhvcefp0804vmrat.mp4" class="video-background" poster="./assets/poster.jpg" autoplay></video>
+    <div v-if="route.name == 'home'" class="corgi-bg">
+      <video
+        src="https://vd4.bdstatic.com/mda-mhvcefp0804vmrat/1080p/cae_h264/1630313434720525820/mda-mhvcefp0804vmrat.mp4"
+        loop
+        muted
+        class="video-background"
+        poster="./assets/poster.jpg"
+        autoplay
+      ></video>
     </div>
     <div :style="siteTheme">
       <site-header />
-      <router-view></router-view>
+      <router-view />
     </div>
   </div>
 </template>
 
 <script lang='ts' setup>
-import { ref } from '@vue/reactivity'
 import SiteHeader from './components/site-header.vue'
 import { useRoute } from 'vue-router'
-import { computed } from 'vue';
+import { computed } from 'vue'
 
 const route = useRoute()
 const siteTheme = computed(() => {
   return {
     '--border-color': route.name === 'home' ? '#1ED5D8' : '#eee',
     '--color': route.name === 'home' ? '#fff' : '#333',
-    color: 'var(--color)'
+    color: 'var(--color)',
   }
 })
 </script>
@@ -38,7 +44,7 @@ const siteTheme = computed(() => {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    // transform: translateY(-200px) translateX(-200px);
+    transform: scale(1.2);
   }
 }
 </style>

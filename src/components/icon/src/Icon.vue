@@ -1,14 +1,14 @@
 <template>
-  <i 
+  <i
     :class="[
-    'cg-icon'
+      'cg-icon'
     ]"
     :style="{
       color: color,
       fontSize: size
     }"
   >
-    <slot />
+    <slot></slot>
   </i>
 </template>
 
@@ -20,14 +20,14 @@ export default defineComponent({
   name: 'CgIcon',
   props: {
     size: String,
-    color: String
+    color: String,
   },
   setup () {
-    
+
     return {
-      styleVar
+      styleVar,
     }
-  }
+  },
 })
 </script>
 

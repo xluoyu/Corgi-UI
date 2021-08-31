@@ -1,12 +1,12 @@
 <template>
   <div class="cg-menu-item">
-    <a :href="item.path">{{item.label}}</a>
+    <a :href="item.path">{{ item.label }}</a>
   </div>
 </template>
 
 <script lang="ts">
-import { computed, defineComponent, PropType } from 'vue';
-import {IMenuItem} from './type'
+import { defineComponent, PropType } from 'vue'
+import { IMenuItem } from './type'
 import styleVar from './styleVar'
 
 export default defineComponent({
@@ -14,15 +14,15 @@ export default defineComponent({
   props: {
     item: {
       type: Object as PropType<IMenuItem>,
-      required: true
-    }
+      required: true,
+    },
   },
   setup () {
 
     return {
-      styleVar
+      styleVar,
     }
-  }
+  },
 })
 </script>
 

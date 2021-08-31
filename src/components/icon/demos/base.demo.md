@@ -21,12 +21,12 @@
 ```
 
 ```js
-import { 
+import {
   Bell,
   ArrowDown,
   ArrowLeft,
   ArrowRight,
-  ArrowUp
+  ArrowUp,
 } from '@element-plus/icons'
 
 export default {
@@ -36,7 +36,7 @@ export default {
     ArrowLeft,
     ArrowRight,
     ArrowUp,
-  }
+  },
 }
 
 ```

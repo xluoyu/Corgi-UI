@@ -8,7 +8,7 @@ const vueCompiler = require('@vue/compiler-sfc')
 const klawSync = require('klaw-sync')
 const ora = require('ora')
 
-const getFilePath = (url) => path.resolve(__dirname, url)
+const getFilePath = url => path.resolve(__dirname, url)
 
 const TSCONFIG_PATH = getFilePath('../tsconfig.json')
 
@@ -21,13 +21,13 @@ const getTypes = async() => {
       outDir: getFilePath('../types'),
       baseUrl: getFilePath('../'),
       paths: {
-        '@components/*': ["src/components/*"],
-        '@hooks/*': ["src/hooks/*"],
-        '@utils/*': ["src/utils/*"],
+        '@components/*': ['src/components/*'],
+        '@hooks/*': ['src/hooks/*'],
+        '@utils/*': ['src/utils/*'],
       },
       exclude: [
-        "node_modules"
-      ]
+        'node_modules',
+      ],
     },
     tsConfigFilePath: TSCONFIG_PATH,
     skipAddingFilesFromTsConfig: true,
@@ -38,7 +38,7 @@ const getTypes = async() => {
 
   /**
    * 读取src下的所有文件
-   * 
+   *
    * 过滤测试用文件，只留下.ts/.vue类型的文件
    */
   const filePaths = klawSync(getFilePath('../src'), {
@@ -47,7 +47,7 @@ const getTypes = async() => {
     .filter(e => !/\.spec/.test(e))
     .filter(e => /\.ts|\.vue/.test(e))
 
-  
+
   await Promise.all(
     filePaths.map(async file => {
       /**
@@ -56,7 +56,7 @@ const getTypes = async() => {
       if (file.endsWith('.vue')) {
         const content = await fs.promises.readFile(file, 'utf-8')
         const sfc = vueCompiler.parse(content)
-        const {script, scriptSetup} = sfc.descriptor
+        const { script, scriptSetup } = sfc.descriptor
         /**
          * 因为ts只能是对ts的编译，所以要提取.vue中的ts内容
          */
@@ -70,7 +70,7 @@ const getTypes = async() => {
           }
           /**
             * 因为是<script setup>的语法，需要额外调用compileScript
-            * 
+            *
             *	该api可以从vue描述符中获取script的内容
 
             * 这里需要一个必填的第二个参数 options{id: string}
@@ -86,7 +86,7 @@ const getTypes = async() => {
           // 将处理好的内容使用ts-morph的APi生成待编译文件
           const sourceFile = project.createSourceFile(
             path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js'),
-            content
+            content,
           )
           // 放到待编译数组中
           sourceFiles.push(sourceFile)
@@ -96,9 +96,9 @@ const getTypes = async() => {
         const sourceFile = project.addSourceFileAtPath(file)
         sourceFiles.push(sourceFile)
       }
-    })
+    }),
   )
-  
+
   /**
    * 开始执行编译
    */
@@ -108,14 +108,14 @@ const getTypes = async() => {
 
   /**
    * 这里对alias做了特殊处理
-   * 
+   *
    * import {warn} from '@utils/error' => import {warn} from '../utils/error'
-   * 
+   *
    */
   const importAlias = {
     '@components/': '/cg-',
     '@utils/': '/utils/',
-    '@hooks/': '/hooks/'
+    '@hooks/': '/hooks/',
   }
   const importAliasKeys = Object.keys(importAlias)
   const ROOT_PATH = path.resolve(__dirname, '../src')
@@ -125,7 +125,7 @@ const getTypes = async() => {
     const sourceFilePathName = sourceFile.getFilePath()
     sourceFile.getExportDeclarations().map(modifySpecifier)
     sourceFile.getImportDeclarations().map(modifySpecifier)
-    
+
     function modifySpecifier(d) {
       if (!d) return
       const specifier = d.getModuleSpecifierValue()
@@ -140,7 +140,7 @@ const getTypes = async() => {
         }
         if (sourceFilePathName.includes('src/hooks')) {
           originalPath = originalPath.slice(3) // 减去一级 ../
-        } 
+        }
         if (!originalPath) {
           originalPath = '.'
         }

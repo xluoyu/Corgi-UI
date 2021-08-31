@@ -1,16 +1,16 @@
-import { isObject } from "./typeTool";
-import { warn } from "./warn";
-import { IThemeCssVar } from './type';
+import { isObject } from './typeTool'
+import { warn } from './warn'
+import { IThemeCssVar } from './type'
 
 /**
  * 获取某个dom节点上的css变量
- * @param el 
- * @param key 
- * @returns 
+ * @param el
+ * @param key
+ * @returns
  */
-export const getBodyVar = (el:string, key:string) => {
-  let bodyEl = document.querySelector(el) as HTMLElement
-  return getComputedStyle(bodyEl).getPropertyValue(key);
+export const getBodyVar = (el: string, key: string) => {
+  const bodyEl = document.querySelector(el) as HTMLElement
+  return getComputedStyle(bodyEl).getPropertyValue(key)
 }
 
 /**
@@ -18,34 +18,34 @@ export const getBodyVar = (el:string, key:string) => {
  * @param color 16进制颜色
  * @param a 透明度
  * @param type 返回值格式 string -> 'rgba(xxx,xxx,xxx,xx)'  array -> [xxx,xxx,xxx,xx]
- * @returns 
+ * @returns
  */
-export const colorToRgba = (color: string, a?: number, type: 'string' | 'array' = 'string'):string | number[] => {
-  const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/;
+export const colorToRgba = (color: string, a?: number, type: 'string' | 'array' = 'string'): string | number[] => {
+  const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
   color = color.toLocaleLowerCase()
 
   if (reg.test(color)) {
     // 如果只有三位的值，需变成六位，如：#fff => #ffffff
     if (color.length === 4) {
-      var colorNew = "#";
-      for (var i = 1; i < 4; i += 1) {
-        colorNew += color.slice(i, i + 1).concat(color.slice(i, i + 1));
+      let colorNew = '#'
+      for (let i = 1; i < 4; i += 1) {
+        colorNew += color.slice(i, i + 1).concat(color.slice(i, i + 1))
       }
-      color = colorNew;
+      color = colorNew
     }
     // 处理六位的颜色值，转为RGB
-    var colorChange:number[] = [];
-    for (var i = 1; i < 7; i += 2) {
-      colorChange.push(parseInt("0x" + color.slice(i, i + 2)));
+    const colorChange: number[] = []
+    for (let i = 1; i < 7; i += 2) {
+      colorChange.push(parseInt('0x' + color.slice(i, i + 2)))
     }
     if (type === 'string') {
-      return "rgba(" + colorChange.join(", ") + (a ? ', ' + a : '') +")";
+      return 'rgba(' + colorChange.join(', ') + (a ? ', ' + a : '') + ')'
     } else {
       return colorChange
     }
   } else {
     if (type === 'string') {
-      return color;
+      return color
     } else {
       let res = color.match(/(\d(\.\d+)?)+/g) || [] as number[]
       if (!res.length) {
@@ -54,7 +54,7 @@ export const colorToRgba = (color: string, a?: number, type: 'string' | 'array' 
       }
       res = res.map(Number)
       a && res.push(a)
-      return res;
+      return res
     }
   }
 }
@@ -64,30 +64,30 @@ export const colorToRgba = (color: string, a?: number, type: 'string' | 'array' 
  * @param bgColor 16进制 或 RGB
  * @returns Boolean true -> #000 false -> #fff
  */
-export const isLight = (bgColor: string):Boolean => {
-  let rgbArr = colorToRgba(bgColor, 1, 'array') as number[]
-  return (0.213 * rgbArr[0] + 0.715 * rgbArr[1] + 0.072 * rgbArr[2] > 255/2)
+export const isLight = (bgColor: string): boolean => {
+  const rgbArr = colorToRgba(bgColor, 1, 'array') as number[]
+  return (0.213 * rgbArr[0] + 0.715 * rgbArr[1] + 0.072 * rgbArr[2] > 255 / 2)
 }
 
 export const getCssVar = () => {
-  let colorPrimary = getBodyVar('body', '--color-primary')
+  const colorPrimary = getBodyVar('body', '--color-primary')
 
   return {
     hoverBackground: colorToRgba(colorPrimary, .7),
-    hoverColor: isLight(colorPrimary) ? '#000' : '#fff'
+    hoverColor: isLight(colorPrimary) ? '#000' : '#fff',
   }
 }
 
 
 /**
  * 混合定制与默认主题
- * 
- * @param customTheme 
- * @param defaultTheme 
- * @returns 
+ *
+ * @param customTheme
+ * @param defaultTheme
+ * @returns
  */
-export const assignThemecustom = (customTheme: IThemeCssVar, defaultTheme: IThemeCssVar):IThemeCssVar => {
-  let newTheme = Object.assign({}, defaultTheme)
+export const assignThemecustom = (customTheme: IThemeCssVar, defaultTheme: IThemeCssVar): IThemeCssVar => {
+  const newTheme = Object.assign({}, defaultTheme)
   Object.keys(customTheme).forEach(key => {
     if (isObject(customTheme[key]) && newTheme[key] && isObject(newTheme[key])) {
       newTheme[key] = Object.assign({}, newTheme[key], customTheme[key])

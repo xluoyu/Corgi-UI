@@ -1,12 +1,12 @@
 const marked = require('marked')
-const ejs = require("ejs")
+const ejs = require('ejs')
 const createRenderer = require('../loaders/md-renderer')
 const mdRenderer = createRenderer()
-const {resolve} = require('path')
+const { resolve } = require('path')
 
 const demoTemplate = resolve(__dirname, '../template/demo-template.ejs')
 
-const getCompoentObj = (tokens) => {
+const getCompoentObj = tokens => {
   const res = {}
   const contentTokens = []
   contentTokens.links = tokens.links
@@ -24,20 +24,20 @@ const getCompoentObj = (tokens) => {
     }
   }
   res.content = marked.parser(contentTokens, {
-    renderer: mdRenderer
+    renderer: mdRenderer,
   })
 
   res.code = getCompoentCode(res)
   return res
 }
 
-const getCompoentCode = (obj) => {
+const getCompoentCode = obj => {
   let code = ``
   if (obj.template) {
     code += `<template>\n`
     code += obj.template
       .split('\n')
-      .map((line) => (line.length ? '  ' + line : line))
+      .map(line => (line.length ? '  ' + line : line))
       .join('\n')
     code += `\n</template>\n`
   }
@@ -55,9 +55,9 @@ const getCompoentCode = (obj) => {
   return code
 }
 
-const renderVueComponent = (componentObj) => {
-  return new Promise((reslove) => {
-    ejs.renderFile(demoTemplate, {options: componentObj}, (err, str) => {
+const renderVueComponent = componentObj => {
+  return new Promise(reslove => {
+    ejs.renderFile(demoTemplate, { options: componentObj }, (err, str) => {
       if (err) {
         console.log(err)
         return
@@ -67,7 +67,7 @@ const renderVueComponent = (componentObj) => {
   })
 }
 
-const getFileId = (path) => {
+const getFileId = path => {
   const dirs = path.split('/')
   const fileNames = dirs[dirs.length - 1].split('.')
   return fileNames[0]

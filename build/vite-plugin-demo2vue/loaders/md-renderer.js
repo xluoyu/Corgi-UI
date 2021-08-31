@@ -1,11 +1,10 @@
 // import marked from 'marked'
-const hljs = require('highlight.js')
 const marked = require('marked')
 
 function createRenderer() {
   const renderer = new marked.Renderer()
   const overrides = {
-    code (code, language) {
+    code (code) {
       return code
     },
     codespan(code) {
@@ -28,17 +27,16 @@ function createRenderer() {
       </div>
       `
     },
-    paragraph: (text) => {
+    paragraph: text => {
       return `<p class="cg-p">${text}</p>`
     },
   }
 
-  Object.keys(overrides).forEach((key) => {
+  Object.keys(overrides).forEach(key => {
     renderer[key] = overrides[key]
   })
 
   return renderer
 }
 
-// export default createRenderer
 module.exports = createRenderer

@@ -1,7 +1,7 @@
-import { VNodeChild } from "vue";
+import { VNodeChild } from 'vue'
 
 export interface IMenuItem {
-  label: string | (() => VNodeChild),
+  label: string | (() => VNodeChild)
   key: string | number
   path?: string
 }

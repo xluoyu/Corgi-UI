@@ -15,5 +15,4 @@ export default {
   pMargin: '10px',
 
   hoverTheme: '#F4AD5A',
-  hoverOpacity: .7
 }

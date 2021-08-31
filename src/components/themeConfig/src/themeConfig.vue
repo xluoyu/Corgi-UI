@@ -6,9 +6,9 @@ export default defineComponent({
   name: 'CgThemeConfig',
   props: {
     theme: {
-      type: Object,
-      default: {}
-    }
+      type:[Object, null],
+      default: null,
+    },
   },
   setup (props) {
     if (props.theme) {
@@ -18,7 +18,7 @@ export default defineComponent({
   },
   render () {
     return this.$slots.default && this.$slots.default()
-  }
+  },
 })
 </script>
 
