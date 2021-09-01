@@ -1,19 +1,68 @@
-export default [
+import { h, VNodeChild } from 'vue'
+
+interface IMenuObj {
+  type?: string
+  key: string
+  label: string | VNodeChild
+  path?: string
+  children?: IMenuObj[]
+}
+
+
+const MenuList: IMenuObj[] = [
   {
-    tag: '基础',
+    path: '/component/icon',
+    label: h('div', {}, 'asdasd'),
+    key: 'icon',
+  },
+  {
+    type: 'group',
+    key: 'base',
+    label: '基础组件',
     children: [
       {
         path: '/component/icon',
-        name: 'Icon 图标',
+        label: 'Icon 图标',
+        key: 'icon',
       },
       {
         path: '/component/button',
-        name: 'Button 按钮',
+        label: 'Button 按钮',
+        key: 'button',
       },
       {
         path: '/component/scrollbar',
-        name: 'ScrollBar 滚动条',
+        label: 'ScrollBar 滚动条',
+        key: 'scrollBar',
+        type: 'submenu',
+        children: [
+          {
+            path: '/component/icon',
+            label: 'Icon 图标',
+            key: 'icon',
+          },
+          {
+            path: '/component/button',
+            label: 'Button 按钮',
+            key: 'button',
+          },
+        ],
+      },
+    ],
+  },
+  {
+    type: 'group',
+    key: 'route',
+    label: '导航组件',
+    children: [
+      {
+        path: '/component/Menu',
+        label: 'Menu 菜单',
+        key: 'menu',
       },
     ],
   },
 ]
+
+
+export default MenuList

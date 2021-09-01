@@ -11,7 +11,7 @@ const routes = [
   },
   {
     path: '/component',
-    component: () => import('../views/component/layout.vue'),
+    component: () => import('../views/component/index.vue'),
     name: 'component',
     redirect: '/component/button',
     children: [
@@ -31,7 +31,7 @@ const routes = [
   },
   {
     path: '/:pathMatch(.*)*',
-    component: () => import('../views/home/index.vue'),
+    redirect: '/',
   },
 ]
 

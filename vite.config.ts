@@ -9,20 +9,20 @@ export default defineConfig({
     alias: [
       {
         find: '@components',
-        replacement: path.resolve(__dirname, './src/components')
+        replacement: path.resolve(__dirname, './src/components'),
       },
       {
         find: '@hooks',
-        replacement: path.resolve(__dirname, './src/hooks')
+        replacement: path.resolve(__dirname, './src/hooks'),
       },
       {
         find: '@utils',
-        replacement: path.resolve(__dirname, './src/utils')
+        replacement: path.resolve(__dirname, './src/utils'),
       },
       {
         find: 'site',
-        replacement: path.resolve(__dirname, './site')
-      }
-    ]
-  }
+        replacement: path.resolve(__dirname, './site'),
+      },
+    ],
+  },
 })

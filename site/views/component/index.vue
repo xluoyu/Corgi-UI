@@ -4,39 +4,21 @@
       <cg-menu :list="menuList" />
       <div class="shrink"></div>
     </aside>
-    <!-- <cg-themeconfig :theme="customTheme"> -->
     <div class="main">
       <cg-scrollbar y>
         <router-view />
       </cg-scrollbar>
     </div>
-  <!-- </cg-themeconfig> -->
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
+import MenuList from 'site/menu.conf'
 
 export default defineComponent({
   setup () {
-    let menuList = [
-      {
-        label: '按钮',
-        path: '/component/button',
-      },
-      {
-        label: '菜单',
-        path: '/component/menu',
-      },
-      {
-        label: '图标',
-        path: '/component/icon',
-      },
-      {
-        label: '滚动条',
-        path: '/component/scrollbar',
-      },
-    ]
+    let menuList = MenuList
 
     const customTheme = {
       color: '#c33696',

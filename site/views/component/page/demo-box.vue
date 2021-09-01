@@ -36,7 +36,6 @@ import { ref, watch } from 'vue'
 import hljs from '../../../utils/hljs'
 import { useCompoent } from '../hooks/compoent'
 
-// export default defineComponent({
 const props = defineProps({
   code: {
     type: String,
@@ -65,9 +64,6 @@ const codeHeight = ref('0px')
 watch(showCode, () => {
   codeHeight.value = showCode.value ? getCodeHeight() + 'px' : '0px'
 })
-// const codeHeight = computed(() => {
-//   return showCode.value ? getCodeHeight() + 'px' : '0px'
-// })
 </script>
 
 <style lang="less" scoped>

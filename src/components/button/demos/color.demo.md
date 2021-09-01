@@ -4,7 +4,6 @@
 
 ```html
 <cg-space>
-  <cg-button>Default</cg-button>
   <cg-button type="primary" ghost>Primary</cg-button>
   <cg-button type="info" ghost>Info</cg-button>
   <cg-button type="success" ghost>Success</cg-button>

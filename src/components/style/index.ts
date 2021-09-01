@@ -11,8 +11,13 @@ export default {
   fontSizeH3: '16px', // 小标题
   fontSizeH4: '14px', // 正文
   fontSizeH5: '12px', // 辅助文字
+  fontColor: '#333',
+  fontColor2: '#666',
+  fontColor3: '#999',
 
   pMargin: '10px',
 
   hoverTheme: '#F4AD5A',
+
+  radiusMini: '6px',
 }

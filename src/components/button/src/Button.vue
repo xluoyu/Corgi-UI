@@ -126,7 +126,7 @@ export default defineComponent({
   cursor: pointer;
   .flex-center();
   &:hover {
-    opacity: v-bind('cssVar.hoverOpacity');
+    opacity: 0.7;
   }
 
   &.cg-button--round {

@@ -15,9 +15,17 @@
   </md-component>
 </template>
 
+<% if (options.script && options.script.lang == 'js') { %>
 <script>
-  <%- options.script %>
+  <%- options.script.content %>
 </script>
+<% } %>
+
+<% if (options.script && options.script.lang == 'js-setup') { %>
+<script setup>
+  <%- options.script.content %>
+</script>
+<% } %>
 
 <style scoped>
   <%- options.style %>

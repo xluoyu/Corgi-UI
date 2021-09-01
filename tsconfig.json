@@ -17,7 +17,7 @@
     "suppressImplicitAnyIndexErrors": true,
     "noImplicitAny": false
   },
-  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue"],
+  "include": ["site/**/*.vue", "site/**/*.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "src/**/*.md"],
   "exclude": [
     "node_modules",
     "__test__/**/*"

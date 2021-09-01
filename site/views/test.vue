@@ -35,7 +35,7 @@
         x
         :load-more="loadMore"
       >
-        <div class="main"></div>
+        <div class="main" :style="{height: mainHeight + 'px'}"></div>
       </cg-scrollbar>
     </div>
 

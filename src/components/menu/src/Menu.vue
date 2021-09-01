@@ -1,18 +1,15 @@
-<template>
-  <div :class="['cg-menu', mode]">
-    <menu-item v-for="item in list" :key="item.key" :item="item" />
-  </div>
-</template>
-
-<script lang="ts">
-import { defineComponent, PropType } from 'vue'
-import MenuItem from './MenuItem.vue'
-import { IMenuItem } from './type'
+<script lang="tsx">
+import { defineComponent, PropType, computed, provide } from 'vue'
+import { EMenuType, IMenuItem, MeunItemWithComponent } from './type'
+import itemRender from './itemRender'
 
 export default defineComponent({
   name: 'CgMenu',
-  components: { MenuItem },
   props: {
+    space: {
+      type: Number,
+      default: 20,
+    },
     mode: {
       type: String as PropType<'vertical' | 'horizontal'>,
       default: 'vertical',
@@ -22,14 +19,26 @@ export default defineComponent({
       dafault: [],
     },
   },
-  setup () {
-    let vars = {
-      colorPrimary: '#332269',
-    }
+  setup (props) {
+    provide('indent', props.space)
+    const menuList = computed(() => {
+      return props.list.map((e: MeunItemWithComponent) => {
+        e.component = e.type ? EMenuType[e.type] : 'CgMenuItem'
+        return e
+      })
+    })
+    console.log(menuList.value)
 
     return {
-      vars,
+      menuList,
     }
+  },
+  render () {
+    return (
+      <div class={['cg-menu', this.mode]}>
+        {this.menuList && this.menuList.map(e => itemRender(e, this.space))}
+      </div>
+    )
   },
 })
 </script>
@@ -38,7 +47,6 @@ export default defineComponent({
 <style lang="less" scoped>
 .cg-menu{
   height: 100%;
-  --color-primary: v-bind(vars.colorPrimary);
 }
 .horizontal{
   display: inline-flex;

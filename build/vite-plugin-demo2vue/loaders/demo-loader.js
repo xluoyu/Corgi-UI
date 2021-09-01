@@ -16,7 +16,13 @@ const getCompoentObj = tokens => {
     } else if (token.type === 'code' && token.lang === 'html') {
       res.template = token.text
     } else if (token.type === 'code' && token.lang === 'js') {
-      res.script = token.text
+      res.script = {}
+      res.script.lang = 'js'
+      res.script.content = token.text
+    } else if (token.type === 'code' && token.lang === 'js-setup') {
+      res.script = {}
+      res.script.lang = 'js-setup'
+      res.script.content = token.text
     } else if (token.type === 'code' && token.lang === 'css') {
       res.style = token.text
     } else {
@@ -42,12 +48,16 @@ const getCompoentCode = obj => {
     code += `\n</template>\n`
   }
   if (obj.script) {
-    code += `\n<script>\n`
-    code += obj.script
+    if (obj.script.lang === 'js-setup') {
+      code += `\n<script setup>\n`
+    } else {
+      code += `\n<script>\n`
+    }
+    code += obj.script.content
     code += `\n</script>\n`
   }
   if (obj.style) {
-    code += `\n<style>\n`
+    code += `\n<style scoped>\n`
     code += obj.style
     code += `\n</style>\n`
   }
