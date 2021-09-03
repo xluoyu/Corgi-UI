@@ -1,6 +1,7 @@
-const demoLoader = require('../loaders/demo-loader')
+const demoLoader = require('../loaders/doc-loader')
 const fs = require('fs')
 
-const code = fs.readFileSync('../../src/components/button/demos/color.demo.md', 'utf-8')
+const code = fs.readFileSync('./test.md', 'utf-8')
 
 demoLoader(code)
+
