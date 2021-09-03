@@ -20,7 +20,7 @@ export default defineConfig({
         replacement: path.resolve(__dirname, './src/utils'),
       },
       {
-        find: 'site',
+        find: '@site',
         replacement: path.resolve(__dirname, './site'),
       },
     ],

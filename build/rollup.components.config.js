@@ -22,7 +22,7 @@ export default fs.readdirSync(`${INPUT_PATH}/components`).map(name => {
   return {
     input,
     plugins: [...plugins],
-    external: ['vue'],
+    external: ['vue', 'element-plus'],
     output: {
       name: 'index',
       file: `${OUTPUT_PATH}/cg-${name}/index.js`,

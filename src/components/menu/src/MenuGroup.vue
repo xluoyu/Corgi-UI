@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent, computed, inject } from 'vue'
+import { defineComponent, computed } from 'vue'
 import itemRender from './itemRender'
 import styleVar from './styleVar'
 

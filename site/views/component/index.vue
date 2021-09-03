@@ -12,24 +12,14 @@
   </div>
 </template>
 
-<script lang="ts">
-import { defineComponent } from 'vue'
-import MenuList from 'site/menu.conf'
+<script lang="ts" setup>
+import MenuList from '@site/menu.conf'
 
-export default defineComponent({
-  setup () {
-    let menuList = MenuList
+let menuList = MenuList
 
-    const customTheme = {
-      color: '#c33696',
-    }
-
-    return {
-      customTheme,
-      menuList,
-    }
-  },
-})
+const customTheme = {
+  color: '#c33696',
+}
 </script>
 
 <style lang="less" scoped>

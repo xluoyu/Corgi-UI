@@ -45,6 +45,14 @@ const MenuList: IMenuObj[] = [
             path: '/component/button',
             label: 'Button 按钮',
             key: 'button',
+            type: 'group',
+            children: [
+              {
+                path: '/component/icon',
+                label: 'Icon 图标',
+                key: 'icon',
+              },
+            ],
           },
         ],
       },
