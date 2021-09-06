@@ -24,7 +24,7 @@ export default {
     }),
     postcss(),
     vueJsx(),
-    esbuild({ jsxFactory: 'vueJsxCompat', minify: true }),
+    esbuild({ jsxFactory: 'vueJsxCompat' }),
 
     // alias({
     //   entries: [

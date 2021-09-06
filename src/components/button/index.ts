@@ -6,3 +6,5 @@ Button.install = (app: App) => {
 }
 
 export const CgButton = Button as SFCWithInstall<typeof Button>
+
+export default CgButton

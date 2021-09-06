@@ -113,13 +113,13 @@ const getTypes = async() => {
    * import {warn} from '@utils/error' => import {warn} from '../utils/error'
    *
    */
-  const importAlias = {
-    '@components/': '/cg-',
-    '@utils/': '/utils/',
-    '@hooks/': '/hooks/',
-  }
-  const importAliasKeys = Object.keys(importAlias)
-  const ROOT_PATH = path.resolve(__dirname, '../src')
+  // const importAlias = {
+  //   '@components/': '/cg-',
+  //   '@utils/': '/utils/',
+  //   '@hooks/': '/hooks/',
+  // }
+  // const importAliasKeys = Object.keys(importAlias)
+  // const ROOT_PATH = path.resolve(__dirname, '../src')
 
   for (const sourceFile of sourceFiles) {
     // 生成文件的地址链接

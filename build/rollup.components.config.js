@@ -12,9 +12,12 @@ const plugins = [
     preprocessStyles: true,
     target: 'browser',
   }),
-  postcss(),
   vueJsx(),
+  postcss({
+    use: ['less'],
+  }),
   esbuild({ jsxFactory: 'vueJsxCompat' }),
+
 ]
 
 export default fs.readdirSync(`${INPUT_PATH}/components`).map(name => {

@@ -39,9 +39,6 @@ const props = {
   onClick: [Function, Array],
 }
 
-
-export type propsType = typeof props
-
 export default defineComponent({
   name: 'CgButton',
   props,
