@@ -5,6 +5,5 @@ ScrollBar.install = app => {
   app.component(ScrollBar.name, ScrollBar)
 }
 
-const _ScrollBar = ScrollBar as SFCWithInstall<typeof ScrollBar>
+export const CgScrollbar = ScrollBar as SFCWithInstall<typeof ScrollBar>
 
-export default _ScrollBar

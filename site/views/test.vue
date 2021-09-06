@@ -18,6 +18,7 @@
         type="info"
         ghost
         dashed
+        v-copy="nextFn"
       >
         ghost
       </cg-button>
@@ -38,62 +39,55 @@
         <div class="main" :style="{height: mainHeight + 'px'}"></div>
       </cg-scrollbar>
     </div>
-
-    <div>
-      <cg-valid-code v-model="code" time="60" :get-code="getCode" />
-
-      <cg-button @click="submit">提交</cg-button>
-    </div>
   </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Edit } from '@element-plus/icons'
-const size = ref('medium')
+import { useCopy } from '@corgi/index'
+import {CgButton} from '../../es'
+
+let size = ref('medium')
 const clickHandle = () => {
   console.log('点击了')
   size.value = size.value == 'large' ? 'small' : 'large'
 }
 
+useCopy('哈哈哈').then(() => {
+  console.log('复制成功了')
+})
+
 const themeConfig = {
-  // small: {
-  //   fontSize: '20px'
-  // }
+  small: {
+    fontSize: '20px'
+  }
 }
 
-const val = ref(1)
+const nextFn = () => {
+  alert('okkk')
+}
+
+let val = ref(1)
 const handleClick = () => {
   val.value = val.value + 1
 }
 
 const showVal = () => {
-  console.log(val.value)
+  console.log(val)
 }
 
 let height = 800
-const mainHeight = ref(height + 'px')
-const scroll = ref()
+let mainHeight = ref(height + 'px')
+let scroll = ref(null)
 const loadMore = () => {
   height += 400
   mainHeight.value = height + 'px'
-  console.log(scroll)
-  scroll.value.update()
-}
-
-
-const code = ref('')
-const getCode = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve()
-    }, 200)
-  })
-}
-const submit = () => {
-  console.log(code.value)
+  console.log($raw(scroll))
+  scroll.update()
 }
 </script>
+
 
 <style lang="less" scoped>
 .box{

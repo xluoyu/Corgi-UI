@@ -5,6 +5,7 @@
   "module": "es/index.js",
   "scripts": {
     "dev": "vite",
+    "tsc": "tsc -b --force tsconfig.esm.json",
     "build": "rimraf es && yarn build:components && yarn build:hooks && yarn build:type && yarn build:merge",
     "build:site": "vue-tsc --noEmit && vite build",
     "build:components": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.components.config.js",

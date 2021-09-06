@@ -90,7 +90,7 @@ watch(showCode, () => {
   border-top: 1px dashed var(--border-color);
   .cg-show-demo-code-content{
     background-color: rgba(250, 250, 250, .6);
-    background-image: url('site/assets/paper.png');
+    background-image: url('@site/assets/paper.png');
     transition: all .4s;
     box-sizing: border-box;
     overflow: hidden;

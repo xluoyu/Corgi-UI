@@ -42,9 +42,9 @@ export default defineComponent({
       return target.getBoundingClientRect()
     }
 
-    onMounted(() => {
-      document.addEventListener('scroll', handleScroll, true)
-    })
+    // onMounted(() => {
+    //   document.addEventListener('scroll', handleScroll, true)
+    // })
 
     const { changeActiveComponenyKey } = useCompoent()
 
@@ -53,6 +53,9 @@ export default defineComponent({
       activeLink,
       changeActiveComponenyKey,
     }
+  },
+  mounted() {
+    console.log(this)
   },
 })
 </script>

@@ -1,11 +1,13 @@
 <template>
   <div class="container">
     <aside class="cg-nav">
-      <cg-menu :list="menuList" />
+      <cg-scrollbar ref="scrollbar" y>
+        <cg-menu :list="menuList" />
+      </cg-scrollbar>
       <div class="shrink"></div>
     </aside>
     <div class="main">
-      <cg-scrollbar y>
+      <cg-scrollbar y show="always">
         <router-view />
       </cg-scrollbar>
     </div>
@@ -14,12 +16,19 @@
 
 <script lang="ts" setup>
 import MenuList from '@site/menu.conf'
+import { ref, onMounted } from 'vue'
 
 let menuList = MenuList
 
 const customTheme = {
   color: '#c33696',
 }
+
+const scrollbar = ref(null)
+
+onMounted(() => {
+  console.log(scrollbar.value.update)
+})
 </script>
 
 <style lang="less" scoped>
@@ -30,7 +39,6 @@ const customTheme = {
   width: 240px;
   height: calc(100vh - var(--header-height));
   border-right: 1px solid var(--border-color);
-  overflow-y: auto;
   .menu{
     width: 100%;
   }

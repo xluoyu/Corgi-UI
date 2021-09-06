@@ -6,11 +6,12 @@ export interface IMenuItem {
   path?: string
   children?: IMenuItem[]
   type?: 'group' | 'item'
+  component?: string
 }
 
-export interface MeunItemWithComponent extends IMenuItem {
-  component: string
-}
+// export interface MeunItemWithComponent extends IMenuItem {
+//   component: string
+// }
 
 export enum EMenuType {
   group = 'CgMenuGroup',
