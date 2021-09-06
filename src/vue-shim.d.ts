@@ -5,3 +5,8 @@ declare module '*.vue' {
   }
   export default component
 }
+
+declare module '*.md' {
+  import { defineComponent } from 'vue'
+  export default defineComponent
+}

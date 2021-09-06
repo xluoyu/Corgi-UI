@@ -1,3 +1,5 @@
+import { RouteRecordRaw } from 'vue-router'
+
 const routes = [
   {
     path: '/',
@@ -33,6 +35,6 @@ const routes = [
     path: '/:pathMatch(.*)*',
     redirect: '/',
   },
-]
+] as RouteRecordRaw[]
 
 export default routes

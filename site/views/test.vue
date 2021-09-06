@@ -38,12 +38,6 @@
         <div class="main" :style="{height: mainHeight + 'px'}"></div>
       </cg-scrollbar>
     </div>
-
-    <div>
-      <cg-valid-code v-model="code" time="60" :get-code="getCode" />
-
-      <cg-button @click="submit">提交</cg-button>
-    </div>
   </div>
 </template>
 
@@ -79,19 +73,6 @@ const loadMore = () => {
   mainHeight.value = height + 'px'
   console.log(scroll)
   scroll.value.update()
-}
-
-
-const code = ref('')
-const getCode = () => {
-  return new Promise(resolve => {
-    setTimeout(() => {
-      resolve()
-    }, 200)
-  })
-}
-const submit = () => {
-  console.log(code.value)
 }
 </script>
 
