@@ -45,7 +45,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Edit } from '@element-plus/icons'
-import { useCopy } from '@corgi/index'
+import { useCopy } from 'corgi-box/index'
 import {CgButton} from '../../es'
 
 let size = ref('medium')
@@ -83,13 +83,8 @@ let scroll = ref(null)
 const loadMore = () => {
   height += 400
   mainHeight.value = height + 'px'
-<<<<<<< HEAD
-  console.log(scroll)
-  scroll.value.update()
-=======
   console.log($raw(scroll))
   scroll.update()
->>>>>>> 63affdf95f8fd66747e8123ff439286fb5025758
 }
 </script>
 

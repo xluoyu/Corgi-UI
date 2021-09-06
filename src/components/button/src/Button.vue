@@ -40,7 +40,7 @@ const props = {
 }
 
 
-export type ButtonProps = typeof props
+export type propsType = typeof props
 
 export default defineComponent({
   name: 'CgButton',

@@ -1,5 +1,5 @@
 import { createApp } from 'vue'
-import Corgi from '../es'
+import Corgi from 'corgi-box'
 import App from './App.vue'
 import MdComponent from './views/component/page/demo-box.vue'
 import Demos from './views/component/page/demos.vue'

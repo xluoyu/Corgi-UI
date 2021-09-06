@@ -123,36 +123,42 @@ const getTypes = async() => {
 
   for (const sourceFile of sourceFiles) {
     // 生成文件的地址链接
-    const sourceFilePathName = sourceFile.getFilePath()
-    sourceFile.getExportDeclarations().map(modifySpecifier)
-    sourceFile.getImportDeclarations().map(modifySpecifier)
+    // const sourceFilePathName = sourceFile.getFilePath()
 
-    function modifySpecifier(d) {
-      if (!d) return
-      const specifier = d.getModuleSpecifierValue()
-      if (specifier) {
-        let importAliasKey = importAliasKeys.find(e => specifier.includes(e))
-        if (!importAliasKey) return
-        const importItem = specifier.slice(importAliasKey.length)
-        let replacer = importAlias[importAliasKey] + importItem
-        let originalPath = path.relative(sourceFilePathName, ROOT_PATH)
-        if (sourceFilePathName.includes('src/components')) {
-          originalPath = originalPath.slice(6) // 减去两级 ../../
-        }
-        if (sourceFilePathName.includes('src/hooks')) {
-          originalPath = originalPath.slice(3) // 减去一级 ../
-        }
-        if (!originalPath) {
-          originalPath = '.'
-        }
-        d.setModuleSpecifier(originalPath + replacer)
-      }
-    }
+    // sourceFile.getExportDeclarations().map(modifySpecifier)
+    // sourceFile.getImportDeclarations().map(modifySpecifier)
+
+    // function modifySpecifier(d) {
+    //   if (!d) return
+    //   const specifier = d.getModuleSpecifierValue()
+    //   if (specifier) {
+    //     let importAliasKey = importAliasKeys.find(e => specifier.includes(e))
+    //     if (!importAliasKey) return
+    //     const importItem = specifier.slice(importAliasKey.length)
+    //     let replacer = importAlias[importAliasKey] + importItem
+    //     let originalPath = path.relative(sourceFilePathName, ROOT_PATH)
+    //     if (sourceFilePathName.includes('src/components')) {
+    //       originalPath = originalPath.slice(6) // 减去两级 ../../
+    //     }
+    //     if (sourceFilePathName.includes('src/hooks')) {
+    //       originalPath = originalPath.slice(3) // 减去一级 ../
+    //     }
+    //     if (!originalPath) {
+    //       originalPath = '.'
+    //     }
+    //     d.setModuleSpecifier(originalPath + replacer)
+    //   }
+    // }
 
     const emitOutput = sourceFile.getEmitOutput()
     for (const outputFile of emitOutput.getOutputFiles()) {
       const filepath = outputFile.getFilePath()
-      await fs.promises.writeFile(filepath, outputFile.getText(), 'utf-8')
+      await fs.promises.writeFile(filepath,
+        outputFile.getText()
+          .replace(new RegExp('@components/', 'g'), 'corgi-box/cg-')
+          .replace(new RegExp('@utils', 'g'), 'corgi-box/utils')
+          .replace(new RegExp('@hooks', 'g'), 'corgi-box/hooks')
+        , 'utf-8')
     }
   }
 }
