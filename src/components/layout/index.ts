@@ -5,6 +5,5 @@ Layout.install = app => {
   app.component(Layout.name, Layout)
 }
 
-const _Layout = Layout as SFCWithInstall<typeof Layout>
+export const CgLayout = Layout as SFCWithInstall<typeof Layout>
 
-export default _Layout

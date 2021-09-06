@@ -1,9 +1,11 @@
 <script lang="tsx">
-import { defineComponent, PropType, computed, inject } from 'vue'
+import { defineComponent, computed, inject } from 'vue'
 import { assignThemecustom, isLight } from '@utils/index'
 import { IThemeCssVar } from '@utils/type'
 import { isString } from '@utils/typeTool'
 import styleVar from './styleVar'
+
+import type { PropType } from 'vue'
 
 const props = {
   attrType: {
@@ -37,26 +39,14 @@ const props = {
   onClick: [Function, Array],
 }
 
+
+export type ButtonProps = typeof props
+
 export default defineComponent({
   name: 'CgButton',
   props,
   setup (props) {
     const customTheme = inject<IThemeCssVar>('theme', {})
-
-    // const handleClick = (e: MouseEvent) => {
-    //   const { onClick } = props
-    //   if (onClick) {
-    //     if (isFunction(onClick)) {
-    //       onClick(e)
-    //     } else if (isArray(onClick)) {
-    //       onClick.forEach(fn => {
-    //         isFunction(fn) ? fn(e) : warn('button', '传入的onClick无法执行')
-    //       })
-    //     } else {
-    //       warn('button', '传入的onClick无法执行')
-    //     }
-    //   }
-    // }
 
     let cssVar = computed(() => {
       let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : Object.assign({}, styleVar)

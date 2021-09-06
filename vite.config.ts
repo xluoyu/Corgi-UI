@@ -23,6 +23,10 @@ export default defineConfig({
         find: '@site',
         replacement: path.resolve(__dirname, './site'),
       },
+      {
+        find: '@corgi',
+        replacement: path.resolve(__dirname, './src'),
+      },
     ],
   },
 })

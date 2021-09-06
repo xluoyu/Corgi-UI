@@ -15,7 +15,7 @@ const TSCONFIG_PATH = getFilePath('../tsconfig.json')
 const getTypes = async() => {
   const project = new Project({
     compilerOptions: {
-      allowJs: true,
+      allowJs: false,
       declaration: true, // 生成声明文件
       noEmitOnError: false, // 发送错误时不输出任何文件
       outDir: getFilePath('../types'),
@@ -28,6 +28,7 @@ const getTypes = async() => {
       exclude: [
         'node_modules',
       ],
+      skipLibCheck: true,
     },
     tsConfigFilePath: TSCONFIG_PATH,
     skipAddingFilesFromTsConfig: true,

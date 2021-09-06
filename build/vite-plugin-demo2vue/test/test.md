@@ -1,10 +1,3 @@
----
-codeBox: 'fill'
-tag: 
-  -aaa
-  -ddd
----
-
 <!-- codeBoxFill -->
 
 # 这是测试

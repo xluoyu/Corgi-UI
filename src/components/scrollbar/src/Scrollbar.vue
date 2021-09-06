@@ -2,6 +2,10 @@
   <div
     :class="[
       'cg-scrollbar',
+      {
+        'cg-scrollbar-hover': show == 'hover',
+        'cg-scrollbar-never': show == 'never',
+      }
     ]"
   >
     <div
@@ -19,13 +23,21 @@
       </div>
     </div>
 
-    <div :ref="el => vertical.el = el" class="scrollbar-vertical">
+    <div
+      v-if="y"
+      :ref="el => vertical.el = el"
+      class="scrollbar-vertical"
+      :class="[scrollClass]"
+      :style="[scrollStyle]"
+    >
       <div
+        v-if="vertical.thrumbHeight < vertical.height"
         class="scrollbar-thrumb scrollbar-thrumb--vertical"
-        :style="{
+        :class="[thrumbClass]"
+        :style="[thrumbStyle, {
           height: vertical.thrumbHeight + 'px',
-          transform: `translateY(${vertical.thrumbY}px)`
-        }"
+          transform: `translateY(${vertical.thrumbY}px)`,
+        }]"
         @mousedown="thrumbVerticalMouseDown"
       >
       </div>
@@ -47,7 +59,7 @@
 <script lang="ts">
 import { assignThemecustom } from '@utils/index'
 import { IThemeCssVar } from '@utils/type'
-import { computed, defineComponent, inject, onMounted, PropType, reactive, Ref, ref } from 'vue'
+import { computed, defineComponent, inject, nextTick, onMounted, PropType, reactive, Ref, ref } from 'vue'
 import styleVar from './styleVar'
 
 interface IVertical {
@@ -80,11 +92,12 @@ export default defineComponent({
     loadHeight: Number,
     loadMore: Function,
   },
-  setup (props) {
+  setup (props, { expose }) {
     const customTheme = inject<IThemeCssVar>('theme', {})
 
     const containerEl: Ref<null | HTMLElement> = ref(null)
     let containerHeight = 0
+    let contentHeight = 0
     const contentEl: Ref<null | HTMLElement> = ref(null)
     const verticalEl: Ref<null | HTMLElement> = ref(null)
     const vertical = reactive<IVertical>({
@@ -94,10 +107,15 @@ export default defineComponent({
       thrumbY: 0,
     })
 
-
+    // 计算thrumb的高度
+    /**
+     * containerHeight 外部盒子高度 即一个屏幕的高度
+     * contentHeight 内容高度 根据内容无限拉伸
+     * vertical.height 滚动条的轨道高度 等同于 外部盒子高度
+     * thrumbHeight = 盒子高度与内容高度的比值 * 滚动条轨道的高度
+     */
     const getVerticalHeight = () => {
-      let contentH = (contentEl.value as HTMLElement).clientHeight as number
-      vertical.thrumbHeight = containerHeight / contentH * vertical.height
+      vertical.thrumbHeight = containerHeight / contentHeight * vertical.height
     }
 
     let hasLoad = false
@@ -115,19 +133,51 @@ export default defineComponent({
       })
     }
 
-    const update = () => {
-      hasLoad = false
+    /**
+     * 初始化
+     */
+    const init = () => {
+      containerHeight = containerEl.value.clientHeight
+      vertical.height = vertical.el.clientHeight
+      contentHeight = contentEl.value.clientHeight
       getVerticalHeight()
     }
 
     onMounted(() => {
-      containerHeight = (containerEl.value as HTMLElement).clientHeight as number
-      vertical.height = (vertical.el as HTMLElement).clientHeight as number
-
-      getVerticalHeight()
+      init()
       addScroll()
+
+      window.addEventListener('resize', init)
+
+      const observer = new MutationObserver(() => {
+        if (contentHeight === contentEl.value.clientHeight) {
+          return
+        }
+        contentHeight = contentEl.value.clientHeight
+        init()
+      })
+      observer.observe(contentEl.value, {
+        attributes: true,
+        childList: true,
+        characterData: true,
+        subtree: true,
+      })
     })
 
+    const update = () => {
+      hasLoad = false
+      getVerticalHeight()
+    }
+    /**
+     * 对外暴露事件
+     */
+    expose({
+      update,
+    })
+
+    /**
+     * 添加鼠标拖动事件
+     */
     const thrumbVerticalMouseDown = e => {
       e.stopPropagation()
       let start = e.pageY
@@ -196,19 +246,30 @@ export default defineComponent({
     top: 2px;
     bottom: 2px;
     z-index: 2;
+    border-radius: 8px;
   }
   .scrollbar-thrumb{
     position: relative;
-    width: 4px;
+    width: 5px;
     height: 40px;
     background: v-bind('cssVar.color');
     border-radius: 8px;
-    transform: translateY();
     opacity: .4;
     cursor: pointer;
     user-select: none;
     &:hover{
       opacity: .7;
+    }
+  }
+}
+
+.cg-scrollbar.cg-scrollbar-hover {
+  .scrollbar-thrumb{
+    display: none;
+  }
+  &:hover{
+    .scrollbar-thrumb{
+      display: block;
     }
   }
 }

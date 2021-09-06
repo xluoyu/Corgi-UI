@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { defineComponent, PropType, computed, provide } from 'vue'
-import { EMenuType, IMenuItem, MeunItemWithComponent } from './type'
+import { EMenuType, IMenuItem } from './type'
 import itemRender from './itemRender'
 
 export default defineComponent({
@@ -22,12 +22,11 @@ export default defineComponent({
   setup (props) {
     provide('indent', props.space)
     const menuList = computed(() => {
-      return props.list.map((e: MeunItemWithComponent) => {
+      return props.list.map(e => {
         e.component = e.type ? EMenuType[e.type] : 'CgMenuItem'
         return e
       })
     })
-    console.log(menuList.value)
 
     return {
       menuList,
