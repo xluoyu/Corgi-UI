@@ -1,7 +1,7 @@
 const { nodeResolve } = require('@rollup/plugin-node-resolve') // 告诉 Rollup 如何查找外部模块
 const esbuild = require('rollup-plugin-esbuild')
 const fs = require('fs-extra') // 写文件
-const { INPUT_PATH, OUTPUT_PATH, onwarn } = require('./config')
+const { INPUT_PATH, OUTPUT_PATH, onwarn, PREFIX } = require('./config')
 
 const plugins = [
   nodeResolve(),
@@ -19,8 +19,8 @@ const hooks = fs.readdirSync(`${INPUT_PATH}/hooks`).filter(e => e !== 'test').ma
       file: `${OUTPUT_PATH}/hooks/${name}.js`,
       format: 'es',
       paths: id => {
-        if (/@utils/.test(id)) {
-          return '../utils/' + id.slice('@utils/'.length)
+        if (/@corgi/.test(id)) {
+          return PREFIX + id.slice('@corgi'.length)
         }
       },
     },

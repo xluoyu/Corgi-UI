@@ -57,8 +57,8 @@
 </template>
 
 <script lang="ts">
-import { assignThemecustom } from '@utils/index'
-import { IThemeCssVar } from '@utils/type'
+import { assignThemecustom } from '@corgi/utils/index'
+import { IThemeCssVar } from '@corgi/utils/type'
 import { computed, defineComponent, inject, nextTick, onMounted, PropType, reactive, Ref, ref } from 'vue'
 import styleVar from './styleVar'
 

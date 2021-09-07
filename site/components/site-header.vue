@@ -5,7 +5,7 @@
       <span>Corgi UI</span>
     </div>
     <div class="nav-menu">
-      <cg-menu :list="menuOptions" mode="horizontal" />
+      <cg-menu :list="menuOptions" mode="horizontal" is-router />
     </div>
     <div class="nav-end"></div>
   </div>

@@ -1,4 +1,4 @@
-import { SFCWithInstall } from '@utils/type'
+import { SFCWithInstall } from '@corgi/utils/type'
 import Icon from './src/Icon.vue'
 
 Icon.install = app => {

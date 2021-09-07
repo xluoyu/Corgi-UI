@@ -1,4 +1,11 @@
 import { RouteRecordRaw } from 'vue-router'
+import menuConf from '../menu.conf'
+
+// const
+
+// const getComponentDemo = () => {
+//   menuConf =
+// }
 
 const routes = [
   {

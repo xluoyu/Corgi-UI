@@ -1,31 +1,107 @@
-## 2021-08-17
-这是这个项目的第一篇日记。之前封装组件都是些小打小闹，这次打算认真地做出一个自己的组件库。
+## 写在前面
+
+这是一篇开发日记，也不能说是日记，因为我不知道什么时候才会更新一次，还要看工作安排以及个人心情？
+
+这次打算认真的做出一个自己的组件库，然而我并不想局限于组件，还打算额外编写一些周边（比如：开发组件库用的cli、vue3常用的hooks、最后基于这个组件库的admin等等吧）
 
 项目的名称暂且命名为Corgi（柯基）
 
-大致翻看了`elementui`和`NaiveUI`的源码，最后还是决定仿照`NaiveUI`的框架来写
+## 2021-08-17
+
+这是这个项目的第一篇日记。
+
+#### 关于整体结构
+
+大致翻看了`elementui`和`NaiveUI`的源码，最后还是决定依照自己的风格来构建
 
 ```js
 Corgi-UI                   
-├─ build                     // 主要用于demo.md / note.md的解析工作
-├─ demo                      // 这是组件库展示用的项目     
+├─ build                     // 主要编译打包之类的工作工作
+├─ corgi-cli				 // 一个小的工具组，可以命令式地创建新组件、模块
+├─ site                      // 这是组件库展示用的项目     
 ├─ notes                     // 用于写笔记
 ├─ src                       // 主目录
-│  ├─ components             // 封装组件   
-│  ├─ styles                   
-│  └─  utils                 // 后续的话打算在这里增加一些对指令、Hooks工具的封装
+│  ├─ components             // 封装组件 
+│  ├─ hooks             	 // 用来写hooks
+│  ├─ utils             	 // 用来写utils
+│  └─ index.ts               
 └─ index.html                 
 ```
 
 目前只是先大致列出了项目的结构，后续可能会再做出调整
 
-### 关于markdown的解析
+尽可能地选用最新的工具，目前使用了 `vite` + `vue3` + `ts` + `rollup`
 
-当前的难点：markdown的解析。
+后续还会加上`lerna`来做包管理
 
-md解析好麻烦啊，之前没有做过。
+`css`方面使用了`less`，其实使用`less`的主要原因还是因为`css`的嵌套写法比较顺手，再加上可以使用一些工具类
 
-简单分析了`Naive`的md解析，编写了一个`vite`插件，在调用md时触发编译操作，通过使用`marked`来解析md文件，对于不同的内容形式标签做了个性化处理`在源码的 build -> loaders -> md-renderer`, 写入自定义的`className`、样式、标签结构。
+关于`css`与`js`的交互，使用了`vue3`的`v-bind`函数，它的原理就是将`js`变量绑定到标签上，使其成为`css3`的变量，然后在后续的`css`中使用。这种`cssInJs`的方式比手动绑定变量要方便许多。
+
+打通了`css`与`js`，之后就是关于组件库主题之类的配置
+
+#### 自定义主题
+
+采用了`naive-ui`的方法，定义了一个叫做`themeConfig`的组件，可以传递罗列出的各种预设变量
+
+```js
+  fontSizeH1: '24px', // 大标题
+  fontSizeH2: '18px', // 标题
+  fontSizeH3: '16px', // 小标题
+  fontSizeH4: '14px', // 正文
+  fontSizeH5: '12px', // 辅助文字
+  fontColor: '#333',
+  fontColor2: '#666',
+  fontColor3: '#999',
+
+  pMargin: '10px',
+
+  hoverTheme: '#F4AD5A',
+```
+
+组件内部将传递进来的变量通过`provide`的方式绑定到实例中，在后续的子组件内都可以使用`inject`访问到用户传递进来的变量，然后就是预设变量与自定义变量的整合，再导出到`css`中
+
+> 后来看到`element-plus`新版本也推出了`Config Provider`组件，不过是用来定义语言的。
+
+目前还没有做国际化的打算，还是先等组件数量起来之后再完善吧。
+
+#### 关于markdown的解析
+
+分析了一下`naive`和`element-plus`编写组件文档的方式，
+
+首先存放位置方面
+
+`element-plus`将全部的md文件放置在`website`目录下，这是做官网展示时用到的目录，
+
+`naive`则将是在各个组件的目录下建立demo来存放md文件。
+
+关于两种放置位置，只能说看个人习惯吧....我的习惯和`naive`相同。
+
+> 目前的难点：markdown的解析。
+
+`naive`和`element-plus`的md解析选择了不同的解析工具[marked](https://github.com/markedjs/marked)、[markdown-it](https://github.com/markdown-it/markdown-it)
+
+使用解析工具对md进行分析，做出个性化处理，导出html。
+
+这里就选择`marked`吧。
+
+首先是md文件的载入。
+
+使用`vue-router`直接载入md文件
+
+![image-20210907170538651](https://xluoyu.github.io/image-riverbed/images/image-20210907170538651.png)
+
+当然这样是渲染不出来的，甚至会报错。
+
+我们现在要做的是在vue调用md文件时，对md文件进行解析编译，导出成vue可识别的文件类型。
+
+通过`vite`插件就可以实现这种操作。[vite插件写法](!https://cn.vitejs.dev/guide/api-plugin.html)
+
+![image-20210907174234109](https://i.loli.net/2021/09/07/5ziBagd7DXe2lcv.png)
+
+
+
+在调用md时触发编译操作，通过使用`marked`来解析md文件，对于不同的内容形式标签做了个性化处理`在源码的 build -> loaders -> md-renderer`, 写入自定义的`className`、样式、标签结构。
 
 划分了doc与demo的区别
 

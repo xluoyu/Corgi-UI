@@ -1,4 +1,4 @@
-import { SFCWithInstall } from '@utils/type'
+import { SFCWithInstall } from '@corgi/utils/type'
 import Validcode from './src/Validcode.vue'
 
 Validcode.install = app => {

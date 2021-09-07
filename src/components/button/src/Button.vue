@@ -1,8 +1,8 @@
 <script lang="tsx">
 import { defineComponent, computed, inject } from 'vue'
-import { assignThemecustom, isLight } from '@utils/index'
-import { IThemeCssVar } from '@utils/type'
-import { isString } from '@utils/typeTool'
+import { assignThemecustom, isLight } from '@corgi/utils/index'
+import { IThemeCssVar } from '@corgi/utils/type'
+import { isString } from '@corgi/utils/typeTool'
 import styleVar from './styleVar'
 
 import type { PropType } from 'vue'

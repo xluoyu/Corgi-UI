@@ -7,6 +7,7 @@ const { Project } = require('ts-morph')
 const vueCompiler = require('@vue/compiler-sfc')
 const klawSync = require('klaw-sync')
 const ora = require('ora')
+const { PREFIX } = require('./config')
 
 const getFilePath = url => path.resolve(__dirname, url)
 
@@ -15,15 +16,13 @@ const TSCONFIG_PATH = getFilePath('../tsconfig.json')
 const getTypes = async() => {
   const project = new Project({
     compilerOptions: {
-      allowJs: false,
+      allowJs: true,
       declaration: true, // 生成声明文件
       noEmitOnError: false, // 发送错误时不输出任何文件
       outDir: getFilePath('../types'),
       baseUrl: getFilePath('../'),
       paths: {
-        '@components/*': ['src/components/*'],
-        '@hooks/*': ['src/hooks/*'],
-        '@utils/*': ['src/utils/*'],
+        '@corgi/*': ['src/*'],
       },
       exclude: [
         'node_modules',
@@ -155,9 +154,8 @@ const getTypes = async() => {
       const filepath = outputFile.getFilePath()
       await fs.promises.writeFile(filepath,
         outputFile.getText()
-          .replace(new RegExp('@components/', 'g'), 'corgi-box/cg-')
-          .replace(new RegExp('@utils', 'g'), 'corgi-box/utils')
-          .replace(new RegExp('@hooks', 'g'), 'corgi-box/hooks')
+          .replace(new RegExp('@corgi/components', 'g'), '@corgi')
+          .replace(new RegExp('@corgi', 'g'), PREFIX)
         , 'utf-8')
     }
   }

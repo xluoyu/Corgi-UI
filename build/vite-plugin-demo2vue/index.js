@@ -21,11 +21,13 @@ const getTargetFile = async path => {
 const transformDemo = () => {
   const demoVitePlugin = {
     name: 'transform-demo',
+    // 传入时的钩子
     transform(src, id) {
       if (mdReg.test(id)) {
         return getTargetFile(id)
       }
     },
+    // 热更新
     async handleHotUpdate (ctx) {
       const { file } = ctx
       if (mdReg.test(file)) {

@@ -1,4 +1,4 @@
-import { SFCWithInstall } from '@utils/type'
+import { SFCWithInstall } from '@corgi/utils/type'
 import Layout from './src/Layout.vue'
 
 Layout.install = app => {

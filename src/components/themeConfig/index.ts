@@ -1,4 +1,4 @@
-import { SFCWithInstall } from '@utils/type'
+import { SFCWithInstall } from '@corgi/utils/type'
 import ThemeConfig from './src/ThemeConfig.vue'
 
 ThemeConfig.install = app => {

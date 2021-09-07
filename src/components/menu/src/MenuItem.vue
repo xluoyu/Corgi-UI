@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { computed, defineComponent, PropType } from 'vue'
+import { computed, defineComponent, inject, PropType } from 'vue'
 import { IMenuItem } from './type'
 import styleVar from './styleVar'
 export default defineComponent({
@@ -12,6 +12,8 @@ export default defineComponent({
     space: Number,
   },
   setup (props) {
+    const base = inject('base', '')
+    const isRouter = inject('isRouter', false)
     const cssVar = computed(() => {
       return Object.assign({}, styleVar, {
         paddingLeft: props.space + 'px',
@@ -20,12 +22,17 @@ export default defineComponent({
 
     return {
       cssVar,
+      base,
+      isRouter,
     }
   },
   render () {
     return (
       <div class="cg-menu-item">
-        <a href={this.options.path}>{this.options.label}</a>
+        {
+          this.isRouter ? <a href={this.base + this.options.path}>{this.options.label}</a>
+            : this.options.label
+        }
       </div>
     )
   },

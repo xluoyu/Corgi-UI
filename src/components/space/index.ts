@@ -1,4 +1,4 @@
-import { SFCWithInstall } from '@utils/type'
+import { SFCWithInstall } from '@corgi/utils/type'
 import Space from './src/Space.vue'
 
 Space.install = app => {

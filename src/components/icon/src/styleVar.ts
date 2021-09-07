@@ -1,4 +1,4 @@
-import cssvar from '@components/style/index'
+import cssvar from '@corgi/components/style/index'
 
 const IconVar = {
 

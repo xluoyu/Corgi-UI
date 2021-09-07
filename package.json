@@ -1,12 +1,12 @@
 {
   "name": "corgi-box",
-  "version": "0.0.0-beta0.0.9",
-  "main": "es/index.esm.js",
+  "version": "0.0.0-beta0.2.3",
+  "main": "es/index.js",
   "module": "es/index.js",
   "scripts": {
     "dev": "vite",
     "tsc": "tsc -b --force tsconfig.esm.json",
-    "build": "rimraf es && yarn build:components && yarn build:hooks && yarn build:type && yarn build:merge",
+    "build": "rimraf es && yarn build:comps && yarn build:hooks && yarn build:type && yarn build:merge",
     "build:site": "vue-tsc --noEmit && vite build",
     "build:comps": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.components.config.js",
     "build:hooks": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.hooks.config.js",
@@ -68,7 +68,7 @@
   },
   "sideEffects": false,
   "files": [
-    "lib",
+    "es",
     "README.md"
   ]
 }

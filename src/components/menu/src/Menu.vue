@@ -18,9 +18,14 @@ export default defineComponent({
       type: Array as PropType<IMenuItem[]>,
       dafault: [],
     },
+    base: String,
+    isRouter: Boolean,
   },
   setup (props) {
     provide('indent', props.space)
+    provide('base', props.base || '')
+    provide('isRouter', props.isRouter)
+
     const menuList = computed(() => {
       return props.list.map(e => {
         e.component = e.type ? EMenuType[e.type] : 'CgMenuItem'

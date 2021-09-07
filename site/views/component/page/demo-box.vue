@@ -31,7 +31,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useToggle } from '@hooks/useToggle'
+import { useToggle } from '@corgi/hooks/useToggle'
 import { ref, watch } from 'vue'
 import hljs from '../../../utils/hljs'
 import { useCompoent } from '../hooks/compoent'

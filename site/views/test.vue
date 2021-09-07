@@ -45,8 +45,7 @@
 <script lang="ts" setup>
 import { ref } from 'vue'
 import { Edit } from '@element-plus/icons'
-import { useCopy } from 'corgi-box/index'
-import {CgButton} from '../../es'
+import { useCopy } from 'corgi-box'
 
 let size = ref('medium')
 const clickHandle = () => {

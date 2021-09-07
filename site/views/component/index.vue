@@ -2,7 +2,7 @@
   <div class="container">
     <aside class="cg-nav">
       <cg-scrollbar ref="scrollbar" y>
-        <cg-menu :list="menuList" />
+        <cg-menu :list="menuList" is-router />
       </cg-scrollbar>
       <div class="shrink"></div>
     </aside>

@@ -1,4 +1,4 @@
-import { SFCWithInstall } from '@utils/type'
+import { SFCWithInstall } from '@corgi/utils/type'
 import Menu from './src/Menu.vue'
 
 Menu.install = app => {
