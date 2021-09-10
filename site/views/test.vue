@@ -1,5 +1,8 @@
 <template>
+
   <div style="margin: 20px">
+    <testbox ref="testRef"></testbox>
+
     <cg-theme-config :theme="themeConfig">
       <cg-button size="tiny" style="margin-right: 10px;" type="error">tiny</cg-button>
       <cg-button size="small" style="margin-right: 10px;" type="success">small</cg-button>
@@ -29,6 +32,10 @@
       <edit />
     </cg-icon>
 
+    <div style="width: 33px;
+height: 36px;
+background: linear-gradient(180deg, #305ACB 0%, #1B3B99 100%);"></div>
+
     <div class="test-scrollbar">
       <cg-scrollbar
         ref="scroll"
@@ -39,13 +46,18 @@
         <div class="main" :style="{height: mainHeight + 'px'}"></div>
       </cg-scrollbar>
     </div>
+
   </div>
+
+
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import { Edit } from '@element-plus/icons'
 import { useCopy } from 'corgi-box'
+import Testbox from '../components/testbox.vue'
+
 
 let size = ref('medium')
 const clickHandle = () => {
@@ -82,9 +94,13 @@ let scroll = ref(null)
 const loadMore = () => {
   height += 400
   mainHeight.value = height + 'px'
-  console.log($raw(scroll))
-  scroll.update()
+  scroll.value.update()
 }
+
+const testRef = ref(null)
+onMounted(() => {
+  testRef.value.say()
+})
 </script>
 
 

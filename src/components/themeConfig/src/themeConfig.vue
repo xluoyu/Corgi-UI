@@ -1,6 +1,7 @@
 
 <script lang="ts">
 import { defineComponent, provide } from 'vue'
+import cssvar from '@corgi/components/style/index'
 
 export default defineComponent({
   name: 'CgThemeConfig',
@@ -13,6 +14,7 @@ export default defineComponent({
   setup (props) {
     if (props.theme) {
       provide('theme', props.theme)
+      Object.assign(cssvar, props.theme)
     }
     return {}
   },

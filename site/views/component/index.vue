@@ -1,13 +1,13 @@
 <template>
   <div class="container">
     <aside class="cg-nav">
-      <cg-scrollbar ref="scrollbar" y>
-        <cg-menu :list="menuList" is-router />
+      <cg-scrollbar y>
+        <cg-menu :list="menuList" is-router :active-key="activeKey" />
       </cg-scrollbar>
       <div class="shrink"></div>
     </aside>
     <div class="main">
-      <cg-scrollbar y show="always">
+      <cg-scrollbar y show="hover">
         <router-view />
       </cg-scrollbar>
     </div>
@@ -17,18 +17,12 @@
 <script lang="ts" setup>
 import MenuList from '@site/menu.conf'
 import { ref, onMounted } from 'vue'
+import { useRoute } from 'vue-router'
 
 let menuList = MenuList
 
-const customTheme = {
-  color: '#c33696',
-}
-
-const scrollbar = ref(null)
-
-onMounted(() => {
-  console.log(scrollbar.value.update)
-})
+const activeKey = useRoute().name
+console.log(activeKey)
 </script>
 
 <style lang="less" scoped>

@@ -28,7 +28,7 @@ const MenuList: IMenuObj[] = [
       {
         path: 'scrollbar',
         label: 'ScrollBar 滚动条',
-        key: 'scrollBar',
+        key: 'scrollbar',
       },
     ],
   },

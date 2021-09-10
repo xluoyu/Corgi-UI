@@ -1,6 +1,6 @@
 <script lang="tsx">
 import { computed, defineComponent, inject, PropType } from 'vue'
-import { IMenuItem } from './type'
+import { IMenuItem, menuProvideKey } from './type'
 import styleVar from './styleVar'
 export default defineComponent({
   name: 'CgMenuItem',
@@ -12,25 +12,50 @@ export default defineComponent({
     space: Number,
   },
   setup (props) {
-    const base = inject('base', '')
-    const isRouter = inject('isRouter', false)
+    const {
+      menuProps,
+      activeKey,
+      changeActive,
+    } = inject(menuProvideKey)
+
+
     const cssVar = computed(() => {
       return Object.assign({}, styleVar, {
         paddingLeft: props.space + 'px',
       })
     })
 
+    const handleClick = () => {
+      changeActive(props.options.key)
+      console.log(props.options.key)
+    }
+
+    const isActive = computed(() => activeKey.value === props.options.key)
+
     return {
       cssVar,
-      base,
-      isRouter,
+      pathBase: menuProps.pathBase || '',
+      activeStyle: menuProps.activeStyle || '',
+      itemClass: menuProps.itemClass || '',
+      isActive,
+      handleClick,
     }
   },
   render () {
     return (
-      <div class="cg-menu-item">
+      <div
+        class={[
+          'cg-menu-item',
+          {
+            'cg-menu-item--active': this.isActive,
+          },
+          this.itemClass,
+        ]}
+        style={this.activeStyle}
+        onClick={this.handleClick}
+      >
         {
-          this.isRouter ? <a href={this.base + this.options.path}>{this.options.label}</a>
+          this.options.path ? <router-link to={this.pathBase + this.options.path}>{this.options.label}</router-link>
             : this.options.label
         }
       </div>
@@ -48,13 +73,21 @@ export default defineComponent({
   align-items: center;
   cursor: pointer;
   color: #333;
-  border-radius: v-bind('cssVar.radiusMini');
+  // border-radius: v-bind('cssVar.radiusMini');
+  position: relative;
   &:hover{
-    // background: v-bind('cssVar.theme');
     color: v-bind('cssVar.theme');
+  }
+  &.cg-menu-item--active{
+    color: v-bind('cssVar.activeColor');
+    background-color: v-bind('cssVar.activeBackground');
   }
   a{
     color: inherit;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
     text-decoration: none;
   }
 }

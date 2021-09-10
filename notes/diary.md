@@ -99,8 +99,6 @@ Corgi-UI
 
 ![image-20210907174234109](https://i.loli.net/2021/09/07/5ziBagd7DXe2lcv.png)
 
-
-
 在调用md时触发编译操作，通过使用`marked`来解析md文件，对于不同的内容形式标签做了个性化处理`在源码的 build -> loaders -> md-renderer`, 写入自定义的`className`、样式、标签结构。
 
 划分了doc与demo的区别
@@ -234,26 +232,6 @@ ok，写这篇日记的时候已经20号了。
 其实对于cli来讲，需要做的功能大致就是命令交互，然后将特定信息导入到模板中，生成项目架构。
 
 嗯嗯，理想很丰满，但愿可以实现。
-
-## 2021-08-20
-
-今天终于把md的解析做了出来，虽然大部分的想法都是节点`naiveUI`的，但好歹出口来效果了。
-
-![image-20210820225130249](https://cdn.jsdelivr.net/gh/xluoyu/image-riverbed@latest/images/image-20210820225130249.png)
-
-顿时觉得自己帮帮的。
-
-下一步就是把首页做好，然后先开发首页搭建要用的组件
-
-目前计划是：
-
-菜单
-
-弹框
-
-布局
-
-加油吧~！
 
 ## 2021-08-25
 已经是25号了，今天终于把打包搞定了。
@@ -610,4 +588,75 @@ function deleteFolderRecursive(path) {
 因为这次做打包的目的就是奔着按需加载去的，所以打的都是ES包。
 
 在`package.json`中添加`"sideEffects": false`就可以在使用该组件库的项目打包时启用`tree shaking`功能，只打包用到的内容。
+
+注意： 配置了`"sideEffects": false`之后打包时会将`cssInJs`的代码去除掉，需要在打包时将该值设为`true`
+
+## 2021-09-01
+
+#### vue组件对外暴露
+
+`setup(props, content)`
+
+官网介绍`setup`的第二个参数包含`slots、attrs、emit`，但其实还有第四个隐藏函数`expose`
+
+`expose`与`<script setup>`中的 [defineExpose](https://v3.cn.vuejs.org/api/sfc-script-setup.html#defineexpose)一样，都是为了暴露组件中的一些属性
+
+```js
+// child 组件
+setup(props, {expose}) {
+  expose({
+    update: () => {console.log('我更新了')}
+  })
+}
+
+// 父组件
+<child ref="childRef"></child>
+
+const childRef = ref(null)
+onMounted(() => {
+    childRef.value.update()
+})
+```
+
+在子组件使用这两方法后，父组件通过ref所获取子组件实例时就只能获得其对外暴露的属性了。
+
+*** 父组件使用子组件属性时记得要在子组件挂载之后在调用  ***
+
+#### 组件的循环调用
+
+这是在编写`Menu`组件时遇到的问题。由于需要用户传递`MenuList`然后通过动态组件去渲染，此时会造成组件的相互调用。
+
+比如说
+
+```js
+{
+    label: 'a组',
+    type: 'group',
+    children: [
+        {
+            label: 'A类',
+            type: 'submenu',
+            children: [
+                {
+                    label: 'A类-01组',
+                    type: 'group',
+                    children: [
+                        {
+                            label: '张三'
+                        }
+                    ]
+                }
+            ]
+        }
+    ]
+}
+```
+
+上面这组数据传入之后，需要调用`MenuGroup`组件，在`MenuGroup`组件中调用`MenuSubmenu`组件，然后`MenuSubmenu`组件又需要调用`MenuGroup`组件，当使用动态组件`<component :is='comp'/>` 时就会报错。
+
+解决方法，提取公用的render
+
+![image-20210910150656513](https://i.loli.net/2021/09/10/b3QH6RuGgetz8dE.png)
+
+去除各个子组件的相互引用，全部使用公用组件去加载不同的子组件。
 

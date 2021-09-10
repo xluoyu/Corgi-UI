@@ -1,6 +1,7 @@
 declare module '*.vue' {
   import { DefineComponent } from 'vue'
   const component: DefineComponent<{}, {}, any>
+  export interface Props {[name: string]: any;}
   export default component
 }
 

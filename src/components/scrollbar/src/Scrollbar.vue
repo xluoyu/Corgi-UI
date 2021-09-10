@@ -59,7 +59,7 @@
 <script lang="ts">
 import { assignThemecustom } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
-import { computed, defineComponent, inject, nextTick, onMounted, PropType, reactive, Ref, ref } from 'vue'
+import { computed, defineComponent, inject, onMounted, onUnmounted, PropType, reactive, Ref, ref } from 'vue'
 import styleVar from './styleVar'
 
 interface IVertical {
@@ -82,7 +82,7 @@ export default defineComponent({
     x: Boolean,
     show: {
       type: String as PropType<'always' | 'hover' | 'never'>,
-      default: 'hover',
+      default: 'always',
     },
     color: String,
     thrumbClass: String,
@@ -118,7 +118,6 @@ export default defineComponent({
       vertical.thrumbHeight = containerHeight / contentHeight * vertical.height
     }
 
-    let hasLoad = false
     const addScroll = () => {
       containerEl.value?.addEventListener('scroll', () => {
         let boxScrollTop = (containerEl.value as HTMLElement).scrollTop as number
@@ -126,8 +125,7 @@ export default defineComponent({
 
         vertical.thrumbY = boxScrollTop / contentH * vertical.height
 
-        if (props.loadMore && contentH - (boxScrollTop + containerHeight) < 50 && !hasLoad) {
-          hasLoad = true
+        if (props.loadMore && contentH - (boxScrollTop + containerHeight) < 50) {
           props.loadMore()
         }
       })
@@ -143,13 +141,14 @@ export default defineComponent({
       getVerticalHeight()
     }
 
+    let observer: MutationObserver
     onMounted(() => {
       init()
       addScroll()
 
       window.addEventListener('resize', init)
 
-      const observer = new MutationObserver(() => {
+      observer = new MutationObserver(() => {
         if (contentHeight === contentEl.value.clientHeight) {
           return
         }
@@ -163,16 +162,9 @@ export default defineComponent({
         subtree: true,
       })
     })
-
-    const update = () => {
-      hasLoad = false
-      getVerticalHeight()
-    }
-    /**
-     * 对外暴露事件
-     */
-    expose({
-      update,
+    onUnmounted(() => {
+      window.removeEventListener('resize', init)
+      observer.disconnect()
     })
 
     /**
@@ -210,7 +202,6 @@ export default defineComponent({
       verticalEl,
       vertical,
       containerEl,
-      update,
       thrumbVerticalMouseDown,
       contentEl,
       cssVar,
@@ -220,7 +211,6 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-
 .cg-scrollbar{
   width: 100%;
   height: 100%;
@@ -264,13 +254,11 @@ export default defineComponent({
 }
 
 .cg-scrollbar.cg-scrollbar-hover {
-  .scrollbar-thrumb{
+  > .scrollbar-vertical .scrollbar-thrumb{
     display: none;
   }
-  &:hover{
-    .scrollbar-thrumb{
-      display: block;
-    }
+  &:hover > .scrollbar-vertical .scrollbar-thrumb{
+    display: block;
   }
 }
 </style>
