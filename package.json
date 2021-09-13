@@ -1,6 +1,6 @@
 {
   "name": "corgi-box",
-  "version": "0.0.0-beta0.2.3",
+  "version": "0.0.0-beta0.2.8",
   "main": "es/index.js",
   "module": "es/index.js",
   "scripts": {
@@ -62,7 +62,7 @@
     "ts-transformer-keys": "^0.4.3",
     "typescript": "^4.3.2",
     "vite": "^2.4.4",
-    "vue": "^3.2.3",
+    "vue": "^3.2.11",
     "vue-router": "4",
     "vue-tsc": "^0.2.2"
   },

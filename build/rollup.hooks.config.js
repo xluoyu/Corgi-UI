@@ -44,4 +44,20 @@ const utils = fs.readdirSync(`${INPUT_PATH}/utils`).filter(e => e !== 'test').ma
   }
 })
 
-export default [...hooks, ...utils]
+const directives = fs.readdirSync(`${INPUT_PATH}/directives`).filter(e => e !== 'test').map(item => {
+  const name = item.split('.')[0]
+  const input = `${INPUT_PATH}/directives/${name}/index.ts`
+  return {
+    input,
+    plugins: [...plugins],
+    external: ['vue'],
+    output: {
+      name,
+      file: `${OUTPUT_PATH}/directives/${name}.js`,
+      format: 'es',
+    },
+    onwarn,
+  }
+})
+
+export default [...hooks, ...utils, ...directives]

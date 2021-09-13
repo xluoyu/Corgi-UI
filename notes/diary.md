@@ -219,8 +219,6 @@ components: {
 
 记得在使用变量组时要做下浅拷贝，避免修改某个变量后会对后续的组件造成影响。
 
-![image-20210819101745773](https://cdn.jsdelivr.net/gh/xluoyu/image-riverbed@latest/images/image-20210819101745773.png)
-
 ## 2021-08-19
 
 ok，写这篇日记的时候已经20号了。
@@ -660,3 +658,51 @@ onMounted(() => {
 
 去除各个子组件的相互引用，全部使用公用组件去加载不同的子组件。
 
+## 2021-09-13
+
+#### 记一个小错误
+
+调整了一些打包的代码，修复了一个BUG
+
+在测试时发现![image-20210913145756510](https://i.loli.net/2021/09/13/4mbouAVB5pOP2n9.png)
+
+在组件库全局安装的情况下，组件没有属性提示
+
+![image-20210913145848070](https://i.loli.net/2021/09/13/cNS72dkInYUA63W.png)
+
+```js
+import {NButton} from 'naive-ui'
+```
+
+局部引入时则可以会有相应的提示。
+
+
+
+测试时发现Corgi只有在开发测试时才有相应的提示，而打成包之后就会没提示，猜测是与vue的`defineComponent`做TS打包时有关
+
+两相对比发现`Element`与`Navite`打包后`DefineComponent<{}, {}, unknown>` 第三个参数是`unknown`，而Corgi打包后第三个参数是`any`。
+
+直接修改该参数就会出现提示。该参数为vue的data属性。猜测`any`直接覆盖了原本需要提示的`props`。
+
+在review时发现做ts类型到处时
+
+```js
+if (script && script.content) {
+  content += script.content
+  if (script.lang === 'ts') isTS = true
+}
+```
+
+只判断了` ts` 的情况，然而Corgi的一些组件使用的是`tsx`语法，导致该组件没有经过严格的`ts`编译，直接用`any`覆盖
+
+修正之后，相应的属性提示以正确出现
+
+![image-20210913150637884](https://i.loli.net/2021/09/13/gUqP42avbACKr3F.png)
+
+####  :target 选择器
+
+记一个不常用的选择器
+
+带有后面跟有锚名称 #，指向文档内某个具体的元素。这个被链接的元素就是目标元素(target element)。
+
+:target 选择器可用于选取当前活动的目标元素。

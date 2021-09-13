@@ -4,11 +4,11 @@
 
 ```demo
 type
-color
+size
+ghost
 circle
 disabled
-size
-dashed
+icon
 ```
 
 # Props

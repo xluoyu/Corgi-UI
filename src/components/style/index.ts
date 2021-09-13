@@ -4,7 +4,7 @@ export default {
   info: '#2080f0',
   warning: '#f0a020',
   error: '#d03050',
-  default: '#333',
+  default: '#999',
 
   fontSizeH1: '24px', // 大标题
   fontSizeH2: '18px', // 标题

@@ -1,11 +1,10 @@
 <template>
 
   <div style="margin: 20px">
-    <testbox ref="testRef"></testbox>
 
     <cg-theme-config :theme="themeConfig">
       <cg-button size="tiny" style="margin-right: 10px;" type="error">tiny</cg-button>
-      <cg-button size="small" style="margin-right: 10px;" type="success">small</cg-button>
+      <cg-button size="small" style="margin-right: 10px;" type="success" disabled @click="btnTest">small</cg-button>
       <cg-button
         size="medium"
         style="margin-right: 10px;"
@@ -14,7 +13,14 @@
       >
         medium
       </cg-button>
-      <cg-button size="large" style="margin-right: 10px;" type="warning">large</cg-button>
+      <cg-button size="large" style="margin-right: 10px;" type="warning" :loading="btnLoad" @click="changeLoad">
+        <template v-slot:icon>
+          <cg-icon>
+            <collectionTag />
+          </cg-icon>
+        </template>
+          large
+      </cg-button>
       <cg-button
         size="medium"
         style="margin-right: 10px;"
@@ -25,7 +31,11 @@
       >
         ghost
       </cg-button>
-      <cg-button size="large" style="margin-right: 10px;">default</cg-button>
+      <cg-button text style="font-size: 18px;color: #ffac4e">
+        <cg-icon>
+          <collection-tag />
+        </cg-icon>
+      </cg-button>
     </cg-theme-config>
 
     <cg-icon size="34px" color="#336699">
@@ -53,11 +63,9 @@ background: linear-gradient(180deg, #305ACB 0%, #1B3B99 100%);"></div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
-import { Edit } from '@element-plus/icons'
-import { useCopy } from 'corgi-box'
-import Testbox from '../components/testbox.vue'
-
+import { onMounted, ref, watch } from 'vue'
+import { Edit, CollectionTag } from '@element-plus/icons'
+import { useToggle } from '@corgi/hooks'
 
 let size = ref('medium')
 const clickHandle = () => {
@@ -65,15 +73,23 @@ const clickHandle = () => {
   size.value = size.value == 'large' ? 'small' : 'large'
 }
 
-useCopy('哈哈哈').then(() => {
-  console.log('复制成功了')
-})
-
 const themeConfig = {
   small: {
     fontSize: '20px'
   }
 }
+
+const btnTest = () => {alert(456)}
+
+const [btnLoad, changeLoad] = useToggle(false)
+
+watch(btnLoad, () => {
+  if (btnLoad.value === true) {
+    setTimeout(() => {
+      changeLoad()
+    }, 1500)
+  }
+})
 
 const nextFn = () => {
   alert('okkk')
@@ -97,10 +113,6 @@ const loadMore = () => {
   scroll.value.update()
 }
 
-const testRef = ref(null)
-onMounted(() => {
-  testRef.value.say()
-})
 </script>
 
 

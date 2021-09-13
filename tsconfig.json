@@ -11,9 +11,12 @@
     "paths": {
       "@site/*": ["./site/*"],
       "@corgi/*": ["./src/*"],
-      "corgi-box": ["./src/index"]
+      "corgi-box/*": ["./es/*"]
     },
     "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
   },
   "include": ["es/**/*.d.ts", "site/**/*.vue", "site/**/*.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "src/**/*.md"],
   "exclude": [

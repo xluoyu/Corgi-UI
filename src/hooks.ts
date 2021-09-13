@@ -1,2 +1,2 @@
-export { useToggle } from '@corgi/hooks/useToggle'
-export { useCopy } from '@corgi/hooks/useCopy'
+export * from '@corgi/hooks/useToggle'
+export * from '@corgi/hooks/useCopy'

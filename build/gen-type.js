@@ -24,9 +24,6 @@ const getTypes = async() => {
       paths: {
         '@corgi/*': ['src/*'],
       },
-      exclude: [
-        'node_modules',
-      ],
       skipLibCheck: true,
     },
     tsConfigFilePath: TSCONFIG_PATH,
@@ -66,7 +63,7 @@ const getTypes = async() => {
           // 获取<script>的内容、并标记语言
           if (script && script.content) {
             content += script.content
-            if (script.lang === 'ts') isTs = true
+            if (script.lang === 'ts' || script.lang === 'tsx' ) isTS = true
           }
           /**
             * 因为是<script setup>的语法，需要额外调用compileScript
@@ -81,7 +78,7 @@ const getTypes = async() => {
               id: 'xxx',
             })
             content += compiled.content
-            if (scriptSetup.lang === 'ts') isTS = true
+            if (scriptSetup.lang === 'ts' || scriptSetup.lang === 'tsx' ) isTS = true
           }
           // 将处理好的内容使用ts-morph的APi生成待编译文件
           const sourceFile = project.createSourceFile(

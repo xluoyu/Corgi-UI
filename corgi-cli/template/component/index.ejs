@@ -1,10 +1,1 @@
-import { SFCWithInstall } from '@corgi/utils/type'
-import <%= options.fileName %> from './src/<%= options.fileName %>.vue'
-
-<%= options.fileName %>.install = (app) => {
-  app.component(<%= options.fileName %>.name, <%= options.fileName %>);
-}
-
-const _<%= options.fileName %> = <%= options.fileName %> as SFCWithInstall<typeof <%= options.fileName %>>
-
-export default _<%= options.fileName %>
+export { default as Cg<%= options.fileName %> } from './src/<%= options.fileName %>.vue'

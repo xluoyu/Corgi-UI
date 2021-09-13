@@ -33,6 +33,8 @@ const copyFile = async input => {
         output += input.split('/').pop() + '/' + file
       } else if (input.includes('hooks')) {
         output += 'hooks/' + input.split('/').pop() + '.' + file.split('.').slice(1).join('.')
+      } else if (input.includes('directives')) {
+        output += 'directives/' + input.split('/').pop() + '.' + file.split('.').slice(1).join('.')
       } else if (input.includes('utils')) {
         output += 'utils/' + file
       } else {

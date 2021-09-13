@@ -1,13 +1,41 @@
-<script lang="tsx">
+<template>
+  <div
+    :class="[
+      `cg-button`,
+      {
+        'cg-button--circle': circle,
+        'cg-button--round': round,
+        'cg-button--ghost': ghost,
+        'cg-button--dashed': dashed,
+        'cg-button--disabled': disabled || loading,
+        'cg-button--text': text,
+      },
+    ]"
+    :style="{
+      'display': block ? 'flex' : 'inline-flex',
+    }"
+    :disabled="disabled"
+    :type="attrType"
+    @mousedown="handleMouseDown"
+  >
+    <cg-icon v-if="loading" is-loading>
+      <Loading />
+    </cg-icon>
+    <slot v-else name="icon"></slot>
+    <span><slot></slot></span>
+  </div>
+</template>
+
+<script lang="ts">
 import { defineComponent, computed, inject } from 'vue'
 import { assignThemecustom, isLight } from '@corgi/utils/index'
-import { IThemeCssVar } from '@corgi/utils/type'
+import type { IThemeCssVar } from '@corgi/utils/type'
 import { isString } from '@corgi/utils/typeTool'
 import styleVar from './styleVar'
-
 import type { PropType } from 'vue'
+import { Loading } from '@element-plus/icons'
 
-const props = {
+const buttonProps = {
   attrType: {
     type: String,
     default: 'button',
@@ -32,16 +60,14 @@ const props = {
     type: String as PropType<'default' | 'primary' | 'success' | 'info' | 'warning' | 'error'>,
     default: 'default',
   },
-  tag: {
-    type: String as PropType<keyof HTMLElementTagNameMap>,
-    default: 'button',
-  },
-  onClick: [Function, Array],
 }
 
 export default defineComponent({
   name: 'CgButton',
-  props,
+  components: {
+    Loading,
+  },
+  props: buttonProps,
   setup (props) {
     const customTheme = inject<IThemeCssVar>('theme', {})
 
@@ -64,37 +90,19 @@ export default defineComponent({
       return sizeAboutVar
     })
 
+    const handleMouseDown = (e: MouseEvent) => {
+      e.preventDefault()
+
+      if (props.disabled) {
+        return
+      }
+    }
+
     return {
       cssVar,
       buttonSizeVar,
+      handleMouseDown,
     }
-  },
-  render () {
-    const { $slots, tag: Component } = this
-    return (
-      <Component
-        class={[
-          `cg-button`,
-          {
-            'cg-button--default': this.type === 'default',
-            'cg-button--circle': this.circle,
-            'cg-button--round': this.round,
-            'cg-button--ghost': this.ghost,
-            'cg-button--dashed': this.dashed,
-            'cg-button--disabled': this.disabled,
-            'cg-button--text': this.text,
-          },
-        ]}
-        style={{
-          'display': this.block ? 'flex' : 'inline-flex',
-        }}
-        disabled={this.disabled}
-        type={this.attrType}
-        onClick={this.onClick}
-      >
-        <span>{$slots.default && $slots.default()}</span>
-      </Component>
-    )
   },
 })
 </script>
@@ -115,7 +123,6 @@ export default defineComponent({
   &:hover {
     opacity: 0.7;
   }
-
   &.cg-button--round {
     border-radius: v-bind('cssVar.round');
   }
@@ -138,15 +145,11 @@ export default defineComponent({
     opacity: 0.5;
     cursor: not-allowed;
   }
+
   &.cg-button--text {
     border: none;
     background: none;
     color: v-bind('cssVar.theme');
-  }
-  &.cg-button--default {
-    border: 1px solid #eee;
-    color: #333;
-    background: #fff;
   }
 }
 </style>

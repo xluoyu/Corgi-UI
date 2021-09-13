@@ -18,7 +18,7 @@ export default defineConfig({
       },
       {
         find: 'corgi-box',
-        replacement: path.resolve(__dirname, './src/index'),
+        replacement: path.resolve(__dirname, './es'),
       },
     ],
   },

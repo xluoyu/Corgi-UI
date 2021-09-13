@@ -16,13 +16,11 @@
 
 <script lang="ts" setup>
 import MenuList from '@site/menu.conf'
-import { ref, onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 
 let menuList = MenuList
 
 const activeKey = useRoute().name
-console.log(activeKey)
 </script>
 
 <style lang="less" scoped>

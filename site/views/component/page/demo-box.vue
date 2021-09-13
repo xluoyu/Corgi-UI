@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" ref="demoEl" :class="{'cg-show-demo':true, 'active': activeComponentKey == id}">
+  <div :id="id" ref="demoEl" :class="{'cg-show-demo':true}">
     <div class="cg-card">
       <div class="cg-card-header">
         <div class="cg-card-header-main cg-h2">
@@ -34,7 +34,6 @@
 import { useToggle } from '@corgi/hooks/useToggle'
 import { ref, watch } from 'vue'
 import hljs from '../../../utils/hljs'
-import { useCompoent } from '../hooks/compoent'
 
 const props = defineProps({
   code: {
@@ -56,7 +55,6 @@ const copyCode = () => {
 let sfcCode = hljs.highlight(props.code, { language: 'html' }).value
 sfcCode = `<pre class='code'>${sfcCode}</pre>`
 
-const { activeComponentKey } = useCompoent()
 const getCodeHeight = () => {
   return demoEl.value.querySelector('.cg-show-demo-code-content pre').clientHeight
 }
@@ -73,7 +71,7 @@ watch(showCode, () => {
   transition: all .3s;
   margin-bottom: 20px;
   background: #fff;
-  &.active{
+  &:target{
     border: 1px solid var(--theme);
   }
   &:hover{
