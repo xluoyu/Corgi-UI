@@ -1,20 +1,22 @@
 <template>
-  <div class="layout">
-    <div v-if="route.name == 'home'" class="corgi-bg">
-      <video
-        src="https://vd4.bdstatic.com/mda-mhvcefp0804vmrat/1080p/cae_h264/1630313434720525820/mda-mhvcefp0804vmrat.mp4"
-        loop
-        muted
-        class="video-background"
-        poster="./assets/poster.jpg"
-        autoplay
-      ></video>
+  <cg-loadingbar>
+    <div class="layout">
+      <div v-if="route.name == 'home'" class="corgi-bg">
+        <video
+          src="https://vd4.bdstatic.com/mda-mhvcefp0804vmrat/1080p/cae_h264/1630313434720525820/mda-mhvcefp0804vmrat.mp4"
+          loop
+          muted
+          class="video-background"
+          poster="./assets/poster.jpg"
+          autoplay
+        ></video>
+      </div>
+      <div :style="siteTheme">
+        <site-header />
+        <router-view />
+      </div>
     </div>
-    <div :style="siteTheme">
-      <site-header />
-      <router-view />
-    </div>
-  </div>
+  </cg-loadingbar>
 </template>
 
 <script lang='ts' setup>

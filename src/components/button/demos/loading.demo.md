@@ -2,17 +2,11 @@
 
 ```html
 <cg-space>
-  <cg-button
-    :loading="isLoad"
-    type="primary"
-    @click="changeLoad"
-  >
-    {{isLoad ? '等我两秒' : '点击加载'}}
-  </cg-button>
+  <cg-button :loading="isLoad" type="primary" @click="changeLoad">{{isLoad ? '等我两秒' : '点击加载'}}</cg-button>
   
   <cg-button
     :loading="isLoad2"
-    type="info"
+    type="error"
     @click="changeLoad2"
   >
     <template v-slot:icon>

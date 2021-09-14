@@ -1,17 +1,18 @@
 <template>
   <div 
-    class="<%= options.prefix %>-<%= options.name%>"
+    class="cg-<%= options.name%>"
   >
 
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, computed, inject } from 'vue'
 import styleVar from './styleVar'
+import { assignThemecustom } from '@corgi/utils'
 
 export default defineComponent({
-  name: '<%= options.prefixBig %><%= options.fileName %>',
+  name: 'Cg<%= options.fileName %>',
   props: {
     type: {
       type: String,
@@ -19,7 +20,7 @@ export default defineComponent({
     }
   },
   setup () {
-    
+    const customTheme = inject('theme', {})
     let cssVar = computed(() => {
       let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : styleVar
       if (props.color) {

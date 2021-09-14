@@ -20,7 +20,7 @@
 </cg-space>
 ```
 
-```js
+```js-setup
 import {
   Bell,
   ArrowDown,
@@ -28,15 +28,4 @@ import {
   ArrowRight,
   ArrowUp,
 } from '@element-plus/icons'
-
-export default {
-  components: {
-    Bell,
-    ArrowDown,
-    ArrowLeft,
-    ArrowRight,
-    ArrowUp,
-  },
-}
-
 ```

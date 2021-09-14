@@ -2,12 +2,12 @@
   <div class="container">
     <aside class="cg-nav">
       <cg-scrollbar y>
-        <cg-menu :list="menuList" is-router :active-key="activeKey" />
+        <cg-menu :list="menuList" is-router :active-key="name" />
       </cg-scrollbar>
       <div class="shrink"></div>
     </aside>
     <div class="main">
-      <cg-scrollbar y show="hover">
+      <cg-scrollbar ref="scroll" y show="hover">
         <router-view />
       </cg-scrollbar>
     </div>
@@ -16,11 +16,17 @@
 
 <script lang="ts" setup>
 import MenuList from '@site/menu.conf'
-import { useRoute } from 'vue-router'
+import { ref } from 'vue'
+import { useRoute, onBeforeRouteUpdate } from 'vue-router'
 
 let menuList = MenuList
 
-const activeKey = useRoute().name
+const { name } = useRoute()
+
+const scroll = ref(null)
+onBeforeRouteUpdate(() => {
+  scroll.value.scrollTo({ y: 0 })
+})
 </script>
 
 <style lang="less" scoped>

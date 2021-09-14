@@ -7,8 +7,9 @@
   <cg-scrollbar
     ref="scroll"
     y
+    :height='400'
     thrumbStyle="background: linear-gradient(45deg, #FF7F00, #FFFF00);width: 8px;opacity: .6"
-    hover
+    show="always"
   >
     <div class="test-content"></div>
   </cg-scrollbar>

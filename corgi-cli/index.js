@@ -22,7 +22,6 @@ const promptList = [
     type: 'input',
     message: '请输入要创建的名称',
     name: 'name',
-    filter: val => val.toLowerCase(),
   },
 ]
 

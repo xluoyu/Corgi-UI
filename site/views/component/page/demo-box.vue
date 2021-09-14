@@ -12,7 +12,9 @@
       </div>
     </div>
     <div class="cg-show-demo-code">
-      <div class="cg-show-demo-code-content" :style="{height: codeHeight}" v-html="sfcCode"></div>
+      <cg-scrollbar :height="codeHeight" x style="transition: height .3s;">
+        <div class="cg-show-demo-code-content" v-html="sfcCode"></div>
+      </cg-scrollbar>
       <div class="showcode-button" @click="changeShowCode">
         <cg-button type="primary" text>{{ showCode ? '隐藏' : '显示' }}代码</cg-button>
         <div class="right-botton flex-center">
@@ -89,7 +91,6 @@ watch(showCode, () => {
   .cg-show-demo-code-content{
     background-color: rgba(250, 250, 250, .6);
     background-image: url('@site/assets/paper.png');
-    transition: all .4s;
     box-sizing: border-box;
     overflow-x: auto;
     overflow-y: hidden;
@@ -103,8 +104,10 @@ watch(showCode, () => {
     }
   }
   .showcode-button{
-    text-align: center;
-    line-height: 40px;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: all .3s;
     position: sticky;

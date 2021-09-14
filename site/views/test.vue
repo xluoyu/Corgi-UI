@@ -1,7 +1,9 @@
 <template>
 
   <div style="margin: 20px">
-
+    <cg-button @click="start">开始</cg-button>
+    <cg-button @click="finish">结束</cg-button>
+    <cg-button @click="error">报错</cg-button>
     <cg-theme-config :theme="themeConfig">
       <cg-button size="tiny" style="margin-right: 10px;" type="error">tiny</cg-button>
       <cg-button size="small" style="margin-right: 10px;" type="success" color="#336696" @click="btnTest">small</cg-button>
@@ -49,6 +51,7 @@
       <cg-scrollbar
         y
         x
+        ref="scroll"
         :load-more="loadMore"
       >
         <div class="main" :style="{height: height + 'px'}"></div>
@@ -63,7 +66,7 @@
 <script lang="ts" setup>
 import { onMounted, ref, watch } from 'vue'
 import { Edit, CollectionTag } from '@element-plus/icons'
-import { useToggle } from '@corgi/hooks'
+import { useToggle, useLoadingBar } from '@corgi/index'
 
 let size = ref('medium')
 const clickHandle = () => {
@@ -108,6 +111,7 @@ const loadMore = () => {
   height.value += 400
 }
 
+const {start, finish, error} = useLoadingBar()
 </script>
 
 
@@ -121,7 +125,7 @@ const loadMore = () => {
   height: 400px;
   .main{
     width: 800px;
-    background: linear-gradient(to bottom, #336696, #aa3377);
+    background: linear-gradient(45deg, #336696, #aa3377);
   }
 }
 

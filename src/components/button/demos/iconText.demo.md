@@ -10,13 +10,6 @@
 </cg-button>
 ```
 
-```js
+```js-setup
 import { Coordinate } from '@element-plus/icons'
-
-export default {
-  components: {
-    Coordinate,
-  },
-}
-
 ```

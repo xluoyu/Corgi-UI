@@ -8,6 +8,7 @@
 <div class="test-container">
   <cg-scrollbar
     y
+    x
     :load-more="loadMore"
     show="hover"
   >
@@ -32,6 +33,6 @@ const loadMore = () => {
 }
 .test-content{
   width: 800px;
-  background: linear-gradient(to bottom, #fff, #F4AD5A);
+  background: linear-gradient(45deg, #fff, #F4AD5A, #ea4674);
 }
 ```

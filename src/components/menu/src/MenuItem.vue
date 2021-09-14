@@ -27,7 +27,6 @@ export default defineComponent({
 
     const handleClick = () => {
       changeActive(props.options.key)
-      console.log(props.options.key)
     }
 
     const isActive = computed(() => activeKey.value === props.options.key)
@@ -75,6 +74,7 @@ export default defineComponent({
   align-items: center;
   cursor: pointer;
   color: #333;
+  font-size: v-bind('cssVar.fontSizeH3');
   // border-radius: v-bind('cssVar.radiusMini');
   position: relative;
   &:hover{

@@ -7,6 +7,10 @@
         'cg-scrollbar-never': show == 'never',
       }
     ]"
+    :style="{
+      width: containerWidth,
+      height: containerHeight
+    }"
   >
     <div
       :ref="el => container.el = el"
@@ -65,11 +69,6 @@
 </template>
 
 <script lang="ts">
-import { assignThemecustom } from '@corgi/utils/index'
-import { IThemeCssVar } from '@corgi/utils/type'
-import { computed, defineComponent, inject, onMounted, onUnmounted, PropType, reactive } from 'vue'
-import styleVar from './styleVar'
-
 interface IVertical {
   el: any
   height: number
@@ -90,171 +89,195 @@ interface IContentBox{
 
 export default defineComponent({
   name: 'CgScrollbar',
-  props: {
-    y: Boolean,
-    x: Boolean,
-    show: {
-      type: String as PropType<'always' | 'hover' | 'never'>,
-      default: 'always',
-    },
-    color: String,
-    thrumbClass: String,
-    thrumbStyle: String,
-    scrollClass: String,
-    scrollStyle: String,
-    loadHeight: Number,
-    loadMore: Function,
+})
+</script>
+
+<script lang="ts" setup>
+import { assignThemecustom } from '@corgi/utils/index'
+import { IThemeCssVar } from '@corgi/utils/type'
+import { number2Px } from '@corgi/utils/typeTool'
+import { computed, defineComponent, inject, nextTick, onMounted, onUnmounted, PropType, reactive, ref, watchEffect } from 'vue'
+import styleVar from './styleVar'
+
+const props = defineProps({
+  y: Boolean,
+  x: Boolean,
+  show: {
+    type: String as PropType<'always' | 'hover' | 'never'>,
+    default: 'always',
   },
-  setup(props) {
-    const customTheme = inject<IThemeCssVar>('theme', {})
+  color: String,
+  height: [Number, String],
+  width: [Number, String],
+  thrumbClass: String,
+  thrumbStyle: String,
+  scrollClass: String,
+  scrollStyle: String,
+  loadHeight: Number,
+  loadMore: Function,
+})
 
-    const container = reactive<IContentBox>({
-      el: null,
-      height: 0,
-      width: 0,
-    })
-    const content = reactive<IContentBox>({
-      el: null,
-      height: 0,
-      width: 0,
-    })
-    const vertical = reactive<IVertical>({
-      el: null,
-      height: 0,
-      thrumbHeight: 0,
-      thrumbY: 0,
-    })
-    const horizontal = reactive<IHorizontal>({
-      el: null,
-      width: 0,
-      thrumbWidth: 0,
-      thrumbX: 0,
-    })
+const customTheme = inject<IThemeCssVar>('theme', {})
 
-    // 计算thrumb的高度
-    /**
+const container = reactive<IContentBox>({
+  el: null,
+  height: 0,
+  width: 0,
+})
+const content = reactive<IContentBox>({
+  el: null,
+  height: 0,
+  width: 0,
+})
+const vertical = reactive<IVertical>({
+  el: null,
+  height: 0,
+  thrumbHeight: 0,
+  thrumbY: 0,
+})
+const horizontal = reactive<IHorizontal>({
+  el: null,
+  width: 0,
+  thrumbWidth: 0,
+  thrumbX: 0,
+})
+
+let direction: 'y' | 'x' = 'y'
+
+// 计算thrumb的高度
+/**
  * containerHeight 外部盒子高度 即一个屏幕的高度
  * contentHeight 内容高度 根据内容无限拉伸
  * vertical.height 滚动条的轨道高度 等同于 外部盒子高度
  * thrumbHeight = 盒子高度与内容高度的比值 * 滚动条轨道的高度
  */
+const addScroll = () => {
+  container.el.addEventListener('scroll', () => {
 
-    const addScroll = () => {
-      container.el.addEventListener('scroll', () => {
-        let boxScrollTop = container.el.scrollTop as number
-        let contentH = content.el.clientHeight as number
-
-        vertical.thrumbY = boxScrollTop / contentH * vertical.height
-
-        if (props.loadMore && contentH - (boxScrollTop + container.height) < 50) {
-          props.loadMore()
-        }
-      })
+    if (direction === 'y') {
+      let boxScrollTop = container.el.scrollTop
+      let contentH = content.el.clientHeight
+      vertical.thrumbY = boxScrollTop / contentH * vertical.height
+      if (props.loadMore && contentH - (boxScrollTop + container.height) < 50) {
+        props.loadMore()
+      }
+    } else {
+      let boxScrollLeft = container.el.scrollLeft
+      horizontal.thrumbX = boxScrollLeft / content.width * horizontal.width
     }
-
-    /**
+  })
+}
+/**
  * 初始化
  */
-    const init = () => {
-      container.width = container.el.clientWidth
-      container.height = container.el.clientHeight
-      content.width = content.el.clientWidth
-      content.height = content.el.clientHeight
+const init = () => {
+  container.width = container.el.clientWidth
+  container.height = container.el.clientHeight
+  content.width = content.el.clientWidth
+  content.height = content.el.clientHeight
 
-      if (props.y) {
-        vertical.height = vertical.el.clientHeight
-        vertical.thrumbHeight = container.height / content.height * vertical.height
-      }
+  if (props.y) {
+    vertical.height = vertical.el.clientHeight
+    vertical.thrumbHeight = container.height / content.height * vertical.height
+  }
 
-      if (props.x) {
-        horizontal.width = horizontal.el.clientWidth
-        horizontal.thrumbWidth = container.width / content.width * horizontal.width
+  if (props.x) {
+    horizontal.width = horizontal.el.clientWidth
+    horizontal.thrumbWidth = container.width / content.width * horizontal.width
+  }
+}
 
-        console.log(content.width)
-        console.log(horizontal)
-      }
-    }
+const containerWidth = ref('100%')
+const containerHeight = ref('100%')
+watchEffect(() => {
+  containerWidth.value = props.width ? number2Px(props.width) : '100%'
+  containerHeight.value = props.height ? number2Px(props.height) : '100%'
+  nextTick(init)
+})
 
-    let observer: MutationObserver
-    onMounted(() => {
-      init()
-      addScroll()
+let observer: MutationObserver
+onMounted(() => {
+  addScroll()
 
-      window.addEventListener('resize', init)
+  window.addEventListener('resize', init)
 
-      observer = new MutationObserver(() => {
-        if (content.height === content.el.clientHeight) {
-          return
-        }
-        content.height = content.el.clientHeight
-
-        console.log('更新高度')
-        init()
-      })
-      observer.observe(content.el, {
-        attributes: true,
-        childList: true,
-        characterData: true,
-        subtree: true,
-      })
-    })
-    onUnmounted(() => {
-      window.removeEventListener('resize', init)
-      observer.disconnect()
-    })
-
+  if (props.loadMore) {
     /**
+         * 监听content的dom，有变动时重新更新高度
+         */
+    observer = new MutationObserver(() => {
+      if (content.height === content.el.clientHeight) {
+        return
+      }
+      init()
+    })
+    observer.observe(content.el, {
+      attributes: true,
+      childList: true,
+      characterData: true,
+      subtree: true,
+    })
+  }
+
+})
+onUnmounted(() => {
+  window.removeEventListener('resize', init)
+  props.loadMore && observer.disconnect()
+})
+
+
+/**
      * 添加鼠标拖动事件
      */
-    const thrumbMouseDown = (e, t: 'y' | 'x') => {
-      e.stopPropagation()
-
-      let start = e.pageY
-      let contentH = content.el.clientHeight as number
-      let scrollTop = container.el.scrollTop
-
-      const move = event => {
-        let distance = event.pageY - start
-        container.el.scrollTop = scrollTop + distance / vertical.height * contentH
-      }
-
-      const up = () => {
-        document.removeEventListener('mousemove', move)
-        document.removeEventListener('mouseup', up)
-      }
-
-      document.addEventListener('mousemove', move)
-      document.addEventListener('mouseup', up)
+const thrumbMouseDown = (e, t: 'y' | 'x') => {
+  e.stopPropagation()
+  direction = t
+  let start = t === 'y' ? e.pageY : e.pageX
+  let contentLen = t === 'y' ? content.el.clientHeight : content.el.clientWidth
+  let scroll = t === 'y' ? container.el.scrollTop : container.el.scrollLeft
+  const move = event => {
+    let distance = t === 'y' ? event.pageY - start : event.pageX - start
+    if (t === 'y') {
+      container.el.scrollTop = scroll + distance / vertical.height * contentLen
+    } else {
+      container.el.scrollLeft = scroll + distance / horizontal.width * contentLen
     }
+  }
 
-    const cssVar = computed(() => {
-      let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : styleVar
-      if (props.color) {
-        composeVar.scrollbarColor = props.color
-      }
-      return composeVar
-    })
-    return {
-      container,
-      content,
-      vertical,
-      horizontal,
-      thrumbMouseDown,
-      cssVar,
-    }
+  const up = () => {
+    document.removeEventListener('mousemove', move)
+    document.removeEventListener('mouseup', up)
+    direction = 'y'
+  }
+
+  document.addEventListener('mousemove', move)
+  document.addEventListener('mouseup', up)
+}
+
+defineExpose({
+  scrollTo ({ x, y }: { x: number; y: number; }) {
+    container.el.scrollTop = x
+    container.el.scrollLeft = y
   },
+})
+
+const cssVar = computed(() => {
+  let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : styleVar
+  if (props.color) {
+    composeVar.scrollbarColor = props.color
+  }
+  return composeVar
 })
 </script>
 
 <style lang="less" scoped>
 .cg-scrollbar{
-  width: 100%;
-  height: 100%;
   overflow: hidden;
   position: relative;
   .scrollbar-container{
     overflow: hidden;
-    height: inherit;
+    height: 100%;
+    font-size: 0;
     &.scrollbar-Y{
       overflow-y: auto;
     }
@@ -265,8 +288,9 @@ export default defineComponent({
       display: none;
     }
     .scrollbar-content{
-      width: fit-content;
-      height: fit-content;
+      display: inline-block;
+      min-width: 100%;
+      min-height: 100%;
     }
   }
   .scrollbar-track{
