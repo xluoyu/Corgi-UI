@@ -6,5 +6,4 @@
 // }
 
 // export const CgScrollbar = ScrollBar as SFCWithInstall<typeof ScrollBar>
-
 export { default as CgScrollBar } from './src/ScrollBar.vue'

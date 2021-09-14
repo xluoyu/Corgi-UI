@@ -4,7 +4,7 @@
 
     <cg-theme-config :theme="themeConfig">
       <cg-button size="tiny" style="margin-right: 10px;" type="error">tiny</cg-button>
-      <cg-button size="small" style="margin-right: 10px;" type="success" disabled @click="btnTest">small</cg-button>
+      <cg-button size="small" style="margin-right: 10px;" type="success" color="#336696" @click="btnTest">small</cg-button>
       <cg-button
         size="medium"
         style="margin-right: 10px;"
@@ -13,7 +13,7 @@
       >
         medium
       </cg-button>
-      <cg-button size="large" style="margin-right: 10px;" type="warning" :loading="btnLoad" @click="changeLoad">
+      <cg-button size="large" style="margin-right: 10px;" type="warning" iconPosition="right" :loading="btnLoad" @click="changeLoad">
         <template v-slot:icon>
           <cg-icon>
             <collectionTag />
@@ -36,24 +36,22 @@
           <collection-tag />
         </cg-icon>
       </cg-button>
+      
     </cg-theme-config>
 
     <cg-icon size="34px" color="#336699">
       <edit />
     </cg-icon>
 
-    <div style="width: 33px;
-height: 36px;
-background: linear-gradient(180deg, #305ACB 0%, #1B3B99 100%);"></div>
+    <div style="width: 33px;height: 36px;background: linear-gradient(180deg, #305ACB 0%, #1B3B99 100%);"></div>
 
     <div class="test-scrollbar">
       <cg-scrollbar
-        ref="scroll"
         y
         x
         :load-more="loadMore"
       >
-        <div class="main" :style="{height: mainHeight + 'px'}"></div>
+        <div class="main" :style="{height: height + 'px'}"></div>
       </cg-scrollbar>
     </div>
 
@@ -80,6 +78,7 @@ const themeConfig = {
 }
 
 const btnTest = () => {alert(456)}
+const btnTesty2 = () => {}
 
 const [btnLoad, changeLoad] = useToggle(false)
 
@@ -104,13 +103,9 @@ const showVal = () => {
   console.log(val)
 }
 
-let height = 800
-let mainHeight = ref(height + 'px')
-let scroll = ref(null)
+let height = ref(800)
 const loadMore = () => {
-  height += 400
-  mainHeight.value = height + 'px'
-  scroll.value.update()
+  height.value += 400
 }
 
 </script>
@@ -126,7 +121,6 @@ const loadMore = () => {
   height: 400px;
   .main{
     width: 800px;
-    height: v-bind(mainHeight);
     background: linear-gradient(to bottom, #336696, #aa3377);
   }
 }

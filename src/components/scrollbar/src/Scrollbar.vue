@@ -9,7 +9,7 @@
     ]"
   >
     <div
-      ref="containerEl"
+      :ref="el => container.el = el"
       :class="[
         'scrollbar-container',
         {
@@ -18,7 +18,7 @@
         }
       ]"
     >
-      <div ref="contentEl" class="scrollbar-content">
+      <div :ref="el => content.el = el" class="scrollbar-content">
         <slot></slot>
       </div>
     </div>
@@ -26,7 +26,7 @@
     <div
       v-if="y"
       :ref="el => vertical.el = el"
-      class="scrollbar-vertical"
+      class="scrollbar-track scrollbar-vertical"
       :class="[scrollClass]"
       :style="[scrollStyle]"
     >
@@ -38,20 +38,28 @@
           height: vertical.thrumbHeight + 'px',
           transform: `translateY(${vertical.thrumbY}px)`,
         }]"
-        @mousedown="thrumbVerticalMouseDown"
+        @mousedown="(e) => thrumbMouseDown(e, 'y')"
       >
       </div>
     </div>
-    <div class="scrollbar-horizontal">
-      <!-- <div
+    <div
+      v-if="x"
+      :ref="el => horizontal.el = el"
+      class="scrollbar-track scrollbar-horizontal"
+      :class="[scrollClass]"
+      :style="[scrollStyle]"
+    >
+      <div
+        v-if="horizontal.thrumbWidth < horizontal.width"
         class="scrollbar-thrumb scrollbar-thrumb--horizontal"
-        :style="{
-          width: width + 'px',
-          transform: `translateX(${thrumbX}px)`
-        }"
-        @mousedown="thrumbHorizontalMouseDown"
+        :class="[thrumbClass]"
+        :style="[thrumbStyle, {
+          width: horizontal.thrumbWidth + 'px',
+          transform: `translateX(${horizontal.thrumbX}px)`,
+        }]"
+        @mousedown="(e) => thrumbMouseDown(e, 'x')"
       >
-      </div> -->
+      </div>
     </div>
   </div>
 </template>
@@ -59,21 +67,26 @@
 <script lang="ts">
 import { assignThemecustom } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
-import { computed, defineComponent, inject, onMounted, onUnmounted, PropType, reactive, Ref, ref } from 'vue'
+import { computed, defineComponent, inject, onMounted, onUnmounted, PropType, reactive } from 'vue'
 import styleVar from './styleVar'
 
 interface IVertical {
-  el: null | HTMLElement | any
+  el: any
   height: number
   thrumbHeight: number
   thrumbY: number
 }
-
-// interface IHorizontal {
-//   width: number
-//   thrumbWidth: number
-//   thrumbX: number
-// }
+interface IHorizontal {
+  el: any
+  width: number
+  thrumbWidth: number
+  thrumbX: number
+}
+interface IContentBox{
+  el: any
+  width: number
+  height: number
+}
 
 export default defineComponent({
   name: 'CgScrollbar',
@@ -92,53 +105,74 @@ export default defineComponent({
     loadHeight: Number,
     loadMore: Function,
   },
-  setup (props, { expose }) {
+  setup(props) {
     const customTheme = inject<IThemeCssVar>('theme', {})
 
-    const containerEl: Ref<null | HTMLElement> = ref(null)
-    let containerHeight = 0
-    let contentHeight = 0
-    const contentEl: Ref<null | HTMLElement> = ref(null)
-    const verticalEl: Ref<null | HTMLElement> = ref(null)
+    const container = reactive<IContentBox>({
+      el: null,
+      height: 0,
+      width: 0,
+    })
+    const content = reactive<IContentBox>({
+      el: null,
+      height: 0,
+      width: 0,
+    })
     const vertical = reactive<IVertical>({
       el: null,
       height: 0,
       thrumbHeight: 0,
       thrumbY: 0,
     })
+    const horizontal = reactive<IHorizontal>({
+      el: null,
+      width: 0,
+      thrumbWidth: 0,
+      thrumbX: 0,
+    })
 
     // 计算thrumb的高度
     /**
-     * containerHeight 外部盒子高度 即一个屏幕的高度
-     * contentHeight 内容高度 根据内容无限拉伸
-     * vertical.height 滚动条的轨道高度 等同于 外部盒子高度
-     * thrumbHeight = 盒子高度与内容高度的比值 * 滚动条轨道的高度
-     */
-    const getVerticalHeight = () => {
-      vertical.thrumbHeight = containerHeight / contentHeight * vertical.height
-    }
+ * containerHeight 外部盒子高度 即一个屏幕的高度
+ * contentHeight 内容高度 根据内容无限拉伸
+ * vertical.height 滚动条的轨道高度 等同于 外部盒子高度
+ * thrumbHeight = 盒子高度与内容高度的比值 * 滚动条轨道的高度
+ */
 
     const addScroll = () => {
-      containerEl.value?.addEventListener('scroll', () => {
-        let boxScrollTop = (containerEl.value as HTMLElement).scrollTop as number
-        let contentH = (contentEl.value as HTMLElement).clientHeight as number
+      container.el.addEventListener('scroll', () => {
+        let boxScrollTop = container.el.scrollTop as number
+        let contentH = content.el.clientHeight as number
 
         vertical.thrumbY = boxScrollTop / contentH * vertical.height
 
-        if (props.loadMore && contentH - (boxScrollTop + containerHeight) < 50) {
+        if (props.loadMore && contentH - (boxScrollTop + container.height) < 50) {
           props.loadMore()
         }
       })
     }
 
     /**
-     * 初始化
-     */
+ * 初始化
+ */
     const init = () => {
-      containerHeight = containerEl.value.clientHeight
-      vertical.height = vertical.el.clientHeight
-      contentHeight = contentEl.value.clientHeight
-      getVerticalHeight()
+      container.width = container.el.clientWidth
+      container.height = container.el.clientHeight
+      content.width = content.el.clientWidth
+      content.height = content.el.clientHeight
+
+      if (props.y) {
+        vertical.height = vertical.el.clientHeight
+        vertical.thrumbHeight = container.height / content.height * vertical.height
+      }
+
+      if (props.x) {
+        horizontal.width = horizontal.el.clientWidth
+        horizontal.thrumbWidth = container.width / content.width * horizontal.width
+
+        console.log(content.width)
+        console.log(horizontal)
+      }
     }
 
     let observer: MutationObserver
@@ -149,13 +183,15 @@ export default defineComponent({
       window.addEventListener('resize', init)
 
       observer = new MutationObserver(() => {
-        if (contentHeight === contentEl.value.clientHeight) {
+        if (content.height === content.el.clientHeight) {
           return
         }
-        contentHeight = contentEl.value.clientHeight
+        content.height = content.el.clientHeight
+
+        console.log('更新高度')
         init()
       })
-      observer.observe(contentEl.value, {
+      observer.observe(content.el, {
         attributes: true,
         childList: true,
         characterData: true,
@@ -170,15 +206,16 @@ export default defineComponent({
     /**
      * 添加鼠标拖动事件
      */
-    const thrumbVerticalMouseDown = e => {
+    const thrumbMouseDown = (e, t: 'y' | 'x') => {
       e.stopPropagation()
+
       let start = e.pageY
-      let contentH = (contentEl.value as HTMLElement).clientHeight as number
-      let scrollTop = (containerEl.value as HTMLElement).scrollTop
+      let contentH = content.el.clientHeight as number
+      let scrollTop = container.el.scrollTop
 
       const move = event => {
         let distance = event.pageY - start
-        ;(containerEl.value as HTMLElement).scrollTop = scrollTop + distance / vertical.height * contentH
+        container.el.scrollTop = scrollTop + distance / vertical.height * contentH
       }
 
       const up = () => {
@@ -190,20 +227,19 @@ export default defineComponent({
       document.addEventListener('mouseup', up)
     }
 
-    let cssVar = computed(() => {
+    const cssVar = computed(() => {
       let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : styleVar
       if (props.color) {
-        composeVar.color = props.color
+        composeVar.scrollbarColor = props.color
       }
       return composeVar
     })
-
     return {
-      verticalEl,
+      container,
+      content,
       vertical,
-      containerEl,
-      thrumbVerticalMouseDown,
-      contentEl,
+      horizontal,
+      thrumbMouseDown,
       cssVar,
     }
   },
@@ -228,21 +264,36 @@ export default defineComponent({
     &::-webkit-scrollbar{
       display: none;
     }
+    .scrollbar-content{
+      width: fit-content;
+      height: fit-content;
+    }
+  }
+  .scrollbar-track{
+    position: absolute;
+    border-radius: 8px;
+    z-index: 2;
   }
 
   .scrollbar-vertical{
-    position: absolute;
     right: 2px;
     top: 2px;
     bottom: 2px;
-    z-index: 2;
-    border-radius: 8px;
+    .scrollbar-thrumb{
+      width: 5px;
+    }
+  }
+  .scrollbar-horizontal{
+    bottom: 2px;
+    left: 2px;
+    right: 2px;
+    .scrollbar-thrumb{
+      height: 5px;
+    }
   }
   .scrollbar-thrumb{
     position: relative;
-    width: 5px;
-    height: 40px;
-    background: v-bind('cssVar.color');
+    background: v-bind('cssVar.scrollbarColor');
     border-radius: 8px;
     opacity: .4;
     cursor: pointer;
@@ -254,10 +305,10 @@ export default defineComponent({
 }
 
 .cg-scrollbar.cg-scrollbar-hover {
-  > .scrollbar-vertical .scrollbar-thrumb{
+  > .scrollbar-track .scrollbar-thrumb{
     display: none;
   }
-  &:hover > .scrollbar-vertical .scrollbar-thrumb{
+  &:hover > .scrollbar-track .scrollbar-thrumb{
     display: block;
   }
 }

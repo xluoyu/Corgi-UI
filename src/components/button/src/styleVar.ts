@@ -2,7 +2,6 @@ import cssvar from '@corgi/components/style/index'
 
 const buttonVar = {
   theme: cssvar.default,
-  color: '#fff',
   round: '3px',
   tiny: {
     height: '22px',
@@ -15,7 +14,6 @@ const buttonVar = {
     fontSize: cssvar.fontSizeH4,
     circle: '14px',
     padding: '0 10px',
-
   },
   medium: {
     height: '34px',

@@ -7,7 +7,6 @@
 ```html
 <div class="test-container">
   <cg-scrollbar
-    ref="scroll"
     y
     :load-more="loadMore"
     show="hover"
@@ -21,7 +20,6 @@
 import { ref } from 'vue'
 
 const contentHeight = ref(800)
-const scroll = ref(null)
 const loadMore = () => {
   contentHeight.value += 400
 }

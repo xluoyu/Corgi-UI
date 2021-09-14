@@ -15,14 +15,14 @@
       'display': block ? 'flex' : 'inline-flex',
     }"
     :disabled="disabled"
-    :type="attrType"
-    @mousedown="handleMouseDown"
+    @click="handleClick"
   >
+    <span v-if="iconPosition === 'right'"><slot></slot></span>
     <cg-icon v-if="loading" is-loading>
       <Loading />
     </cg-icon>
     <slot v-else name="icon"></slot>
-    <span><slot></slot></span>
+    <span v-if="iconPosition === 'left'"><slot></slot></span>
   </div>
 </template>
 
@@ -36,10 +36,6 @@ import type { PropType } from 'vue'
 import { Loading } from '@element-plus/icons'
 
 const buttonProps = {
-  attrType: {
-    type: String,
-    default: 'button',
-  },
   round: {
     type: [Boolean, String],
     default: true,
@@ -52,6 +48,11 @@ const buttonProps = {
   disabled: Boolean,
   ghost: Boolean,
   dashed: Boolean,
+  onClick: Function,
+  iconPosition: {
+    type: String as PropType<'left' | 'right'>,
+    default: 'left',
+  },
   size: {
     type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
     default: 'medium',
@@ -73,35 +74,33 @@ export default defineComponent({
 
     let cssVar = computed(() => {
       let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : Object.assign({}, styleVar)
-      composeVar.theme = props.color ? props.color : composeVar[props.type]
+      composeVar.theme = Object.assign({}, composeVar[props.type])
       if (props.color) {
-        composeVar.color = isLight(props.color) ? '#000' : '#fff'
+        composeVar.theme.bg = props.color
+        composeVar.theme.color = isLight(props.color) ? '#000' : '#fff'
+      }
+      if (props.round && isString(props.round)) {
+        composeVar.round = props.round
       }
       return composeVar
     })
 
     let buttonSizeVar = computed(() => {
       let sizeAboutVar = cssVar.value[props.size]
-
-      if (props.round && isString(props.round)) {
-        sizeAboutVar.round = props.round
-      }
-
       return sizeAboutVar
     })
 
-    const handleMouseDown = (e: MouseEvent) => {
-      e.preventDefault()
-
-      if (props.disabled) {
-        return
+    const handleClick = e => {
+      if (!props.disabled && !props.loading) {
+        const { onClick } = props
+        onClick && onClick.call(onClick, e)
       }
     }
 
     return {
       cssVar,
       buttonSizeVar,
-      handleMouseDown,
+      handleClick,
     }
   },
 })
@@ -111,14 +110,15 @@ export default defineComponent({
 @import url('../../style/mixin.less');
 
 .cg-button {
-  background: v-bind('cssVar.theme');
+  background: v-bind('cssVar.theme.bg');
   height: v-bind('buttonSizeVar.height');
   font-size: v-bind('buttonSizeVar.fontSize');
-  color: v-bind('cssVar.color');
+  color: v-bind('cssVar.theme.color');
   padding: v-bind('buttonSizeVar.padding');
   box-sizing: border-box;
   border: none;
   cursor: pointer;
+  user-select: none;
   .flex-center();
   &:hover {
     opacity: 0.7;
@@ -131,11 +131,11 @@ export default defineComponent({
   }
   &.cg-button--ghost {
     background: transparent;
-    border: 1px solid v-bind('cssVar.theme');
-    color: v-bind('cssVar.theme');
+    border: 1px solid v-bind('cssVar.theme.bg');
+    color: v-bind('cssVar.theme.bg');
     &:hover {
-      background: v-bind('cssVar.theme');
-      color: v-bind('cssVar.color');
+      background: v-bind('cssVar.theme.bg');
+      color: v-bind('cssVar.theme.color');
     }
     &.cg-button--dashed {
       border-style: dashed;
@@ -149,7 +149,7 @@ export default defineComponent({
   &.cg-button--text {
     border: none;
     background: none;
-    color: v-bind('cssVar.theme');
+    color: v-bind('cssVar.theme.bg');
   }
 }
 </style>

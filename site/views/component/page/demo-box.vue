@@ -91,11 +91,13 @@ watch(showCode, () => {
     background-image: url('@site/assets/paper.png');
     transition: all .4s;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     box-sizing: border-box;
     font-size: 14px;
     line-height: 24px;
     letter-spacing: 2px;
+
     :deep(pre) {
       padding: 20px;
     }

@@ -13,6 +13,16 @@ export default defineComponent({
 
     return {}
   },
+  data () {
+    return {
+      name: '那你、',
+    }
+  },
+  methods: {
+    test () {
+      console.log(this)
+    },
+  },
 })
 </script>
 

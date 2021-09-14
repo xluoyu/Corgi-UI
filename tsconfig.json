@@ -11,7 +11,7 @@
     "paths": {
       "@site/*": ["./site/*"],
       "@corgi/*": ["./src/*"],
-      "corgi-box/*": ["./es/*"]
+      "corgi-box": ["./src/index"]
     },
     "noImplicitAny": false,
     "allowSyntheticDefaultImports": true,

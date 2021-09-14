@@ -65,6 +65,8 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+@import url('../../style/mixin.less');
+
 .cg-menu-item{
   height: 42px;
   padding: 0 20px;
@@ -89,6 +91,10 @@ export default defineComponent({
     display: flex;
     align-items: center;
     text-decoration: none;
+    &:before{
+      content:'';
+      .ab-fill()
+    }
   }
 }
 </style>

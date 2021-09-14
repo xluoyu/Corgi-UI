@@ -706,3 +706,4 @@ if (script && script.content) {
 带有后面跟有锚名称 #，指向文档内某个具体的元素。这个被链接的元素就是目标元素(target element)。
 
 :target 选择器可用于选取当前活动的目标元素。
+
