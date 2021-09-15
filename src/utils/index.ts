@@ -1,6 +1,8 @@
 import { isObject } from './typeTool'
 import { warn } from './warn'
 import { IThemeCssVar } from './type'
+import { inject } from 'vue'
+import { cloneDeep, merge } from 'lodash'
 
 /**
  * 获取某个dom节点上的css变量
@@ -88,4 +90,43 @@ export const assignThemecustom = (customTheme: IThemeCssVar, defaultTheme: IThem
   })
 
   return newTheme
+}
+
+import defaultCssVar from '@corgi/components/style/index'
+
+/**
+ *  获取全局预设变量、自定义全局变量
+ * @param customTheme
+ * @returns
+ */
+export const getGlobalCssVar = (customTheme: IThemeCssVar | null): IThemeCssVar => {
+  const defaultVar = cloneDeep(defaultCssVar)
+  if (!customTheme) return defaultVar
+  Object.keys(defaultVar).forEach(key => {
+    if (isObject(customTheme[key])) {
+      merge(defaultVar[key], customTheme[key])
+    } else {
+      defaultVar[key] = customTheme[key]
+    }
+  })
+  return defaultVar
+}
+
+/**
+ * 获取全局预设变量、组件独有变量、自定义组件独有变量
+ *
+ * @param customTheme 组定义主题 inject<IThemeCssVar>('theme', null)
+ * @param componentVarFn 组件内变量
+ * @param componentName 组件名
+ * @returns
+ */
+export const getComponentCssVar = (customTheme: IThemeCssVar | null, componentVarFn: (cssvar?: IThemeCssVar) => IThemeCssVar, componentName: string) => {
+  const defaultVar = getGlobalCssVar(customTheme)
+
+  const componentCssVar = componentVarFn(defaultVar) // 组件独有
+  if (customTheme && customTheme[componentName]) {
+    merge(componentCssVar, customTheme[componentName])
+  }
+
+  return { ...defaultVar, ...componentCssVar }
 }

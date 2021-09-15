@@ -1,7 +1,8 @@
-import cssvar from '@corgi/components/style/index'
 
-const ScrollbarVar = {
-  scrollbarColor: '#999',
+const ScrollbarVar = cssVar => {
+  return {
+    scrollbarColor: '#999',
+  }
 }
 
-export default Object.assign({}, cssvar, ScrollbarVar)
+export default ScrollbarVar

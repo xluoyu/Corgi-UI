@@ -2,6 +2,8 @@
 import { computed, defineComponent, inject, PropType } from 'vue'
 import { IMenuItem, menuProvideKey } from './type'
 import styleVar from './styleVar'
+import { getComponentCssVar } from '@corgi/utils'
+import { IThemeCssVar } from '@corgi/utils/type'
 export default defineComponent({
   name: 'CgMenuItem',
   props: {
@@ -17,12 +19,13 @@ export default defineComponent({
       activeKey,
       changeActive,
     } = inject(menuProvideKey)
+    const customTheme = inject<IThemeCssVar>('theme', null)
 
+    const componentCssVar = computed(() => {
+      const componentCssVar = getComponentCssVar(customTheme, styleVar, 'menu')
+      componentCssVar.paddingLeft = props.space + 'px'
 
-    const cssVar = computed(() => {
-      return Object.assign({}, styleVar, {
-        paddingLeft: props.space + 'px',
-      })
+      return componentCssVar
     })
 
     const handleClick = () => {
@@ -32,7 +35,7 @@ export default defineComponent({
     const isActive = computed(() => activeKey.value === props.options.key)
 
     return {
-      cssVar,
+      componentCssVar,
       pathBase: menuProps.pathBase || '',
       activeStyle: menuProps.activeStyle || '',
       itemClass: menuProps.itemClass || '',
@@ -69,20 +72,19 @@ export default defineComponent({
 .cg-menu-item{
   height: 42px;
   padding: 0 20px;
-  padding-left: v-bind('cssVar.paddingLeft');
+  padding-left: v-bind('componentCssVar.paddingLeft');
   display: flex;
   align-items: center;
   cursor: pointer;
   color: #333;
-  font-size: v-bind('cssVar.fontSizeH3');
-  // border-radius: v-bind('cssVar.radiusMini');
+  font-size: v-bind('componentCssVar.fontSizeH3');
   position: relative;
   &:hover{
-    color: v-bind('cssVar.theme');
+    color: v-bind('componentCssVar.theme');
   }
   &.cg-menu-item--active{
-    color: v-bind('cssVar.activeColor');
-    background-color: v-bind('cssVar.activeBackground');
+    color: v-bind('componentCssVar.activeColor');
+    background-color: v-bind('componentCssVar.activeBackground');
   }
   a{
     color: inherit;

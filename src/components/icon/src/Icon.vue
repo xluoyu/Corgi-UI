@@ -17,7 +17,6 @@
 
 <script lang="ts">
 import { defineComponent } from 'vue'
-import styleVar from './styleVar'
 
 export default defineComponent({
   name: 'CgIcon',
@@ -25,12 +24,6 @@ export default defineComponent({
     size: String,
     color: String,
     isLoading: Boolean,
-  },
-  setup () {
-
-    return {
-      styleVar,
-    }
   },
 })
 </script>

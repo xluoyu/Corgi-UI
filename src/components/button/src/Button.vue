@@ -28,12 +28,12 @@
 
 <script lang="ts">
 import { defineComponent, computed, inject } from 'vue'
-import { assignThemecustom, isLight } from '@corgi/utils/index'
-import type { IThemeCssVar } from '@corgi/utils/type'
+import { getComponentCssVar, getGlobalCssVar, isLight } from '@corgi/utils/index'
 import { isString } from '@corgi/utils/typeTool'
-import styleVar from './styleVar'
 import type { PropType } from 'vue'
 import { Loading } from '@element-plus/icons'
+import styleVar from './styleVar'
+import { IThemeCssVar } from '@corgi/utils/type'
 
 const buttonProps = {
   round: {
@@ -70,19 +70,19 @@ export default defineComponent({
   },
   props: buttonProps,
   setup (props) {
-    const customTheme = inject<IThemeCssVar>('theme', {})
-
+    const customTheme = inject<IThemeCssVar>('theme', null)
+    const globalCssVar = getGlobalCssVar(customTheme)
     let cssVar = computed(() => {
-      let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : Object.assign({}, styleVar)
-      composeVar.theme = Object.assign({}, composeVar[props.type])
+      const componentCssVar = getComponentCssVar(customTheme, styleVar, 'button')
+      componentCssVar.theme = globalCssVar[props.type]
       if (props.color) {
-        composeVar.theme.bg = props.color
-        composeVar.theme.color = isLight(props.color) ? '#000' : '#fff'
+        componentCssVar.theme.bg = props.color
+        componentCssVar.theme.color = isLight(props.color) ? '#000' : '#fff'
       }
       if (props.round && isString(props.round)) {
-        composeVar.round = props.round
+        componentCssVar.round = props.round
       }
-      return composeVar
+      return componentCssVar
     })
 
     let buttonSizeVar = computed(() => {
@@ -115,7 +115,7 @@ export default defineComponent({
   font-size: v-bind('buttonSizeVar.fontSize');
   color: v-bind('cssVar.theme.color');
   padding: v-bind('buttonSizeVar.padding');
-  box-sizing: border-box;
+  box-sizing: content-box;
   border: none;
   cursor: pointer;
   user-select: none;

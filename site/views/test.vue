@@ -4,7 +4,7 @@
     <cg-button @click="start">开始</cg-button>
     <cg-button @click="finish">结束</cg-button>
     <cg-button @click="error">报错</cg-button>
-    <cg-theme-config :theme="themeConfig">
+    <cg-theme-config>
       <cg-button size="tiny" style="margin-right: 10px;" type="error">tiny</cg-button>
       <cg-button size="small" style="margin-right: 10px;" type="success" color="#336696" @click="btnTest">small</cg-button>
       <cg-button
@@ -73,13 +73,6 @@ const clickHandle = () => {
   console.log('点击了')
   size.value = size.value == 'large' ? 'small' : 'large'
 }
-
-const themeConfig = {
-  small: {
-    fontSize: '20px'
-  }
-}
-
 const btnTest = () => {alert(456)}
 const btnTesty2 = () => {}
 

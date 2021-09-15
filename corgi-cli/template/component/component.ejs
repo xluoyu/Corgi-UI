@@ -9,7 +9,8 @@
 <script lang="ts">
 import { defineComponent, computed, inject } from 'vue'
 import styleVar from './styleVar'
-import { assignThemecustom } from '@corgi/utils'
+import { getComponentCssVar, getGlobalCssVar } from '@corgi/utils/index'
+import { IThemeCssVar } from '@corgi/utils/type'
 
 export default defineComponent({
   name: 'Cg<%= options.fileName %>',
@@ -20,13 +21,14 @@ export default defineComponent({
     }
   },
   setup () {
-    const customTheme = inject('theme', {})
+    const customTheme = inject<IThemeCssVar>('theme', null)
+    const globalCssVar = getGlobalCssVar(customTheme)
     let cssVar = computed(() => {
-      let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : styleVar
+      const componentCssVar = getComponentCssVar(customTheme, styleVar, '<%= options.fileName %>')
       if (props.color) {
         composeVar.color = props.color
       }
-      return composeVar
+      return componentCssVar
     })
 
     return {

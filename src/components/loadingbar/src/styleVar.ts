@@ -1,7 +1,8 @@
-import cssvar from '@corgi/components/style/index'
-
-const LoadingbarVar = {
-
+const LoadingbarVar = () => {
+  return {
+    activeColor: '#0fd130',
+    errorColor: 'd1260f',
+  }
 }
 
-export default Object.assign({}, cssvar, LoadingbarVar)
+export default LoadingbarVar

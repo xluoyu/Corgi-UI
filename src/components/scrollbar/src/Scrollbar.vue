@@ -93,7 +93,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { assignThemecustom } from '@corgi/utils/index'
+import { getComponentCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
 import { number2Px } from '@corgi/utils/typeTool'
 import { computed, defineComponent, inject, nextTick, onMounted, onUnmounted, PropType, reactive, ref, watchEffect } from 'vue'
@@ -116,8 +116,6 @@ const props = defineProps({
   loadHeight: Number,
   loadMore: Function,
 })
-
-const customTheme = inject<IThemeCssVar>('theme', {})
 
 const container = reactive<IContentBox>({
   el: null,
@@ -261,12 +259,13 @@ defineExpose({
   },
 })
 
+const customTheme = inject<IThemeCssVar>('theme', null)
 const cssVar = computed(() => {
-  let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : styleVar
+  const componentCssVar = getComponentCssVar(customTheme, styleVar, 'scrollbar')
   if (props.color) {
-    composeVar.scrollbarColor = props.color
+    componentCssVar.scrollbarColor = props.color
   }
-  return composeVar
+  return componentCssVar
 })
 </script>
 
