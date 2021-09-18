@@ -1,7 +1,7 @@
 <script lang="tsx">
-import { getGlobalCssVar } from '@corgi/utils'
-import { merge } from 'lodash'
-import { defineComponent, computed } from 'vue'
+import { getComponentCssVar } from '@corgi/utils'
+import { IThemeCssVar } from '@corgi/utils/type'
+import { defineComponent, computed, inject } from 'vue'
 import itemRender from './itemRender'
 import styleVar from './styleVar'
 
@@ -12,9 +12,10 @@ export default defineComponent({
     space: Number,
   },
   setup (props) {
-    const globalCssVar = getGlobalCssVar()
+    const customTheme = inject<IThemeCssVar>('theme', null)
+
     const cssVar = computed(() => {
-      const componentCssVar = globalCssVar.menu ? merge(styleVar(globalCssVar), globalCssVar.menu) : styleVar(globalCssVar)
+      const componentCssVar = getComponentCssVar(customTheme, styleVar, 'menu')
       componentCssVar.paddingLeft = props.space + 'px'
 
       return componentCssVar
