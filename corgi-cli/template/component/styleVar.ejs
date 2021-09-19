@@ -1,7 +1,5 @@
-import cssvar from '@components/style/index'
-
-const <%= options.fileName %>Var = {
-
+const <%= options.fileName %>Var = (cssVar) => {
+  return {}
 }
 
-export default Object.assign({}, cssvar, <%= options.fileName %>Var)
+export default <%= options.fileName %>Var

@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { defineComponent } from 'vue'
+import { defineComponent, VNode } from 'vue'
 
 export default defineComponent({
   setup () {
@@ -21,12 +21,12 @@ export default defineComponent({
       <div class="grid">
         <div>
           {
-            childrens[0].map(child => child)
+            childrens[0].map((child: VNode) => child)
           }
         </div>
         <div>
           {
-            childrens[1].map(child => child)
+            childrens[1].map((child: VNode) => child)
           }
         </div>
       </div>

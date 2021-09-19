@@ -1,17 +1,41 @@
-<script lang="tsx">
+<template>
+  <div
+    :class="[
+      `cg-button`,
+      {
+        'cg-button--circle': circle,
+        'cg-button--round': round,
+        'cg-button--ghost': ghost,
+        'cg-button--dashed': dashed,
+        'cg-button--disabled': disabled || loading,
+        'cg-button--text': text,
+      },
+    ]"
+    :style="{
+      'display': block ? 'flex' : 'inline-flex',
+    }"
+    :disabled="disabled"
+    @click="handleClick"
+  >
+    <span v-if="iconPosition === 'right'"><slot></slot></span>
+    <cg-icon v-if="loading" is-loading>
+      <Loading />
+    </cg-icon>
+    <slot v-else name="icon"></slot>
+    <span v-if="iconPosition === 'left'"><slot></slot></span>
+  </div>
+</template>
+
+<script lang="ts">
 import { defineComponent, computed, inject } from 'vue'
-import { assignThemecustom, isLight } from '@utils/index'
-import { IThemeCssVar } from '@utils/type'
-import { isString } from '@utils/typeTool'
-import styleVar from './styleVar'
-
+import { getComponentCssVar, getGlobalCssVar, isLight } from '@corgi/utils/index'
+import { isString } from '@corgi/utils/typeTool'
 import type { PropType } from 'vue'
+import { Loading } from '@element-plus/icons'
+import styleVar from './styleVar'
+import { IThemeCssVar } from '@corgi/utils/type'
 
-const props = {
-  attrType: {
-    type: String,
-    default: 'button',
-  },
+const buttonProps = {
   round: {
     type: [Boolean, String],
     default: true,
@@ -24,6 +48,11 @@ const props = {
   disabled: Boolean,
   ghost: Boolean,
   dashed: Boolean,
+  onClick: Function,
+  iconPosition: {
+    type: String as PropType<'left' | 'right'>,
+    default: 'left',
+  },
   size: {
     type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
     default: 'medium',
@@ -32,69 +61,47 @@ const props = {
     type: String as PropType<'default' | 'primary' | 'success' | 'info' | 'warning' | 'error'>,
     default: 'default',
   },
-  tag: {
-    type: String as PropType<keyof HTMLElementTagNameMap>,
-    default: 'button',
-  },
-  onClick: [Function, Array],
 }
 
 export default defineComponent({
   name: 'CgButton',
-  props,
+  components: {
+    Loading,
+  },
+  props: buttonProps,
   setup (props) {
-    const customTheme = inject<IThemeCssVar>('theme', {})
-
+    const customTheme = inject<IThemeCssVar>('theme', null)
+    const globalCssVar = getGlobalCssVar(customTheme)
     let cssVar = computed(() => {
-      let composeVar = customTheme ? assignThemecustom(customTheme, styleVar) : Object.assign({}, styleVar)
-      composeVar.theme = props.color ? props.color : composeVar[props.type]
+      const componentCssVar = getComponentCssVar(customTheme, styleVar, 'button')
+      componentCssVar.theme = globalCssVar[props.type]
       if (props.color) {
-        composeVar.color = isLight(props.color) ? '#000' : '#fff'
+        componentCssVar.theme.bg = props.color
+        componentCssVar.theme.color = isLight(props.color) ? '#000' : '#fff'
       }
-      return composeVar
+      if (props.round && isString(props.round)) {
+        componentCssVar.round = props.round
+      }
+      return componentCssVar
     })
 
     let buttonSizeVar = computed(() => {
       let sizeAboutVar = cssVar.value[props.size]
-
-      if (props.round && isString(props.round)) {
-        sizeAboutVar.round = props.round
-      }
-
       return sizeAboutVar
     })
+
+    const handleClick = e => {
+      if (!props.disabled && !props.loading) {
+        const { onClick } = props
+        onClick && onClick.call(onClick, e)
+      }
+    }
 
     return {
       cssVar,
       buttonSizeVar,
+      handleClick,
     }
-  },
-  render () {
-    const { $slots, tag: Component } = this
-    return (
-      <Component
-        class={[
-          `cg-button`,
-          {
-            'cg-button--default': this.type === 'default',
-            'cg-button--circle': this.circle,
-            'cg-button--round': this.round,
-            'cg-button--ghost': this.ghost,
-            'cg-button--dashed': this.dashed,
-            'cg-button--disabled': this.disabled,
-            'cg-button--text': this.text,
-          },
-        ]}
-        style={{
-          'display': this.block ? 'flex' : 'inline-flex',
-        }}
-        disabled={this.disabled}
-        type={this.attrType}
-        onClick={this.onClick}
-      >
-        <span>{$slots.default && $slots.default()}</span>
-      </Component>
-    )
   },
 })
 </script>
@@ -103,19 +110,19 @@ export default defineComponent({
 @import url('../../style/mixin.less');
 
 .cg-button {
-  background: v-bind('cssVar.theme');
+  background: v-bind('cssVar.theme.bg');
   height: v-bind('buttonSizeVar.height');
   font-size: v-bind('buttonSizeVar.fontSize');
-  color: v-bind('cssVar.color');
+  color: v-bind('cssVar.theme.color');
   padding: v-bind('buttonSizeVar.padding');
-  box-sizing: border-box;
+  box-sizing: content-box;
   border: none;
   cursor: pointer;
+  user-select: none;
   .flex-center();
   &:hover {
     opacity: 0.7;
   }
-
   &.cg-button--round {
     border-radius: v-bind('cssVar.round');
   }
@@ -124,11 +131,11 @@ export default defineComponent({
   }
   &.cg-button--ghost {
     background: transparent;
-    border: 1px solid v-bind('cssVar.theme');
-    color: v-bind('cssVar.theme');
+    border: 1px solid v-bind('cssVar.theme.bg');
+    color: v-bind('cssVar.theme.bg');
     &:hover {
-      background: v-bind('cssVar.theme');
-      color: v-bind('cssVar.color');
+      background: v-bind('cssVar.theme.bg');
+      color: v-bind('cssVar.theme.color');
     }
     &.cg-button--dashed {
       border-style: dashed;
@@ -138,15 +145,11 @@ export default defineComponent({
     opacity: 0.5;
     cursor: not-allowed;
   }
+
   &.cg-button--text {
     border: none;
     background: none;
-    color: v-bind('cssVar.theme');
-  }
-  &.cg-button--default {
-    border: 1px solid #eee;
-    color: #333;
-    background: #fff;
+    color: v-bind('cssVar.theme.bg');
   }
 }
 </style>

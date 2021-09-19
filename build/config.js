@@ -1,10 +1,7 @@
 const { resolve } = require('path')
 
-const INPUT_PATH = resolve(__dirname, '../src')
-const OUTPUT_PATH = resolve(__dirname, '../es')
-module.exports.INPUT_PATH = INPUT_PATH
-module.exports.OUTPUT_PATH = OUTPUT_PATH
-
+module.exports.INPUT_PATH = resolve(__dirname, '../src')
+module.exports.OUTPUT_PATH = resolve(__dirname, '../es')
 
 module.exports.onwarn = function onwarn(warning) {
   // 跳过某些警告
@@ -15,8 +12,5 @@ module.exports.onwarn = function onwarn(warning) {
   console.warn(warning.message)
 }
 
-module.exports.alias = [
-  '@components',
-  '@hooks',
-  '@utils',
-]
+module.exports.PREFIX = 'corgi-box/es'
+

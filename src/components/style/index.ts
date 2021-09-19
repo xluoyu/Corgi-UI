@@ -1,10 +1,10 @@
 export default {
-  primary: '#F4AD5A',
-  success: '#18a058',
-  info: '#2080f0',
-  warning: '#f0a020',
-  error: '#d03050',
-  default: '#333',
+  primary: { bg:'#ffac4e', color: '#fff' },
+  success: { bg: '#18a058', color: '#fff' },
+  info: { bg:'#2080f0', color: '#fff' },
+  warning: { bg:'#f0a020', color: '#fff' },
+  error: { bg:'#d03050', color: '#fff' },
+  default: { bg:'#999', color: '#fff' },
 
   fontSizeH1: '24px', // 大标题
   fontSizeH2: '18px', // 标题
@@ -16,8 +16,6 @@ export default {
   fontColor3: '#999',
 
   pMargin: '10px',
-
-  hoverTheme: '#F4AD5A',
 
   radiusMini: '6px',
 }

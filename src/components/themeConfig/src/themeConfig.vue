@@ -11,17 +11,10 @@ export default defineComponent({
     },
   },
   setup (props) {
-    if (props.theme) {
-      provide('theme', props.theme)
-    }
-    return {}
+    provide('theme', props.theme)
   },
   render () {
     return this.$slots.default && this.$slots.default()
   },
 })
 </script>
-
-<style scoped>
-
-</style>

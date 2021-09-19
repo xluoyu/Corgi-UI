@@ -36,6 +36,7 @@ const genDemosTemplate = demos => {
 const docLoader = async (code, path) => {
   let codeObject = marked.lexer(code)
   const demoIndex = codeObject.findIndex(e => e.type === 'code' && e.lang === 'demo')
+
   let compoentList = []
   if (demoIndex !== -1) {
     compoentList = await filterDemos(codeObject[demoIndex].text, path)

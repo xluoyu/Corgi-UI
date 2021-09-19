@@ -1,7 +1,9 @@
 <script lang="tsx">
-import { computed, defineComponent, PropType } from 'vue'
-import { IMenuItem } from './type'
+import { computed, defineComponent, inject, PropType } from 'vue'
+import { IMenuItem, menuProvideKey } from './type'
 import styleVar from './styleVar'
+import { getComponentCssVar } from '@corgi/utils'
+import { IThemeCssVar } from '@corgi/utils/type'
 export default defineComponent({
   name: 'CgMenuItem',
   props: {
@@ -12,20 +14,52 @@ export default defineComponent({
     space: Number,
   },
   setup (props) {
-    const cssVar = computed(() => {
-      return Object.assign({}, styleVar, {
-        paddingLeft: props.space + 'px',
-      })
+    const {
+      menuProps,
+      activeKey,
+      changeActive,
+    } = inject(menuProvideKey)
+    const customTheme = inject<IThemeCssVar>('theme', null)
+
+    const componentCssVar = computed(() => {
+      const componentCssVar = getComponentCssVar(customTheme, styleVar, 'menu')
+      componentCssVar.paddingLeft = props.space + 'px'
+
+      return componentCssVar
     })
 
+    const handleClick = () => {
+      changeActive(props.options.key)
+    }
+
+    const isActive = computed(() => activeKey.value === props.options.key)
+
     return {
-      cssVar,
+      componentCssVar,
+      pathBase: menuProps.pathBase || '',
+      activeStyle: menuProps.activeStyle || '',
+      itemClass: menuProps.itemClass || '',
+      isActive,
+      handleClick,
     }
   },
   render () {
     return (
-      <div class="cg-menu-item">
-        <a href={this.options.path}>{this.options.label}</a>
+      <div
+        class={[
+          'cg-menu-item',
+          {
+            'cg-menu-item--active': this.isActive,
+          },
+          this.itemClass,
+        ]}
+        style={this.activeStyle}
+        onClick={this.handleClick}
+      >
+        {
+          this.options.path ? <router-link to={this.pathBase + this.options.path}>{this.options.label}</router-link>
+            : this.options.label
+        }
       </div>
     )
   },
@@ -33,22 +67,36 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
+@import url('../../style/mixin.less');
+
 .cg-menu-item{
   height: 42px;
   padding: 0 20px;
-  padding-left: v-bind('cssVar.paddingLeft');
+  padding-left: v-bind('componentCssVar.paddingLeft');
   display: flex;
   align-items: center;
   cursor: pointer;
   color: #333;
-  border-radius: v-bind('cssVar.radiusMini');
+  font-size: v-bind('componentCssVar.fontSizeH3');
+  position: relative;
   &:hover{
-    // background: v-bind('cssVar.theme');
-    color: v-bind('cssVar.theme');
+    color: v-bind('componentCssVar.theme');
+  }
+  &.cg-menu-item--active{
+    color: v-bind('componentCssVar.activeColor');
+    background-color: v-bind('componentCssVar.activeBackground');
   }
   a{
     color: inherit;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
     text-decoration: none;
+    &:before{
+      content:'';
+      .ab-fill()
+    }
   }
 }
 </style>

@@ -4,6 +4,7 @@
 
 ```demo
 base
+theme
 ```
 
 # Props
@@ -12,7 +13,7 @@ base
 | --- | --- | --- | --- |
 | y | `Boolean` | `false` | 开启纵向滚动 |
 | x | `Boolean` | `false` | 开启横向滚动 |
-| show | `String<'always' \| 'hover' \| 'never'>` | `hover` | 滚动条的显示方式<'总是显示' \| '划过容器显示' \| '从不' |
+| show | `String<'always' \| 'hover' \| 'never'>` | `hover` | 滚动条的显示方式<'总是显示' \| '划过容器显示' \| '从不' >|
 | thrumbClass | `String` | —— | 滚动条的className |
 | thrumbStyle | `String` | —— | 滚动条的样式 |
 | scrollClass | `String` | —— | 滚动容器的className |
@@ -25,9 +26,4 @@ base
 | --- | --- | --- |
 | loadMore | —— | 滚动至底部时的回调 |
 
-# Methods
-
-| 方法名称 | 参数  | 说明 |
-| --- | --- | --- |
-| update | —— | 手动更新滚动条（请在改变内容宽高后调用） |
 

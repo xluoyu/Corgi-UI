@@ -5,7 +5,12 @@
       <span>Corgi UI</span>
     </div>
     <div class="nav-menu">
-      <cg-menu :list="menuOptions" mode="horizontal" />
+      <cg-menu
+        :list="menuOptions"
+        mode="horizontal"
+        active-key="component"
+        active-style="background: none"
+      />
     </div>
     <div class="nav-end"></div>
   </div>

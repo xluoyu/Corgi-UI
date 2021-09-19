@@ -1,5 +1,5 @@
 <template>
-  <div :id="id" ref="demoEl" :class="{'cg-show-demo':true, 'active': activeComponentKey == id}">
+  <div :id="id" ref="demoEl" :class="{'cg-show-demo':true}">
     <div class="cg-card">
       <div class="cg-card-header">
         <div class="cg-card-header-main cg-h2">
@@ -12,7 +12,9 @@
       </div>
     </div>
     <div class="cg-show-demo-code">
-      <div class="cg-show-demo-code-content" :style="{height: codeHeight}" v-html="sfcCode"></div>
+      <cg-scrollbar :height="codeHeight" x style="transition: height .3s;">
+        <div class="cg-show-demo-code-content" v-html="sfcCode"></div>
+      </cg-scrollbar>
       <div class="showcode-button" @click="changeShowCode">
         <cg-button type="primary" text>{{ showCode ? '隐藏' : '显示' }}代码</cg-button>
         <div class="right-botton flex-center">
@@ -31,10 +33,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useToggle } from '@hooks/useToggle'
+import { useToggle } from '@corgi/hooks/useToggle'
 import { ref, watch } from 'vue'
 import hljs from '../../../utils/hljs'
-import { useCompoent } from '../hooks/compoent'
 
 const props = defineProps({
   code: {
@@ -56,7 +57,6 @@ const copyCode = () => {
 let sfcCode = hljs.highlight(props.code, { language: 'html' }).value
 sfcCode = `<pre class='code'>${sfcCode}</pre>`
 
-const { activeComponentKey } = useCompoent()
 const getCodeHeight = () => {
   return demoEl.value.querySelector('.cg-show-demo-code-content pre').clientHeight
 }
@@ -73,7 +73,7 @@ watch(showCode, () => {
   transition: all .3s;
   margin-bottom: 20px;
   background: #fff;
-  &.active{
+  &:target{
     border: 1px solid var(--theme);
   }
   &:hover{
@@ -91,20 +91,23 @@ watch(showCode, () => {
   .cg-show-demo-code-content{
     background-color: rgba(250, 250, 250, .6);
     background-image: url('@site/assets/paper.png');
-    transition: all .4s;
     box-sizing: border-box;
-    overflow: hidden;
+    overflow-x: auto;
+    overflow-y: hidden;
     box-sizing: border-box;
     font-size: 14px;
     line-height: 24px;
     letter-spacing: 2px;
+
     :deep(pre) {
       padding: 20px;
     }
   }
   .showcode-button{
-    text-align: center;
-    line-height: 40px;
+    display: flex;
+    height: 40px;
+    align-items: center;
+    justify-content: center;
     cursor: pointer;
     transition: all .3s;
     position: sticky;

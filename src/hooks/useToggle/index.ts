@@ -1,5 +1,5 @@
 import { Ref, ref } from 'vue'
-import { warn } from '@utils/warn'
+import { warn } from '@corgi/utils/warn'
 
 export const useToggle = (bol: boolean): [Ref<Boolean>, () => void] => {
   if (typeof bol !== 'boolean') warn('useToggle', '参数不是boolean')

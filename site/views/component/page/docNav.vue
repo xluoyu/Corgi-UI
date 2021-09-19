@@ -6,16 +6,14 @@
         :key="item.id"
         :href="'#' + item.id"
         :class="{active: activeLink === item.id}"
-        @click="changeActiveComponenyKey(item.id)"
       >{{ item.title }}</a>
     </div>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, PropType, ref } from 'vue'
+import { defineComponent, onMounted, onUnmounted, PropType, ref } from 'vue'
 import { throttle } from 'lodash'
-import { useCompoent } from '../hooks/compoent'
 
 export default defineComponent({
   props: {
@@ -26,8 +24,10 @@ export default defineComponent({
 
     const handleScroll = throttle(() => {
       if (!props.list) return
+
       for (let i = 0; i < props.list?.length; i++) {
         let item = props.list[i]
+        if (!item.id) break
         const { top } = getElInfo('#' + item.id)
 
         if (top - 64 < 20 && top - 64 >= -20) {
@@ -42,20 +42,18 @@ export default defineComponent({
       return target.getBoundingClientRect()
     }
 
-    // onMounted(() => {
-    //   document.addEventListener('scroll', handleScroll, true)
-    // })
+    onMounted(() => {
+      document.addEventListener('scroll', handleScroll, true)
+    })
 
-    const { changeActiveComponenyKey } = useCompoent()
+    onUnmounted(() => {
+      document.removeEventListener('scroll', handleScroll, true)
+    })
 
 
     return {
       activeLink,
-      changeActiveComponenyKey,
     }
-  },
-  mounted() {
-    console.log(this)
   },
 })
 </script>

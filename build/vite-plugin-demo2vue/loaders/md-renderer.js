@@ -30,6 +30,9 @@ function createRenderer() {
     paragraph: text => {
       return `<p class="cg-p">${text}</p>`
     },
+    link (href, title, text) {
+      return `<a class="cg-a" href="${href}">${text}<cg-icon><Link /></cg-icon></a>`
+    },
   }
 
   Object.keys(overrides).forEach(key => {

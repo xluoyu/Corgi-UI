@@ -16,7 +16,7 @@ const copyFile = async input => {
     if (fs.statSync(inputFile).isDirectory()) {
       if (inputFile.includes('src')) {
         let names = input.split('/')
-        let output = OUTPUT_PATH + '/cg-' + names[names.length - 1] + '/src'
+        let output = OUTPUT_PATH + '/' + names[names.length - 1] + '/src'
         return fs.rename(inputFile, output, err => {
           if (err) {
             console.log(err)
@@ -30,9 +30,11 @@ const copyFile = async input => {
     } else {
       let output = OUTPUT_PATH + '/'
       if (input.includes('components')) {
-        output += 'cg-' + input.split('/').pop() + '/' + file
+        output += input.split('/').pop() + '/' + file
       } else if (input.includes('hooks')) {
         output += 'hooks/' + input.split('/').pop() + '.' + file.split('.').slice(1).join('.')
+      } else if (input.includes('directives')) {
+        output += 'directives/' + input.split('/').pop() + '.' + file.split('.').slice(1).join('.')
       } else if (input.includes('utils')) {
         output += 'utils/' + file
       } else {

@@ -1,13 +1,10 @@
-# 透明背景
+# 自定义颜色
 
-`Ghost` 按钮有透明的背景。
+你可以自定义一些主题颜色。文字的颜色会根据主题切换黑、白
 
 ```html
 <cg-space>
-  <cg-button type="primary" ghost>Primary</cg-button>
-  <cg-button type="info" ghost>Info</cg-button>
-  <cg-button type="success" ghost>Success</cg-button>
-  <cg-button type="warning" ghost>Warning</cg-button>
-  <cg-button type="error" ghost>Error</cg-button>
+  <cg-button color='#ff4902'>#ff4902</cg-button>
+  <cg-button color='#59a6de' ghost>#59a6de</cg-button>
 </cg-space>
 ```

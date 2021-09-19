@@ -1,4 +1,6 @@
 <script lang="tsx">
+import { getGlobalCssVar } from '@corgi/utils'
+import { merge } from 'lodash'
 import { defineComponent, computed, inject } from 'vue'
 import itemRender from './itemRender'
 import styleVar from './styleVar'
@@ -10,10 +12,12 @@ export default defineComponent({
     space: Number,
   },
   setup (props) {
+    const globalCssVar = getGlobalCssVar()
     const cssVar = computed(() => {
-      return Object.assign({}, styleVar, {
-        paddingLeft: props.space + 'px',
-      })
+      const componentCssVar = globalCssVar.menu ? merge(styleVar(globalCssVar), globalCssVar.menu) : styleVar(globalCssVar)
+      componentCssVar.paddingLeft = props.space + 'px'
+
+      return componentCssVar
     })
     const indent = inject('indent', 0)
     return {

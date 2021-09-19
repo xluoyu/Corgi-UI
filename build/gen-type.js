@@ -7,6 +7,7 @@ const { Project } = require('ts-morph')
 const vueCompiler = require('@vue/compiler-sfc')
 const klawSync = require('klaw-sync')
 const ora = require('ora')
+const { PREFIX } = require('./config')
 
 const getFilePath = url => path.resolve(__dirname, url)
 
@@ -15,19 +16,14 @@ const TSCONFIG_PATH = getFilePath('../tsconfig.json')
 const getTypes = async() => {
   const project = new Project({
     compilerOptions: {
-      allowJs: false,
+      allowJs: true,
       declaration: true, // 生成声明文件
       noEmitOnError: false, // 发送错误时不输出任何文件
       outDir: getFilePath('../types'),
       baseUrl: getFilePath('../'),
       paths: {
-        '@components/*': ['src/components/*'],
-        '@hooks/*': ['src/hooks/*'],
-        '@utils/*': ['src/utils/*'],
+        '@corgi/*': ['src/*'],
       },
-      exclude: [
-        'node_modules',
-      ],
       skipLibCheck: true,
     },
     tsConfigFilePath: TSCONFIG_PATH,
@@ -67,7 +63,7 @@ const getTypes = async() => {
           // 获取<script>的内容、并标记语言
           if (script && script.content) {
             content += script.content
-            if (script.lang === 'ts') isTs = true
+            if (script.lang === 'ts' || script.lang === 'tsx' ) isTS = true
           }
           /**
             * 因为是<script setup>的语法，需要额外调用compileScript
@@ -82,7 +78,7 @@ const getTypes = async() => {
               id: 'xxx',
             })
             content += compiled.content
-            if (scriptSetup.lang === 'ts') isTS = true
+            if (scriptSetup.lang === 'ts' || scriptSetup.lang === 'tsx' ) isTS = true
           }
           // 将处理好的内容使用ts-morph的APi生成待编译文件
           const sourceFile = project.createSourceFile(
@@ -155,9 +151,8 @@ const getTypes = async() => {
       const filepath = outputFile.getFilePath()
       await fs.promises.writeFile(filepath,
         outputFile.getText()
-          .replace(new RegExp('@components/', 'g'), 'corgi-box/cg-')
-          .replace(new RegExp('@utils', 'g'), 'corgi-box/utils')
-          .replace(new RegExp('@hooks', 'g'), 'corgi-box/hooks')
+          .replace(new RegExp('@corgi/components', 'g'), '@corgi')
+          .replace(new RegExp('@corgi', 'g'), PREFIX)
         , 'utf-8')
     }
   }

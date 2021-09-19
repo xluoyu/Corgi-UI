@@ -4,7 +4,7 @@ const esbuild = require('rollup-plugin-esbuild')
 const vue = require('rollup-plugin-vue') // 处理vue文件
 const fs = require('fs-extra') // 写文件
 const postcss = require('rollup-plugin-postcss')
-const { INPUT_PATH, OUTPUT_PATH, onwarn } = require('./config')
+const { INPUT_PATH, OUTPUT_PATH, onwarn, PREFIX } = require('./config')
 
 const plugins = [
   nodeResolve(),
@@ -28,17 +28,14 @@ export default fs.readdirSync(`${INPUT_PATH}/components`).map(name => {
     external: ['vue', 'element-plus'],
     output: {
       name: 'index',
-      file: `${OUTPUT_PATH}/cg-${name}/index.js`,
+      file: `${OUTPUT_PATH}/${name}/index.js`,
       format: 'es',
       paths: id => {
-        if (/@components/.test(id)) {
-          return '../cg-' + id.slice('@components/'.length)
+        if (/@corgi\/components/.test(id)) {
+          return PREFIX + id.slice('@corgi/components'.length)
         }
-        if (/@hooks/.test(id)) {
-          return '../hooks/' + id.slice('@hooks/'.length)
-        }
-        if (/@utils/.test(id)) {
-          return '../utils/' + id.slice('@utils/'.length)
+        if (/@corgi/.test(id)) {
+          return PREFIX + id.slice('@corgi'.length)
         }
       },
     },

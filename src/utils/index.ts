@@ -1,6 +1,8 @@
 import { isObject } from './typeTool'
 import { warn } from './warn'
 import { IThemeCssVar } from './type'
+import { inject } from 'vue'
+import { cloneDeep, merge } from 'lodash'
 
 /**
  * 获取某个dom节点上的css变量
@@ -20,28 +22,19 @@ export const getBodyVar = (el: string, key: string) => {
  * @param type 返回值格式 string -> 'rgba(xxx,xxx,xxx,xx)'  array -> [xxx,xxx,xxx,xx]
  * @returns
  */
-export const colorToRgba = (color: string, a?: number, type: 'string' | 'array' = 'string'): string | number[] => {
+
+export function colorToRgba (color: string, type: 'string', a?: number): string
+export function colorToRgba (color: string, type: 'array', a?: number): number[]
+export function colorToRgba (color: string, type: 'string' | 'array' = 'string', a?: number) {
   const reg = /^#([0-9a-fA-f]{3}|[0-9a-fA-f]{6})$/
   color = color.toLocaleLowerCase()
 
   if (reg.test(color)) {
-    // 如果只有三位的值，需变成六位，如：#fff => #ffffff
-    if (color.length === 4) {
-      let colorNew = '#'
-      for (let i = 1; i < 4; i += 1) {
-        colorNew += color.slice(i, i + 1).concat(color.slice(i, i + 1))
-      }
-      color = colorNew
-    }
-    // 处理六位的颜色值，转为RGB
-    const colorChange: number[] = []
-    for (let i = 1; i < 7; i += 2) {
-      colorChange.push(parseInt('0x' + color.slice(i, i + 2)))
-    }
+    const colorArr = color.replace(/^#?([a-f\d])([a-f\d])([a-f\d])$/i, (_, r, g, b) => `#${r}${r}${g}${g}${b}${b}`).substring(1).match(/.{2}/g).map(x => parseInt(x, 16))
     if (type === 'string') {
-      return 'rgba(' + colorChange.join(', ') + (a ? ', ' + a : '') + ')'
+      return 'rgba(' + colorArr.join(', ') + (a ? ', ' + a : '') + ')'
     } else {
-      return colorChange
+      return colorArr
     }
   } else {
     if (type === 'string') {
@@ -65,18 +58,18 @@ export const colorToRgba = (color: string, a?: number, type: 'string' | 'array' 
  * @returns Boolean true -> #000 false -> #fff
  */
 export const isLight = (bgColor: string): boolean => {
-  const rgbArr = colorToRgba(bgColor, 1, 'array') as number[]
+  const rgbArr = colorToRgba(bgColor,'array', 1)
   return (0.213 * rgbArr[0] + 0.715 * rgbArr[1] + 0.072 * rgbArr[2] > 255 / 2)
 }
 
-export const getCssVar = () => {
-  const colorPrimary = getBodyVar('body', '--color-primary')
+// export const getCssVar = () => {
+//   const colorPrimary = getBodyVar('body', '--color-primary')
 
-  return {
-    hoverBackground: colorToRgba(colorPrimary, .7),
-    hoverColor: isLight(colorPrimary) ? '#000' : '#fff',
-  }
-}
+//   return {
+//     hoverBackground: hexToRgb(colorPrimary, .7),
+//     hoverColor: isLight(colorPrimary) ? '#000' : '#fff',
+//   }
+// }
 
 
 /**
@@ -97,4 +90,43 @@ export const assignThemecustom = (customTheme: IThemeCssVar, defaultTheme: IThem
   })
 
   return newTheme
+}
+
+import defaultCssVar from '@corgi/components/style/index'
+
+/**
+ *  获取全局预设变量、自定义全局变量
+ * @param customTheme
+ * @returns
+ */
+export const getGlobalCssVar = (customTheme: IThemeCssVar | null): IThemeCssVar => {
+  const defaultVar = cloneDeep(defaultCssVar)
+  if (!customTheme) return defaultVar
+  Object.keys(defaultVar).forEach(key => {
+    if (isObject(customTheme[key])) {
+      merge(defaultVar[key], customTheme[key])
+    } else {
+      defaultVar[key] = customTheme[key]
+    }
+  })
+  return defaultVar
+}
+
+/**
+ * 获取全局预设变量、组件独有变量、自定义组件独有变量
+ *
+ * @param customTheme 组定义主题 inject<IThemeCssVar>('theme', null)
+ * @param componentVarFn 组件内变量
+ * @param componentName 组件名
+ * @returns
+ */
+export const getComponentCssVar = (customTheme: IThemeCssVar | null, componentVarFn: (cssvar?: IThemeCssVar) => IThemeCssVar, componentName: string) => {
+  const defaultVar = getGlobalCssVar(customTheme)
+
+  const componentCssVar = componentVarFn(defaultVar) // 组件独有
+  if (customTheme && customTheme[componentName]) {
+    merge(componentCssVar, customTheme[componentName])
+  }
+
+  return { ...defaultVar, ...componentCssVar }
 }

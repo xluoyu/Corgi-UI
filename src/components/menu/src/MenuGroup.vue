@@ -1,5 +1,7 @@
 <script lang="tsx">
-import { defineComponent, computed } from 'vue'
+import { getComponentCssVar } from '@corgi/utils'
+import { IThemeCssVar } from '@corgi/utils/type'
+import { defineComponent, computed, inject } from 'vue'
 import itemRender from './itemRender'
 import styleVar from './styleVar'
 
@@ -10,10 +12,13 @@ export default defineComponent({
     space: Number,
   },
   setup (props) {
+    const customTheme = inject<IThemeCssVar>('theme', null)
+
     const cssVar = computed(() => {
-      return Object.assign({}, styleVar, {
-        paddingLeft: props.space + 'px',
-      })
+      const componentCssVar = getComponentCssVar(customTheme, styleVar, 'menu')
+      componentCssVar.paddingLeft = props.space + 'px'
+
+      return componentCssVar
     })
     return {
       cssVar,

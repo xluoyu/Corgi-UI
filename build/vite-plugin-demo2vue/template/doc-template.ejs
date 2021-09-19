@@ -11,8 +11,10 @@
 <% componentList.forEach(function(item) { %>
   import <%= item.component %> from "./<%= item.fileName %>"
 <% }) %>
+import {Link} from '@element-plus/icons'
 export default {
   components: {
+    Link,
     <% componentList.forEach(function(item) { %>
       <%= item.component %>,
     <% }) %>
@@ -24,14 +26,9 @@ export default {
         <%- JSON.stringify(obj) %>,
       <% }) %>
     ]
-
     return {
       list
     }
   }
 }
 </script>
-
-<style lang="less">
-@import url('site/styles/doc.less');
-</style>

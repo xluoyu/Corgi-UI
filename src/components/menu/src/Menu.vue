@@ -1,31 +1,48 @@
 <script lang="tsx">
-import { defineComponent, PropType, computed, provide } from 'vue'
-import { EMenuType, IMenuItem } from './type'
+import { defineComponent, computed, provide, ref, PropType } from 'vue'
+import { EMenuType, IMenuItem, menuProvideKey } from './type'
 import itemRender from './itemRender'
+
+export const Props = {
+  space: {
+    type: Number,
+    default: 20,
+  },
+  mode: {
+    type: String as PropType<'vertical' | 'horizontal'>,
+    default: 'vertical',
+  },
+  list: {
+    type: Array as PropType<IMenuItem[]>,
+    dafault: [],
+  },
+  pathBase: String,
+  activeKey: String,
+  activeStyle: String,
+  activeClass: String,
+  itemClass: String,
+}
 
 export default defineComponent({
   name: 'CgMenu',
-  props: {
-    space: {
-      type: Number,
-      default: 20,
-    },
-    mode: {
-      type: String as PropType<'vertical' | 'horizontal'>,
-      default: 'vertical',
-    },
-    list: {
-      type: Array as PropType<IMenuItem[]>,
-      dafault: [],
-    },
-  },
+  props: Props,
   setup (props) {
-    provide('indent', props.space)
+    const activeKey = ref(props.activeKey || '')
+    const changeActive = key => {
+      activeKey.value = key
+    }
+
     const menuList = computed(() => {
       return props.list.map(e => {
         e.component = e.type ? EMenuType[e.type] : 'CgMenuItem'
         return e
       })
+    })
+
+    provide(menuProvideKey, {
+      menuProps: props,
+      activeKey: activeKey,
+      changeActive: changeActive,
     })
 
     return {
