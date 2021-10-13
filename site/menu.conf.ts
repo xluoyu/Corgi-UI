@@ -44,6 +44,18 @@ const MenuList: IMenuObj[] = [
       },
     ],
   },
+  {
+    type: 'group',
+    key: 'route',
+    label: '实用组件',
+    children: [
+      {
+        path: 'loadingBar',
+        label: 'loadingBar 加载条',
+        key: 'loadingBar',
+      },
+    ],
+  },
 ]
 
 

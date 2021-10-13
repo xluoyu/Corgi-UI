@@ -73,7 +73,7 @@ export default defineComponent({
     const customTheme = inject<IThemeCssVar>('theme', null)
     const globalCssVar = getGlobalCssVar(customTheme)
     let cssVar = computed(() => {
-      const componentCssVar = getComponentCssVar(customTheme, styleVar, 'button')
+      const componentCssVar = getComponentCssVar('button', customTheme, styleVar)
       componentCssVar.theme = globalCssVar[props.type]
       if (props.color) {
         componentCssVar.theme.bg = props.color

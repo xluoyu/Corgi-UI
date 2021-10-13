@@ -120,7 +120,7 @@ export const getGlobalCssVar = (customTheme: IThemeCssVar | null): IThemeCssVar 
  * @param componentName 组件名
  * @returns
  */
-export const getComponentCssVar = (customTheme: IThemeCssVar | null, componentVarFn: (cssvar?: IThemeCssVar) => IThemeCssVar, componentName: string) => {
+export const getComponentCssVar = (componentName: string, customTheme: IThemeCssVar | null, componentVarFn: (cssvar?: IThemeCssVar) => IThemeCssVar ) => {
   const defaultVar = getGlobalCssVar(customTheme)
 
   const componentCssVar = componentVarFn(defaultVar) // 组件独有

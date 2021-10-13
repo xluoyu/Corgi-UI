@@ -15,7 +15,7 @@ export default defineComponent({
     const customTheme = inject<IThemeCssVar>('theme', null)
 
     const cssVar = computed(() => {
-      const componentCssVar = getComponentCssVar(customTheme, styleVar, 'menu')
+      const componentCssVar = getComponentCssVar('menu', customTheme, styleVar)
       componentCssVar.paddingLeft = props.space + 'px'
 
       return componentCssVar

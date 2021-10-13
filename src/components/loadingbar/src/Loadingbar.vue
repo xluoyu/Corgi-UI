@@ -26,6 +26,7 @@ import { IThemeCssVar } from '@corgi/utils/type'
 import { defineComponent, computed, ref, Ref, provide, inject } from 'vue'
 import styleVar from './styleVar'
 import { loadBarProvideKey } from './type'
+import { warn } from '@corgi/utils/warn'
 
 const props = defineProps({
   activeColor: String,
@@ -34,7 +35,7 @@ const props = defineProps({
 const customTheme = inject<IThemeCssVar>('theme', null)
 
 const cssVar = computed(() => {
-  const componentCssVar = getComponentCssVar(customTheme, styleVar, 'loadingbar')
+  const componentCssVar = getComponentCssVar('loadingbar', customTheme, styleVar)
 
   if (props.activeColor) componentCssVar.activeColor = props.activeColor
   if (props.errorColor) componentCssVar.errorColor = props.errorColor
@@ -63,6 +64,9 @@ const start = (num?: number) => {
   defaultMaxWidth = Number(num) ? Number(num) : 80
 }
 const finish = () => {
+  if (!isBarShow.value) {
+    warn('loadingBar', '你还没开始就结束了')
+  }
   status.value = 'finish'
   maxWidth.value = 100
   isBarShow.value = false
@@ -83,7 +87,7 @@ provide(loadBarProvideKey, {
 <style lang="less" scoped>
 .cg-loadingbar{
   position: absolute;
-  height: 4px;
+  height: 3px;
   background: v-bind('cssVar.activeColor');
   &.cg-loadingbar--start{
     transition: width 2s cubic-bezier(1, 0.5, 0.8, 1);
@@ -94,7 +98,6 @@ provide(loadBarProvideKey, {
   &.cg-loadingbar--error{
     transition: width .4s linear;
     background: v-bind('cssVar.errorColor');
-
   }
 }
 .fade-enter-active {

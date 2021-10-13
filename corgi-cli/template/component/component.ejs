@@ -24,7 +24,7 @@ export default defineComponent({
     const customTheme = inject<IThemeCssVar>('theme', null)
     const globalCssVar = getGlobalCssVar(customTheme)
     let cssVar = computed(() => {
-      const componentCssVar = getComponentCssVar(customTheme, styleVar, '<%= options.fileName %>')
+      const componentCssVar = getComponentCssVar('<%= options.fileName %>', customTheme, styleVar)
       if (props.color) {
         composeVar.color = props.color
       }

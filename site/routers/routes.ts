@@ -1,8 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
 import menuConf from '../menu.conf'
 
-// const
-
 // const getComponentDemo = () => {
 //   menuConf =
 // }
@@ -38,6 +36,11 @@ const routes = [
         path: 'scrollbar',
         name: 'scrollbar',
         component: () => import('../../src/components/scrollbar/demos/index.md'),
+      },
+      {
+        path: 'loadingBar',
+        name: 'loadingBar',
+        component: () => import('../../src/components/loadingBar/demos/index.md'),
       },
     ],
   },

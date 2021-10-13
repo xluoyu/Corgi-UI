@@ -261,7 +261,7 @@ defineExpose({
 
 const customTheme = inject<IThemeCssVar>('theme', null)
 const cssVar = computed(() => {
-  const componentCssVar = getComponentCssVar(customTheme, styleVar, 'scrollbar')
+  const componentCssVar = getComponentCssVar('scrollbar', customTheme, styleVar)
   if (props.color) {
     componentCssVar.scrollbarColor = props.color
   }

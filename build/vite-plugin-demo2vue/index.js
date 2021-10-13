@@ -31,10 +31,9 @@ const transformDemo = () => {
     async handleHotUpdate (ctx) {
       const { file } = ctx
       if (mdReg.test(file)) {
-        const code = await getTargetFile(file)
         return vuePlugin.handleHotUpdate({
           ...ctx,
-          read: () => code,
+          read: () => getTargetFile(file),
         })
       }
     },

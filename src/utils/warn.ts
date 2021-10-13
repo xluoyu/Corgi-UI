@@ -1,3 +1,3 @@
 export function warn (location: string, message: string): void {
-  console.error(`[Corgi/${location}]: ${message}`)
+  console.warn(`[Corgi/${location}]: ${message}`)
 }
