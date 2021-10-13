@@ -13,7 +13,7 @@
     "build:src": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.config.js",
     "build:type": "node ./build/gen-type",
     "build:merge": "node ./build/merge-type",
-    "lint": "eslint --fix \"{src,build,scripts,site}/**/*.{ts,js,vue,md}\"",
+    "lint": "eslint --fix \"{src,build,scripts,site}/**/*.{ts,js,vue,md}*\"",
     "serve": "vite preview",
     "test": "jest",
     "new": "node ./corgi-cli/index.js"
