@@ -26,11 +26,13 @@ import { computed } from 'vue'
 
 const route = useRoute()
 const siteTheme = computed(() => {
-  return {
-    '--border-color': route.name === 'home' ? '#1ED5D8' : '#eee',
-    '--color': route.name === 'home' ? '#fff' : '#333',
-    color: 'var(--color)',
+  if (route.name === 'home') {
+    return {
+      '--border-color': '#1ED5D8',
+      '--color': '#fff',
+    }
   }
+  return {}
 })
 </script>
 

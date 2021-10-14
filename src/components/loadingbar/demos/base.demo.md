@@ -4,9 +4,9 @@
 
 ```html
 <!-- 这里是App.vue -->
-<cg-loading-bar>
+<!-- <cg-loading-bar> -->
   <!-- 项目代码 -->
-</cg-loading-bar>
+<!-- </cg-loading-bar> -->
 <!-- App.vue结束 -->
 
 <cg-space>

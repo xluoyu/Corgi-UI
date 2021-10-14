@@ -24,21 +24,26 @@ export default defineComponent({
 import { getComponentCssVar } from '@corgi/utils'
 import { IThemeCssVar } from '@corgi/utils/type'
 import { defineComponent, computed, ref, Ref, provide, inject } from 'vue'
-import styleVar from './styleVar'
 import { loadBarProvideKey } from './type'
 import { warn } from '@corgi/utils/warn'
 
 const props = defineProps({
-  activeColor: String,
-  errorColor: String,
+  activeColor: {
+    type: String,
+    default: '#0fd130',
+  },
+  errorColor: {
+    type: String,
+    default: '#d34937',
+  },
 })
 const customTheme = inject<IThemeCssVar>('theme', null)
 
 const cssVar = computed(() => {
-  const componentCssVar = getComponentCssVar('loadingbar', customTheme, styleVar)
+  const componentCssVar = getComponentCssVar('loadingbar', customTheme)
 
-  if (props.activeColor) componentCssVar.activeColor = props.activeColor
-  if (props.errorColor) componentCssVar.errorColor = props.errorColor
+  componentCssVar.activeColor = props.activeColor
+  componentCssVar.errorColor = props.errorColor
 
   return componentCssVar
 })

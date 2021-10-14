@@ -84,7 +84,7 @@ watch(showCode, () => {
   padding: 20px;
 }
 .cg-card-content{
-  font-size: 14px;
+  font-size: var(--fontSize-3);
 }
 .cg-show-demo-code{
   border-top: 1px dashed var(--border-color);
@@ -94,8 +94,8 @@ watch(showCode, () => {
     box-sizing: border-box;
     overflow-x: auto;
     overflow-y: hidden;
+    font-size: var(--fontSize-3);
     box-sizing: border-box;
-    font-size: 14px;
     line-height: 24px;
     letter-spacing: 2px;
 

@@ -1,7 +1,6 @@
 import { isObject } from './typeTool'
 import { warn } from './warn'
 import { IThemeCssVar } from './type'
-import { inject } from 'vue'
 import { cloneDeep, merge } from 'lodash'
 
 /**
@@ -120,10 +119,12 @@ export const getGlobalCssVar = (customTheme: IThemeCssVar | null): IThemeCssVar 
  * @param componentName 组件名
  * @returns
  */
-export const getComponentCssVar = (componentName: string, customTheme: IThemeCssVar | null, componentVarFn: (cssvar?: IThemeCssVar) => IThemeCssVar ) => {
+export const getComponentCssVar = (componentName: string, customTheme: IThemeCssVar | null, componentVarFn?: (cssvar?: IThemeCssVar) => IThemeCssVar ) => {
   const defaultVar = getGlobalCssVar(customTheme)
-
-  const componentCssVar = componentVarFn(defaultVar) // 组件独有
+  let componentCssVar: IThemeCssVar = {}
+  if (componentVarFn) {
+    componentCssVar = componentVarFn(defaultVar) // 组件独有
+  }
   if (customTheme && customTheme[componentName]) {
     merge(componentCssVar, customTheme[componentName])
   }
