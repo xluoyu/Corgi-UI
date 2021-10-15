@@ -94,20 +94,23 @@ export const assignThemecustom = (customTheme: IThemeCssVar, defaultTheme: IThem
 import defaultCssVar from '@corgi/components/style/index'
 
 /**
- *  获取全局预设变量、自定义全局变量
+ *  获取全局预设变量
+ *
+ * 混淆自定义的全局变量
  * @param customTheme
  * @returns
  */
-export const getGlobalCssVar = (customTheme: IThemeCssVar | null): IThemeCssVar => {
+export const getGlobalCssVar = (customTheme?: IThemeCssVar): IThemeCssVar => {
   const defaultVar = cloneDeep(defaultCssVar)
-  if (!customTheme) return defaultVar
-  Object.keys(defaultVar).forEach(key => {
-    if (isObject(customTheme[key])) {
-      merge(defaultVar[key], customTheme[key])
-    } else {
-      defaultVar[key] = customTheme[key]
-    }
-  })
+  if (!customTheme && !isObject(customTheme)) return defaultVar
+  // 混淆预设与自定义
+  merge(defaultVar, customTheme)
+  // Object.keys(defaultVar).forEach(key => {
+  //   if (isObject(customTheme[key])) {
+  //   } else {
+  //     defaultVar[key] = customTheme[key]
+  //   }
+  // })
   return defaultVar
 }
 
@@ -119,8 +122,8 @@ export const getGlobalCssVar = (customTheme: IThemeCssVar | null): IThemeCssVar 
  * @param componentName 组件名
  * @returns
  */
-export const getComponentCssVar = (componentName: string, customTheme: IThemeCssVar | null, componentVarFn?: (cssvar?: IThemeCssVar) => IThemeCssVar ) => {
-  const defaultVar = getGlobalCssVar(customTheme)
+export const getComponentCssVar = (componentName: string, customTheme: IThemeCssVar, componentVarFn?: (cssvar?: IThemeCssVar) => IThemeCssVar ) => {
+  const defaultVar = getGlobalCssVar()
   let componentCssVar: IThemeCssVar = {}
   if (componentVarFn) {
     componentCssVar = componentVarFn(defaultVar) // 组件独有
@@ -128,6 +131,5 @@ export const getComponentCssVar = (componentName: string, customTheme: IThemeCss
   if (customTheme && customTheme[componentName]) {
     merge(componentCssVar, customTheme[componentName])
   }
-
   return { ...defaultVar, ...componentCssVar }
 }

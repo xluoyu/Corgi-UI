@@ -35,23 +35,27 @@ const genDemosTemplate = demos => {
 
 const docLoader = async (code, path) => {
   let codeObject = marked.lexer(code)
-  const demoIndex = codeObject.findIndex(e => e.type === 'code' && e.lang === 'demo')
-
   let compoentList = []
-  if (demoIndex !== -1) {
-    compoentList = await filterDemos(codeObject[demoIndex].text, path)
-    codeObject.splice(demoIndex, 1, {
-      type: 'html',
-      pre: false,
-      text: genDemosTemplate(compoentList),
-    })
-  }
+
+  codeObject.forEach(async (item, index) => {
+    console.log(item)
+    if (item.type === 'code' && item.lang === 'html') {
+      console.log(item.text)
+    } else if (item.type === 'code' && item.lang === 'demo') {
+      compoentList = await filterDemos(item.text, path)
+      item = {
+        type: 'html',
+        pre: false,
+        text: genDemosTemplate(compoentList),
+      }
+    }
+  })
+
 
   const docMainTemplate = marked.parser(codeObject, {
     gfm: true,
     renderer: mdRenderer,
   })
-
   return renderDocVueComponent(docMainTemplate, compoentList)
 }
 

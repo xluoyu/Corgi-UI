@@ -18,4 +18,6 @@ export default {
   pMargin: '10px',
 
   radiusMini: '6px',
+  popupZIndex: 1000,
+  popupMaskZIndex: 999,
 }

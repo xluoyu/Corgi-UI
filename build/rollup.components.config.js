@@ -20,7 +20,7 @@ const plugins = [
 
 ]
 
-export default fs.readdirSync(`${INPUT_PATH}/components`).map(name => {
+export default fs.readdirSync(`${INPUT_PATH}/components`).filter(e => e != 'index.ts').map(name => {
   const input = `${INPUT_PATH}/components/${name}/index.ts`
   return {
     input,
@@ -28,12 +28,12 @@ export default fs.readdirSync(`${INPUT_PATH}/components`).map(name => {
     external: ['vue', 'element-plus'],
     output: {
       name: 'index',
-      file: `${OUTPUT_PATH}/${name}/index.js`,
+      file: `${OUTPUT_PATH}/components/${name}/index.js`,
       format: 'es',
       paths: id => {
-        if (/@corgi\/components/.test(id)) {
-          return PREFIX + id.slice('@corgi/components'.length)
-        }
+        // if (/@corgi\/components/.test(id)) {
+        //   return PREFIX + id.slice('@corgi/components'.length)
+        // }
         if (/@corgi/.test(id)) {
           return PREFIX + id.slice('@corgi'.length)
         }

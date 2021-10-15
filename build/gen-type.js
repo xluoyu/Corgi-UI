@@ -151,7 +151,7 @@ const getTypes = async() => {
       const filepath = outputFile.getFilePath()
       await fs.promises.writeFile(filepath,
         outputFile.getText()
-          .replace(new RegExp('@corgi/components', 'g'), '@corgi')
+          // .replace(new RegExp('@corgi/components', 'g'), '@corgi')
           .replace(new RegExp('@corgi', 'g'), PREFIX)
         , 'utf-8')
     }

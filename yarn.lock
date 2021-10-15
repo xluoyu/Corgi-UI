@@ -2969,6 +2969,13 @@ core-util-is@~1.0.0:
   resolved "https://registry.yarnpkg.com/core-util-is/-/core-util-is-1.0.3.tgz#a6042d3634c2b27e9328f837b965fac83808db85"
   integrity sha512-ZQBvi1DcpJ4GDqanjucZ2Hj3wEO5pZDS89BWbkcrvdxksJorwUDDZamX9ldFkp9aw2lmBDLgkObEA4DWNJ9FYQ==
 
+corgi-box@^0.0.0-beta0.2.9:
+  version "0.0.0-beta0.2.9"
+  resolved "https://registry.yarnpkg.com/corgi-box/-/corgi-box-0.0.0-beta0.2.9.tgz#d08f75e7bba83a835fe72ca2de985b2e384358a8"
+  integrity sha512-hfWBdC2Qts7YVs7KOWVZZ24lMwQBswjG7uMYyZYTH2ZhvIKwdqA3a9Ha+AM28JgkSK9KbrxZBok3i5W4asutdg==
+  dependencies:
+    loadsh "^0.0.4"
+
 cosmiconfig@^7.0.0:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/cosmiconfig/-/cosmiconfig-7.0.1.tgz#714d756522cace867867ccb4474c5d01bbae5d6d"
@@ -5544,6 +5551,11 @@ loader-utils@^1.1.0:
     big.js "^5.2.2"
     emojis-list "^3.0.0"
     json5 "^1.0.1"
+
+loadsh@^0.0.4:
+  version "0.0.4"
+  resolved "https://registry.yarnpkg.com/loadsh/-/loadsh-0.0.4.tgz#5314babd12bb13315dde024a4ca70758c5489d2d"
+  integrity sha512-U+wLL8InpfRalWrr+0SuhWgGt10M4OyAk6G8xCYo2rwpiHtxZkWiFpjei0vO463ghW8LPCdhqQxXlMy2qicAEw==
 
 locate-path@^2.0.0:
   version "2.0.0"

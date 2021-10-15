@@ -71,10 +71,10 @@ export default defineComponent({
   props: buttonProps,
   setup (props) {
     const customTheme = inject<IThemeCssVar>('theme', null)
-    const globalCssVar = getGlobalCssVar(customTheme)
+    const globalCssVar = getGlobalCssVar()
     let cssVar = computed(() => {
       const componentCssVar = getComponentCssVar('button', customTheme, styleVar)
-      componentCssVar.theme = globalCssVar[props.type]
+      componentCssVar.theme = globalCssVar[props.type || 'default']
       if (props.color) {
         componentCssVar.theme.bg = props.color
         componentCssVar.theme.color = isLight(props.color) ? '#000' : '#fff'

@@ -4,6 +4,14 @@
 
 !!记得在项目最外层(比如：App.vue的外层)套上该组件
 
+```html
+<!-- 这里是App.vue -->
+<cg-loading-bar>
+  <!-- 项目代码 -->
+  <content />
+</cg-loading-bar>
+```
+
 ```demo
 base
 ```

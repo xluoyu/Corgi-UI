@@ -35,15 +35,27 @@ const MenuList: IMenuObj[] = [
   {
     type: 'group',
     key: 'route',
-    label: '导航组件',
+    label: '交互组件',
     children: [
       {
-        path: 'Menu',
-        label: 'Menu 菜单',
-        key: 'menu',
+        path: 'alert',
+        label: 'alert 提示框',
+        key: 'alert',
       },
     ],
   },
+  // {
+  //   type: 'group',
+  //   key: 'route',
+  //   label: '导航组件',
+  //   children: [
+  //     {
+  //       path: 'Menu',
+  //       label: 'Menu 菜单',
+  //       key: 'menu',
+  //     },
+  //   ],
+  // },
   {
     type: 'group',
     key: 'route',
