@@ -1,8 +1,10 @@
 # 加载条 LoadingBar
 
+<cg-space vertical>
+
 速度决定一切
 
-!!记得在项目最外层(比如：App.vue的外层)套上该组件
+<cg-alert>!!记得在项目最外层(比如：App.vue的外层)套上该组件</cg-alert>
 
 ```html
 <!-- 这里是App.vue -->
@@ -12,6 +14,26 @@
 </cg-loading-bar>
 ```
 
+```js
+import { defineComponent } from 'vue'
+import { useLoadingBar } from 'naive-ui'
+
+// content
+export default defineComponent({
+  setup () {
+    const loadingBar = useLoadingBar()
+    return {
+      loading () {
+        loadingBar.start()
+      },
+    }
+  },
+})
+```
+</cg-space>
+
+
+# 示例
 ```demo
 base
 ```
