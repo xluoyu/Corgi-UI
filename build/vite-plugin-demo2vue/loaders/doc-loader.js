@@ -37,8 +37,7 @@ const docLoader = async (code, path) => {
   let codeObject = marked.lexer(code)
   let compoentList = []
 
-  codeObject.forEach(async (item, index) => {
-    console.log(item)
+  codeObject.forEach(async item => {
     if (item.type === 'code' && item.lang === 'html') {
       console.log(item.text)
     } else if (item.type === 'code' && item.lang === 'demo') {

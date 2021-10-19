@@ -18,7 +18,7 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
   },
-  "include": ["es/**/*.d.ts", "site/**/*.vue", "site/**/*.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "src/**/*.md"],
+  "include": ["play/**/*.ts", "play/**/*.vue", "es/**/*.d.ts", "site/**/*.vue", "site/**/*.ts", "src/**/*.ts", "src/**/*.d.ts", "src/**/*.vue", "src/**/*.md"],
   "exclude": [
     "node_modules",
     "__test__/**/*"

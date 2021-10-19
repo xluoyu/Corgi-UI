@@ -54,7 +54,7 @@ const buttonProps = {
     default: 'left',
   },
   size: {
-    type: String as PropType<'tiny' | 'small' | 'medium' | 'large'>,
+    type: String as PropType<'mini' | 'small' | 'medium' | 'large'>,
     default: 'medium',
   },
   type: {
@@ -130,7 +130,7 @@ export default defineComponent({
     border-radius: v-bind('buttonSizeVar.circle');
   }
   &.cg-button--ghost {
-    background: transparent;
+    background: v-bind('cssVar.theme.transparentBg');
     border: 1px solid v-bind('cssVar.theme.bg');
     color: v-bind('cssVar.theme.bg');
     &:hover {

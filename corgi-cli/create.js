@@ -40,6 +40,9 @@ const createComponentCssVal = (url, options) => {
   })
 }
 
+/**
+ * 生成组件
+ */
 const ComponentsVueTemplate = resulve('./template/component/component.ejs')
 const createComponentVue = (url, options) => {
   return new Promise(reslove => {
@@ -53,6 +56,22 @@ const createComponentVue = (url, options) => {
 }
 
 /**
+ * 往/src/components/index 中添加组件引用
+ * @param {*} rootPath /src/components/index
+ * @param {*} componentName
+ * @returns
+ */
+const addComponentImport = (rootPath, componentName) => {
+  return new Promise(reslove => {
+    const IndexFile = path.resolve(rootPath, './index.ts')
+    fs.writeFile(IndexFile, `export * from './${componentName}'\n`, { flag: 'a' }, err => {
+      console.log(err)
+    })
+    reslove()
+  })
+}
+
+/**
  * 生成组件模块的入口
  */
 const createComponent = async (rootPath, options) => {
@@ -61,6 +80,7 @@ const createComponent = async (rootPath, options) => {
   await createComponentIndex(componentUrl, options)
   await createComponentCssVal(componentSrcUrl, options)
   await createComponentVue(componentSrcUrl, options)
+  await addComponentImport(rootPath, options.name)
 }
 
 /**

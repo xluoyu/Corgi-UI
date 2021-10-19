@@ -2,7 +2,7 @@ const buttonVar = cssvar => {
   return {
     theme: cssvar.default,
     round: '3px',
-    tiny: {
+    mini: {
       height: '22px',
       fontSize: cssvar.fontSizeH5,
       circle: '10px',
@@ -15,16 +15,16 @@ const buttonVar = cssvar => {
       padding: '0 10px',
     },
     medium: {
-      height: '34px',
+      height: '32px',
       fontSize: cssvar.fontSizeH3,
       circle: '16px',
-      padding: '0 14px',
+      padding: '0 12px',
     },
     large: {
-      height: '40px',
+      height: '36px',
       fontSize: cssvar.fontSizeH2,
       circle: '20px',
-      padding: '0 18px',
+      padding: '0 14px',
     },
   }
 }
