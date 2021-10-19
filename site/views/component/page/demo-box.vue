@@ -13,7 +13,7 @@
     </div>
     <div class="cg-show-demo-code">
       <cg-scrollbar :height="codeHeight" x style="transition: height .3s;">
-        <div class="cg-show-demo-code-content" v-html="sfcCode"></div>
+        <div class="cg-show-demo-code-content" v-html="code"></div>
       </cg-scrollbar>
       <div class="showcode-button" @click="changeShowCode">
         <cg-button type="primary" text>{{ showCode ? '隐藏' : '显示' }}代码</cg-button>
@@ -35,7 +35,6 @@
 <script lang="ts" setup>
 import { useToggle } from '@corgi/hooks/useToggle'
 import { ref, watch } from 'vue'
-import hljs from '../../../utils/hljs'
 
 const props = defineProps({
   code: {
@@ -53,9 +52,6 @@ const copyCode = () => {
     alert('拷贝成功')
   })
 }
-
-let sfcCode = hljs.highlight(props.code, { language: 'html' }).value
-sfcCode = `<pre class='code'>${sfcCode}</pre>`
 
 const getCodeHeight = () => {
   return demoEl.value.querySelector('.cg-show-demo-code-content pre').clientHeight

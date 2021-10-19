@@ -1,13 +1,21 @@
 <script lang="tsx">
-import { defineComponent, PropType, VNode } from 'vue'
+import { defineComponent, PropType } from 'vue'
 import styleVar from './styleVar'
 
 export default defineComponent({
   name: 'CgSpace',
   props: {
+    horizontal: {
+      type: Boolean,
+      default: true,
+    },
+    vertical: {
+      type: Boolean,
+      default: false,
+    },
     align: {
-      type: String as PropType<'start' | 'end' | 'center'>,
-      default: 'start',
+      type: String as PropType<'flex-start' | 'flex-end' | 'center'>,
+      default: 'flex-start',
     },
     inline: Boolean,
     wrap: {
@@ -26,15 +34,18 @@ export default defineComponent({
       <div
         class={[
           'cg-space',
+          {
+            'cg-space--horizontal': this.horizontal,
+            'cg-space--vertical': this.vertical,
+          },
         ]}
+        style={{
+          alignContent: this.align,
+        }}
       >
-        {children && children.length && children.map((child, index) => (
+        {children && children.length && children.map(child => (
           <div
-            style={{
-              marginRight: children && index !== (children as VNode[]).length ? '10px' : 0,
-              marginBottom: '10px',
-              marginTop: '10px',
-            }}
+            class="cg-space-item"
           >
             {child}
           </div>
@@ -47,10 +58,23 @@ export default defineComponent({
 </script>
 
 <style lang="less" scoped>
-
 .cg-space{
   display: flex;
   flex-wrap: wrap;
-  align-items: center ;
+}
+.cg-space-item{
+  margin-bottom: 10px;
+}
+.cg-space--horizontal{
+  flex-direction: row;
+  .cg-space-item+.cg-space-item{
+    margin-left: 10px;
+  }
+}
+.cg-space--vertical{
+  flex-direction: column;
+  .cg-space-item{
+    width: 100%;
+  }
 }
 </style>

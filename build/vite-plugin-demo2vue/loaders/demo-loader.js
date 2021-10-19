@@ -1,8 +1,9 @@
-const marked = require('marked')
-const ejs = require('ejs')
-const createRenderer = require('../loaders/md-renderer')
+import { parser, lexer } from 'marked'
+import { renderFile } from 'ejs'
+import createRenderer from './md-renderer'
+import hljs from '../../../site/utils/hljs'
 const mdRenderer = createRenderer()
-const { resolve } = require('path')
+import { resolve } from 'path'
 
 const demoTemplate = resolve(__dirname, '../template/demo-template.ejs')
 
@@ -29,11 +30,12 @@ const getCompoentObj = tokens => {
       contentTokens.push(token)
     }
   }
-  res.content = marked.parser(contentTokens, {
+  res.content = parser(contentTokens, {
     renderer: mdRenderer,
   })
 
-  res.code = getCompoentCode(res)
+  const sfcCode = hljs.highlight(getCompoentCode(res), { language: 'html' }).value
+  res.code = `<pre class='code'>${sfcCode}</pre>`
   return res
 }
 
@@ -67,7 +69,7 @@ const getCompoentCode = obj => {
 
 const renderVueComponent = componentObj => {
   return new Promise(reslove => {
-    ejs.renderFile(demoTemplate, { options: componentObj }, (err, str) => {
+    renderFile(demoTemplate, { options: componentObj }, (err, str) => {
       if (err) {
         console.log(err)
         return
@@ -84,11 +86,11 @@ const getFileId = path => {
 }
 
 const demoLoader = (code, path) => {
-  const tokens = marked.lexer(code)
+  const tokens = lexer(code)
   const demoCompoentObj = getCompoentObj(tokens)
   demoCompoentObj.id = getFileId(path)
   return renderVueComponent(demoCompoentObj)
 }
 
 
-module.exports = demoLoader
+export default demoLoader

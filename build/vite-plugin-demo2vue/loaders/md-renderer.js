@@ -1,14 +1,13 @@
 // import marked from 'marked'
-const marked = require('marked')
+import { Renderer } from 'marked'
 
 function createRenderer() {
-  const renderer = new marked.Renderer()
+  const renderer = new Renderer()
   const overrides = {
     code (code) {
       return code
     },
     codespan(code) {
-
       return `<code class="cg-text--code">${code}</code>`
     },
     heading (text, level) {
@@ -42,4 +41,4 @@ function createRenderer() {
   return renderer
 }
 
-module.exports = createRenderer
+export default createRenderer

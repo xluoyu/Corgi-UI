@@ -1,14 +1,15 @@
-const fs = require('fs')
-const createRenderer = require('./md-renderer')
+import { readFileSync } from 'fs'
+import createRenderer from './md-renderer'
 const mdRenderer = createRenderer()
-const marked = require('marked')
-const ejs = require('ejs')
-const { resolve } = require('path')
+import { lexer, parser } from 'marked'
+import { renderFile } from 'ejs'
+import { resolve } from 'path'
+import hljs from '../../../site/utils/hljs'
 
 const docTemplate = resolve(__dirname, '../template/doc-template.ejs')
 
 async function resolveDemoTitle (fileName, demoEntryPath) {
-  const demoStr = fs.readFileSync(
+  const demoStr = readFileSync(
     resolve(demoEntryPath, '..', fileName),
     'utf-8',
   )
@@ -34,24 +35,23 @@ const genDemosTemplate = demos => {
 }
 
 const docLoader = async (code, path) => {
-  let codeObject = marked.lexer(code)
+  let codeObject = lexer(code)
   let compoentList = []
 
-  codeObject.forEach(async item => {
-    if (item.type === 'code' && item.lang === 'html') {
-      console.log(item.text)
-    } else if (item.type === 'code' && item.lang === 'demo') {
+  await Promise.all(codeObject.map(async (item, index) => {
+    if (item.type === 'code' && item.lang === 'demo') {
       compoentList = await filterDemos(item.text, path)
-      item = {
+      codeObject[index] = {
         type: 'html',
         pre: false,
         text: genDemosTemplate(compoentList),
       }
+    } else if (item.type === 'code') {
+      const code = hljs.highlight(codeObject[index].text, { language: item.lang }).value
+      codeObject[index].text = `<cg-card><pre class="code">${code}</pre></cg-card>\n`
     }
-  })
-
-
-  const docMainTemplate = marked.parser(codeObject, {
+  }))
+  const docMainTemplate = parser(codeObject, {
     gfm: true,
     renderer: mdRenderer,
   })
@@ -60,7 +60,7 @@ const docLoader = async (code, path) => {
 
 const renderDocVueComponent = (content, componentList) => {
   return new Promise(reslove => {
-    ejs.renderFile(docTemplate, { content, componentList }, (err, str) => {
+    renderFile(docTemplate, { content, componentList }, (err, str) => {
       if (err) {
         console.log(err)
         return
@@ -70,4 +70,4 @@ const renderDocVueComponent = (content, componentList) => {
   })
 }
 
-module.exports = docLoader
+export default docLoader
