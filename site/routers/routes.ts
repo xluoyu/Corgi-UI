@@ -42,6 +42,11 @@ const routes = [
         name: 'loadingBar',
         component: () => import('../../src/components/loadingBar/demos/index.md'),
       },
+      {
+        path: 'alert',
+        name: 'alert',
+        component: () => import('../../src/components/alert/demos/index.md'),
+      },
     ],
   },
   {

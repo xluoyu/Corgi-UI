@@ -30,14 +30,13 @@ export default defineComponent({
   },
   render () {
     let children = this.$slots.default && this.$slots.default()
+
     return (
       <div
         class={[
           'cg-space',
-          {
-            'cg-space--horizontal': this.horizontal,
-            'cg-space--vertical': this.vertical,
-          },
+          // 优先匹配vertical
+          this.vertical ? 'cg-space--vertical' : this.horizontal ? 'cg-space--horizontal' : '',
         ]}
         style={{
           alignContent: this.align,
@@ -75,6 +74,7 @@ export default defineComponent({
   flex-direction: column;
   .cg-space-item{
     width: 100%;
+    margin-left: 0px;
   }
 }
 </style>

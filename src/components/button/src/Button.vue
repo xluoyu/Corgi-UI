@@ -86,7 +86,8 @@ export default defineComponent({
     })
 
     let buttonSizeVar = computed(() => {
-      let sizeAboutVar = cssVar.value[props.size]
+      let sizeAboutVar = cssVar.value[props.size] || cssVar.value['medium']
+
       return sizeAboutVar
     })
 
@@ -96,7 +97,6 @@ export default defineComponent({
         onClick && onClick.call(onClick, e)
       }
     }
-
     return {
       cssVar,
       buttonSizeVar,
@@ -115,7 +115,7 @@ export default defineComponent({
   font-size: v-bind('buttonSizeVar.fontSize');
   color: v-bind('cssVar.theme.color');
   padding: v-bind('buttonSizeVar.padding');
-  box-sizing: content-box;
+  box-sizing: border-box;
   border: none;
   cursor: pointer;
   user-select: none;

@@ -20,7 +20,7 @@ iconText
 | 名称 | 类型 | 可选值 | 默认值 | 说明 |
 | --- | --- | --- | --- | --- |
 | type | `string` | `default` \| `primary` \| `success` \| `info` \| `warning` \| `error` | `default` | 按钮主题 |
-| size | `string` | `tiny` \| `small` \| `medium` \| `large` | `medium` | 按钮大小 |
+| size | `string` | `mini` \| `small` \| `medium` \| `large` | `medium` | 按钮大小 |
 | color | `string` | — | - | 自定义主题色 |
 | text | `boolean` | — | `false` | 是否为文字型按钮 |
 | circle | `boolean` | — | `false` | 椭圆形按钮 |

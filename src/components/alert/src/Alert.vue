@@ -17,7 +17,7 @@
         <CircleCloseFilled v-if="type === 'error'" />
       </cg-icon>
     </div>
-    <div class="cg-alert-title">
+    <div v-if="$slots.title" class="cg-alert-title">
       <slot name="title"></slot>
     </div>
     <div class="cg-alert-content">
@@ -95,6 +95,7 @@ const handleClose = () => {
   }
   .cg-alert-content{
     font-size: v-bind('cssVar.fontSizeH4');
+    line-height: 24px;
   }
 }
 .cg-alert--showIcon{

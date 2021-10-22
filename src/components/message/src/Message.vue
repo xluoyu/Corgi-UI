@@ -12,7 +12,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, inject, defineProps } from 'vue'
+import { defineComponent, computed, inject } from 'vue'
 import styleVar from './styleVar'
 import { getComponentCssVar, getGlobalCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
