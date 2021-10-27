@@ -2,8 +2,6 @@ const SwitchVar = cssVar => {
   return {
     activeColor: cssVar.success.bg,
     inactiveColor: cssVar.default.bg,
-    activeTextColor: cssVar.success.bg,
-    inactiveTextColor: cssVar.default.bg,
     large: {
       height: '26px',
       width: '48px',

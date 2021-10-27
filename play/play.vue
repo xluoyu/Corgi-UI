@@ -29,13 +29,14 @@
 
     <cg-message />
     <br>
-    <cg-switch size="mini" />
+    <!-- <cg-switch size="mini" /> -->
     <cg-switch
       active-text="哈哈哈哈"
       inactive-text="nonono"
       inside-text
+      active-text-color="#ff0000"
     />
-    <cg-switch size="large" />
+    <!-- <cg-switch size="large" /> -->
   </div>
 </template>
 

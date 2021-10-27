@@ -1,6 +1,6 @@
-import { h, VNodeChild } from 'vue'
+import { VNodeChild } from 'vue'
 
-interface IMenuObj {
+export interface IMenuObj {
   type?: string
   key: string
   label: string | VNodeChild
@@ -35,12 +35,24 @@ const MenuList: IMenuObj[] = [
   {
     type: 'group',
     key: 'route',
-    label: '交互组件',
+    label: '实用组件',
     children: [
       {
-        path: 'alert',
-        label: 'alert 提示框',
-        key: 'alert',
+        path: 'loadingBar',
+        label: 'loadingBar 加载条',
+        key: 'loadingBar',
+      },
+    ],
+  },
+  {
+    type: 'group',
+    key: 'route',
+    label: '表单类组件',
+    children: [
+      {
+        path: 'switch',
+        label: 'switch 开关',
+        key: 'switch',
       },
     ],
   },
