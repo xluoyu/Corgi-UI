@@ -36,6 +36,8 @@ export default defineComponent({
   font-size: 1em;
   fill: currentColor;
   color: inherit;
+  text-align: center;
+  line-height: 1em;
   &.cg-icon-loading{
     animation: rotating 2s linear infinite;
   }

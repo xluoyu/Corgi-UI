@@ -3,7 +3,7 @@ import { VNodeChild } from 'vue'
 export interface IMenuObj {
   type?: string
   key: string
-  label: string | VNodeChild
+  label: string | any
   path?: string
   children?: IMenuObj[]
 }
@@ -17,7 +17,7 @@ const MenuList: IMenuObj[] = [
     children: [
       {
         path: 'icon',
-        label: 'Icon 图标',
+        label: h => h('span', ['图标', h('b', 'Icon')]),
         key: 'icon',
       },
       {
@@ -29,18 +29,6 @@ const MenuList: IMenuObj[] = [
         path: 'scrollbar',
         label: 'ScrollBar 滚动条',
         key: 'scrollbar',
-      },
-    ],
-  },
-  {
-    type: 'group',
-    key: 'route',
-    label: '实用组件',
-    children: [
-      {
-        path: 'loadingBar',
-        label: 'loadingBar 加载条',
-        key: 'loadingBar',
       },
     ],
   },

@@ -1,9 +1,10 @@
 <script lang="tsx">
-import { computed, defineComponent, inject, PropType } from 'vue'
+import { computed, defineComponent, inject, PropType, h } from 'vue'
 import { IMenuItem, menuProvideKey } from './type'
 import styleVar from './styleVar'
 import { getComponentCssVar } from '@corgi/utils'
 import { IThemeCssVar } from '@corgi/utils/type'
+import { isFunction } from '@corgi/utils/typeTool'
 export default defineComponent({
   name: 'CgMenuItem',
   props: {
@@ -44,6 +45,8 @@ export default defineComponent({
     }
   },
   render () {
+    const content = this.options.label && isFunction(this.options.label) ? this.options.label(h) : this.options.label
+    console.log(content)
     return (
       <div
         class={[
@@ -57,8 +60,8 @@ export default defineComponent({
         onClick={this.handleClick}
       >
         {
-          this.options.path ? <router-link to={this.pathBase + this.options.path}>{this.options.label}</router-link>
-            : this.options.label
+          this.options.path ? <router-link to={this.pathBase + this.options.path}>{content}</router-link>
+            : content
         }
       </div>
     )

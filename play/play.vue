@@ -35,7 +35,26 @@
       inactive-text="nonono"
       inside-text
       active-text-color="#ff0000"
+      @change="changeSwitch"
     />
+
+    <div id="b1" v-cg-loading="loadingVal" class="box">
+      <span>1654646</span>
+    </div>
+    <br>
+    <br>
+    <br>
+    <cg-switch
+      active-text="哈哈哈哈"
+      inactive-text="nonono"
+      inside-text
+      active-text-color="#ff0000"
+      @change="changeSwitch2"
+    />
+
+    <div id="b2" v-cg-loading="loadingVal2" class="box">
+      <span>1654646</span>
+    </div>
     <!-- <cg-switch size="large" /> -->
   </div>
 </template>
@@ -54,10 +73,25 @@ const change = () => {
 const activeText = h => {
   return h('div', {}, '哈哈哈哈')
 }
+
+const loadingVal = ref(false)
+const changeSwitch = val => {
+  loadingVal.value = val
+}
+
+const loadingVal2 = ref(false)
+const changeSwitch2 = val => {
+  loadingVal2.value = val
+}
 </script>
 
 <style lang="less" scoped>
 .main{
   width: 800px;
+}
+.box{
+  width: 200px;
+  height: 300px;
+  background: skyblue;
 }
 </style>

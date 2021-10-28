@@ -3,5 +3,7 @@ export const isFunction = (val: unknown): val is Function => typeof val === 'fun
 export const isObject = (val: unknown): val is Object => typeof val === 'object'
 export const isString = (val: unknown): val is string => typeof val === 'string'
 export const isNumber = (val: unknown): val is number => typeof val === 'number'
+export const isBoolean = (val: unknown): val is boolean => typeof val === 'boolean'
+
 
 export const number2Px = (val: string | number) => isNumber(val) ? val + 'px' : val

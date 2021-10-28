@@ -1,10 +1,11 @@
-import { readFileSync } from 'fs'
+import { readFileSync, statSync } from 'fs'
 import createRenderer from './md-renderer'
 const mdRenderer = createRenderer()
 import { lexer, parser } from 'marked'
 import { renderFile } from 'ejs'
 import { resolve } from 'path'
 import hljs from '../../../site/utils/hljs'
+import dayjs from 'dayjs'
 
 const docTemplate = resolve(__dirname, '../template/doc-template.ejs')
 
@@ -55,12 +56,14 @@ const docLoader = async (code, path) => {
     gfm: true,
     renderer: mdRenderer,
   })
-  return renderDocVueComponent(docMainTemplate, compoentList)
+
+  const lastTime = dayjs(statSync(path).mtime).format('YYYY-MM-DD HH:mm')
+  return renderDocVueComponent(docMainTemplate, compoentList, lastTime)
 }
 
-const renderDocVueComponent = (content, componentList) => {
+const renderDocVueComponent = (content, componentList, lastTime) => {
   return new Promise(reslove => {
-    renderFile(docTemplate, { content, componentList }, (err, str) => {
+    renderFile(docTemplate, { content, componentList, lastTime }, (err, str) => {
       if (err) {
         console.log(err)
         return

@@ -14,6 +14,7 @@
         <div v-if="activeText">{{ activeText }}</div>
       </div>
       <div class="cg-switch-button">
+        <cg-loading v-if="loading" />
         <div v-if="inactiveText && insideText" class="cg-switch-insideText insideText--off">{{ inactiveText }}</div>
         <div v-if="activeText && insideText" class="cg-switch-insideText insideText--on">{{ activeText }}</div>
       </div>
@@ -29,6 +30,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
+import { CgLoading } from '@corgi/components/loading'
 import { defineComponent, computed, inject, PropType, ref } from 'vue'
 import styleVar from './styleVar'
 import { getComponentCssVar, getGlobalCssVar } from '@corgi/utils/index'
@@ -54,8 +56,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  loading: {
+    type: Boolean,
+    default: false,
+  },
 })
-console.log(props.activeText)
+const emits = defineEmits(['change'])
+
 const customTheme = inject<IThemeCssVar>('theme', null)
 const globalCssVar = getGlobalCssVar(customTheme)
 let cssVar = computed(() => {
@@ -71,7 +78,9 @@ let cssVar = computed(() => {
 const switchStatus = ref(false)
 const toggleStatus = () => {
   if (props.disabled) return
+  if (props.loading) return
   switchStatus.value = !switchStatus.value
+  emits('change', switchStatus.value)
 }
 </script>
 
@@ -112,6 +121,7 @@ const toggleStatus = () => {
     position: absolute;
     left: 2px;
     top: 2px;
+    text-align: center;
   }
   .cg-switch-children-placeholder{
     padding-left: calc(v-bind('cssVar.size.height') * 1.75);
@@ -150,4 +160,5 @@ const toggleStatus = () => {
   opacity: .5;
   cursor: not-allowed;
 }
+
 </style>

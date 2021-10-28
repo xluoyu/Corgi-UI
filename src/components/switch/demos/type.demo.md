@@ -13,6 +13,7 @@
     activeText="这是开"
     inactiveText="这是关"
     insideText
+    loading
   />
 </cg-space>
 ```
