@@ -5,4 +5,5 @@
 # 示例
 ```demo
 type
+close
 ```

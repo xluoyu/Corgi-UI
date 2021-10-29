@@ -11,6 +11,7 @@
           autoplay
         ></video>
       </div>
+      <div @click="notifyMe">哈哈哈</div>
       <div :style="siteTheme">
         <site-header />
         <router-view />
@@ -34,6 +35,38 @@ const siteTheme = computed(() => {
   }
   return {}
 })
+
+// document.addEventListener('DOMContentLoaded', function () {
+//   if (Notification.permission !== 'granted')
+//     Notification.requestPermission()
+// })
+console.log(window)
+console.log(Notification)
+console.log(Screen)
+console.log(History)
+
+
+function notifyMe() {
+  if (!Notification) {
+    alert('Desktop notifications not available in your browser. Try Chromium.')
+    return
+  }
+
+  if (Notification.permission !== 'granted')
+    Notification.requestPermission()
+  else {
+    var notification = new Notification('Notification title', {
+      icon: 'http://cdn.sstatic.net/stackexchange/img/logos/so/so-icon.png',
+      body: "Hey there! You've been notified!",
+    })
+
+    notification.onclick = function () {
+      window.open('http://stackoverflow.com/a/13328397/1269037')
+    }
+
+  }
+
+}
 </script>
 
 <style lang="less" scoped>

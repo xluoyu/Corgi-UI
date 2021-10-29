@@ -46,7 +46,6 @@ export default defineComponent({
   },
   render () {
     const content = this.options.label && isFunction(this.options.label) ? this.options.label(h) : this.options.label
-    console.log(content)
     return (
       <div
         class={[

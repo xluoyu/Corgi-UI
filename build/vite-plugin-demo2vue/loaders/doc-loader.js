@@ -31,27 +31,30 @@ const filterDemos = (string, url) => {
   }))
 }
 
-const genDemosTemplate = demos => {
-  return `<demos>${demos.map(e => e.tag).join('\n')}</demos>`
+const genDemosTemplate = (demos, column) => {
+  return `<demos column="${column}">${demos.map(e => e.tag).join('\n')}</demos>`
 }
 
 const docLoader = async (code, path) => {
   let codeObject = lexer(code)
   let compoentList = []
-
+  let demoColumn = 'two'
   await Promise.all(codeObject.map(async (item, index) => {
-    if (item.type === 'code' && item.lang === 'demo') {
+    if (item.type === 'html' && item.text === '<!-- oneColumn -->\n') {
+      demoColumn = 'one'
+    }else if (item.type === 'code' && item.lang === 'demo') {
       compoentList = await filterDemos(item.text, path)
       codeObject[index] = {
         type: 'html',
         pre: false,
-        text: genDemosTemplate(compoentList),
+        text: genDemosTemplate(compoentList, demoColumn),
       }
     } else if (item.type === 'code') {
       const code = hljs.highlight(codeObject[index].text, { language: item.lang }).value
       codeObject[index].text = `<cg-card><pre class="code">${code}</pre></cg-card>\n`
     }
   }))
+
   const docMainTemplate = parser(codeObject, {
     gfm: true,
     renderer: mdRenderer,

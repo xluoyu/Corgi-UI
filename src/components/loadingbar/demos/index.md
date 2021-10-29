@@ -1,12 +1,3 @@
----
-title: 位运算
-date: '2021-07-23 15:47:00'
-sidebar: 'auto'
-categories:
- - 技术笔记
-tags:
- - JS
----
 # 加载条 LoadingBar
 
 速度决定一切
@@ -22,6 +13,7 @@ tags:
 
 
 # 示例
+<!-- oneColumn -->
 ```demo
 base
 ```

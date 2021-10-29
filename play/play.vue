@@ -13,7 +13,7 @@
       <div class="content">哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈哈啊沙发沙发沙发阿萨的程序从v吧豆腐干豆腐干</div>
     </cg-alert>
 
-    <cg-button size="small" ghost>hhh</cg-button>
+    <cg-button size="small" ghost @click="getPos">hhh</cg-button>
     <cg-button size="small" ghost type="primary">hhh</cg-button>
     <cg-button size="small" ghost type="success">hhh</cg-button>
     <cg-button size="small" ghost type="info">hhh</cg-button>
@@ -83,6 +83,17 @@ const loadingVal2 = ref(false)
 const changeSwitch2 = val => {
   loadingVal2.value = val
 }
+
+const getPos = () => {
+  console.log('开始获取')
+  navigator.geolocation.getCurrentPosition(function(position) {
+  // do_something(position.coords.latitude, position.coords.longitude)
+    console.log('-------', position.coords)
+  }, err=> {
+    console.log('err', err)
+  })
+}
+
 </script>
 
 <style lang="less" scoped>

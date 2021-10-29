@@ -7,6 +7,7 @@
     }"
     @click="toggleStatus"
   >
+    <slot></slot>
     <span v-if="inactiveText && !insideText" class="cg-switch-children children--off" :style="{color: switchStatus == false ? activeTextColor : ''}">{{ inactiveText }}</span>
     <div class="cg-switch-rail">
       <div v-if="insideText" class="cg-switch-children-placeholder">

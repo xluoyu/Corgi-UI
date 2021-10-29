@@ -5,7 +5,6 @@ import { App } from 'vue'
 
 const componentArray = Object.keys(components).map(key => components[key])
 const directivesArray = Object.keys(directives).map(key => directives[key as keyof typeof components])
-console.log(componentArray)
 const create = {
   version,
   install (app: App) {

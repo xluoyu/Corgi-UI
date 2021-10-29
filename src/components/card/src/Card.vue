@@ -28,7 +28,6 @@ export default defineComponent({
       return componentCssVar
     })
 
-    console.log(slots.default())
 
     const defalutContent = slots.default()
 

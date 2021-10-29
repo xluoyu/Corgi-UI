@@ -31,7 +31,6 @@ let cssVar = computed(() => {
 
   return componentCssVar
 })
-console.log(cssVar.value)
 </script>
 
 <style lang="less" scoped>

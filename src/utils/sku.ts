@@ -19,4 +19,3 @@ const res = skuArr(list)
 
 
 
-console.log(res)
