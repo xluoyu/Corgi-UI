@@ -37,6 +37,7 @@ import styleVar from './styleVar'
 import { getComponentCssVar, getGlobalCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
 const props = defineProps({
+  modelValue: [String, Boolean, Number],
   size: {
     type: String as PropType<'mini' | 'medium' | 'large'>,
     default: 'medium',
@@ -62,8 +63,7 @@ const props = defineProps({
     default: false,
   },
 })
-const emits = defineEmits(['change'])
-
+const emits = defineEmits(['change', 'update:modelValue'])
 const customTheme = inject<IThemeCssVar>('theme', null)
 const globalCssVar = getGlobalCssVar(customTheme)
 let cssVar = computed(() => {
@@ -75,13 +75,13 @@ let cssVar = computed(() => {
 
   return componentCssVar
 })
-
-const switchStatus = ref(false)
+const switchStatus = ref(props.modelValue || false)
 const toggleStatus = () => {
   if (props.disabled) return
   if (props.loading) return
   switchStatus.value = !switchStatus.value
   emits('change', switchStatus.value)
+  emits('update:modelValue', switchStatus.value)
 }
 </script>
 

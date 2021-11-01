@@ -1,5 +1,6 @@
 import { RouteRecordRaw } from 'vue-router'
 import menuConf, { IMenuObj } from '../menu.conf'
+import docConf, { IDocMenuObj } from '../doc.conf'
 
 interface IComponentRoute {
   path: String
@@ -20,6 +21,19 @@ const getComponentRouters = () => {
   }, [])
 }
 
+const getDocRouters = () => {
+  return docConf.reduce((pre: IComponentRoute[], cur: IDocMenuObj) => {
+    pre = pre.concat(cur.children.map(item => {
+      return {
+        path: item.path,
+        name: item.key,
+        component: () => import(`../../src/${item.file}/demos/index.md`),
+      }
+    }))
+    return pre
+  }, [])
+}
+console.log(getDocRouters())
 const routes = [
   {
     path: '/',
@@ -28,8 +42,10 @@ const routes = [
   },
   {
     path: '/doc',
-    component: () => import('../views/test.vue'),
-    name: 'test',
+    component: () => import('../views/doc/index.vue'),
+    name: 'doc',
+    redirect: '/doc/loading',
+    children: getDocRouters(),
   },
   {
     path: '/component',
@@ -70,10 +86,10 @@ const routes = [
     //   },
     // ],
   },
-  {
-    path: '/:pathMatch(.*)*',
-    redirect: '/',
-  },
+  // {
+  //   path: '/:pathMatch(.*)*',
+  //   redirect: '/',
+  // },
 ] as RouteRecordRaw[]
 
 export default routes

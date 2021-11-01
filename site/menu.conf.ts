@@ -50,7 +50,7 @@ const MenuList: IMenuObj[] = [
     children: [
       {
         path: 'alert',
-        label: 'alert 开关',
+        label: 'alert 提示',
         key: 'alert',
       },
     ],
