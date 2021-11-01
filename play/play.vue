@@ -1,6 +1,17 @@
 
 <template>
   <div class="main">
+    <cg-card
+      title="这里是标题"
+      border
+      size="mini"
+      show-close
+    >
+      这里是内容
+    </cg-card>
+
+
+    <cg-confirm :is-show="true">哈哈哈</cg-confirm>
     <cg-alert
       type="info"
       show-icon
@@ -65,6 +76,7 @@ import { ref } from 'vue'
 const onClose = () => {
   console.log('检测到关闭了')
 }
+
 const text = ref('16546513135')
 const change = () => {
   text.value = '1654841'

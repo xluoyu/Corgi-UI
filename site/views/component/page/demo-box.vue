@@ -1,16 +1,14 @@
 <template>
   <div :id="id" ref="demoEl" :class="{'cg-show-demo':true}">
-    <div class="cg-card">
-      <div class="cg-card-header">
-        <div class="cg-card-header-main cg-h2">
-          <slot name="title"></slot>
-        </div>
-      </div>
+    <cg-card>
+      <template #title>
+        <slot name="title"></slot>
+      </template>
       <div class="cg-card-content">
         <slot name="content"></slot>
         <slot name="demo"></slot>
       </div>
-    </div>
+    </cg-card>
     <div class="cg-show-demo-code">
       <cg-scrollbar :height="codeHeight" x style="transition: height .3s;">
         <div class="cg-show-demo-code-content" v-html="code"></div>

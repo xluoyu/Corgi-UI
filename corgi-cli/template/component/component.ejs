@@ -7,34 +7,32 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, computed, inject } from 'vue'
+export default defineComponent({
+  name: 'Cg<%= options.fileName %>'
+})
+</script>
+
+<script lang="ts" setup>
+import { defineComponent, computed, defineProps, inject } from 'vue'
 import styleVar from './styleVar'
 import { getComponentCssVar, getGlobalCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
 
-export default defineComponent({
-  name: 'Cg<%= options.fileName %>',
-  props: {
-    type: {
-      type: String,
-      default: 'default'
-    }
-  },
-  setup () {
-    const customTheme = inject<IThemeCssVar>('theme', null)
-    const globalCssVar = getGlobalCssVar(customTheme)
-    let cssVar = computed(() => {
-      const componentCssVar = getComponentCssVar('<%= options.fileName %>', customTheme, styleVar)
-      if (props.color) {
-        composeVar.color = props.color
-      }
-      return componentCssVar
-    })
-
-    return {
-      cssVar
-    }
+const props = defineProps({
+  type: {
+    type: String,
+    default: 'default'
   }
+})
+
+const customTheme = inject<IThemeCssVar>('theme', null)
+const globalCssVar = getGlobalCssVar(customTheme)
+let cssVar = computed(() => {
+  const componentCssVar = getComponentCssVar('<%= options.fileName %>', customTheme, styleVar)
+  if (props.color) {
+    composeVar.color = props.color
+  }
+  return componentCssVar
 })
 </script>
 

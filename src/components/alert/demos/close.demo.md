@@ -1,24 +1,13 @@
 # 可关闭
 
 ```html
-<cg-space vertical>
-  <cg-alert type="success" showClose showIcon>
-    <template #title>
-      这里是标题
-    </template>
-    为你唱这首
-  </cg-alert>
-  <cg-alert type="info" showClose showIcon>
-    <template #title>
-      这里是标题
-    </template>
-    为你唱这首
-  </cg-alert>
-  <cg-alert type="warning" showClose showIcon>
-    <template #title>
-      这里是标题
-    </template>
-    为你唱这首
-  </cg-alert>
-</cg-space>
+<cg-alert show-icon type="success" showClose showIcon title="这里是标题">
+  为你唱这首
+</cg-alert>
+<cg-alert show-icon type="info" showClose title="这里是标题">
+  为你唱这首
+</cg-alert>
+<cg-alert show-icon type="warning" showClose title="这里是标题">
+  为你唱这首
+</cg-alert>
 ```

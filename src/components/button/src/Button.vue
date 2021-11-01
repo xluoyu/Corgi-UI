@@ -63,6 +63,8 @@ const buttonProps = {
   },
 }
 
+export type IButtonType = 'default' | 'primary' | 'success' | 'info' | 'warning' | 'error'
+
 export default defineComponent({
   name: 'CgButton',
   components: {
