@@ -1,6 +1,8 @@
 
 <template>
   <div class="main">
+    <cg-button @click="submit">提示</cg-button>
+
     <cg-card
       title="这里是标题"
       border
@@ -10,8 +12,6 @@
       这里是内容
     </cg-card>
 
-
-    <cg-confirm :is-show="true">哈哈哈</cg-confirm>
     <cg-alert
       type="info"
       show-icon
@@ -25,10 +25,6 @@
     </cg-alert>
 
     <cg-button size="small" ghost @click="getPos">hhh</cg-button>
-    <cg-button size="small" ghost type="primary">hhh</cg-button>
-    <cg-button size="small" ghost type="success">hhh</cg-button>
-    <cg-button size="small" ghost type="info">hhh</cg-button>
-    <cg-button size="small" ghost type="warning">hhh</cg-button>
     <cg-button
       size="small"
       ghost
@@ -66,12 +62,21 @@
     <div id="b2" v-cg-loading="loadingVal2" class="box">
       <span>1654646</span>
     </div>
+
     <!-- <cg-switch size="large" /> -->
   </div>
 </template>
 
+<script lang="ts">
+import { defineComponent, onMounted } from 'vue'
+export default defineComponent({
+  name: 'Play',
+})
+</script>
+
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { useConfirm } from '@corgi/index'
+import { h, ref } from 'vue'
 
 const onClose = () => {
   console.log('检测到关闭了')
@@ -105,6 +110,20 @@ const getPos = () => {
     console.log('err', err)
   })
 }
+
+const submit = () => {
+  useConfirm({
+    title: '哈哈哈',
+    content: h('div', {}, '这是节点'),
+  }).then(() => {
+    console.log('确定额')
+  }).catch(() => {
+    console.log('取消')
+  })
+}
+
+
+const confirmRef = ref(null)
 
 </script>
 

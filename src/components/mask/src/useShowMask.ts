@@ -2,9 +2,9 @@ import Mask from './Mask.vue'
 import { createApp, ref } from 'vue'
 
 const isShow = ref(false)
-const MaskObj = createApp(Mask, { isShow })
+const MaskApp = createApp(Mask, { isShow })
 const newDom = document.createElement('div')
-MaskObj.mount(newDom)
+const maskVNode = MaskApp.mount(newDom)
 let curEl = null
 export const useShowMask = () => {
   const show = () => {
@@ -12,15 +12,13 @@ export const useShowMask = () => {
       curEl = document.querySelector('body').appendChild(newDom.firstChild)
     } else {
       // curEl.style.display = 'block'
-      isShow.value = true
+      (maskVNode.$root as any).show()
     }
   }
   const close = () => {
     // curEl.style.display = 'none'
-    console.log(MaskObj)
-    isShow.value = false
+    (maskVNode.$root as any).hide()
   }
-  console.log(isShow)
   show()
   return {
     show,

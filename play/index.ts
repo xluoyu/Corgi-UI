@@ -1,6 +1,6 @@
 import { createApp } from 'vue'
 import Corgi from '@corgi/index'
-import App from './play.vue'
+import App from './main.vue'
 
 const app = createApp(App)
 

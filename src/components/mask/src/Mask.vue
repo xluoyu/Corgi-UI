@@ -1,5 +1,5 @@
 <template>
-  <transition>
+  <transition name="slide-fade">
     <div
       v-show="isShow"
       class="cg-mask"
@@ -44,6 +44,8 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
+@import url('../../style/animes.less');
+
 .cg-mask{
   position: fixed;
   top: 0;
@@ -53,4 +55,5 @@ defineExpose({
   height: 100vh;
   background: v-bind('cssVar.background');
 }
+
 </style>
