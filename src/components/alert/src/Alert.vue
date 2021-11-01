@@ -17,8 +17,10 @@
         <CircleCloseFilled v-if="type === 'error'" />
       </cg-icon>
     </div>
-    <div v-if="$slots.title" class="cg-alert-title">
-      <slot name="title"></slot>
+    <div v-if="$slots.title || title" class="cg-alert-title">
+      <slot name="title">
+        {{ title }}
+      </slot>
     </div>
     <div class="cg-alert-content">
       <slot></slot>
@@ -45,6 +47,7 @@ import { IThemeCssVar } from '@corgi/utils/type'
 import { Flag, InfoFilled, SuccessFilled, WarningFilled, CircleCloseFilled, Close } from '@element-plus/icons'
 
 const props = defineProps({
+  title:String,
   marginTop: {
     type: String,
     default: '100px',
@@ -88,6 +91,7 @@ const handleClose = () => {
   border-radius: v-bind('cssVar.radiusMini');
   box-sizing: border-box;
   position: relative;
+  margin-bottom: 10px;
   .cg-alert-title{
     font-size: v-bind('cssVar.fontSizeH3');
     margin-bottom: 5px;

@@ -11,7 +11,6 @@
           autoplay
         ></video>
       </div>
-      <div @click="notifyMe">哈哈哈</div>
       <div :style="siteTheme">
         <site-header />
         <router-view />
@@ -40,10 +39,6 @@ const siteTheme = computed(() => {
 //   if (Notification.permission !== 'granted')
 //     Notification.requestPermission()
 // })
-console.log(window)
-console.log(Notification)
-console.log(Screen)
-console.log(History)
 
 
 function notifyMe() {
