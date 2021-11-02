@@ -20,15 +20,6 @@ import styleVar from './styleVar'
 import { getComponentCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
 
-// const props = defineProps({
-//   isShow: {
-//     type: Boolean,
-//     default: true,
-//   },
-// })
-
-// console.log(props.isShow)
-
 const customTheme = inject<IThemeCssVar>('theme', null)
 let cssVar = computed(() => {
   const componentCssVar = getComponentCssVar('Mask', customTheme, styleVar)
@@ -38,8 +29,8 @@ let cssVar = computed(() => {
 const isShow = ref(true)
 
 defineExpose({
-  show: () => isShow.value = true,
-  hide: () => isShow.value = false,
+  $show: () => isShow.value = true,
+  $hide: () => isShow.value = false,
 })
 </script>
 

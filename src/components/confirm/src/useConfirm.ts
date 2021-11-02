@@ -1,11 +1,17 @@
 import { createApp, VNode } from 'vue'
 import Confirm from './Confirm.vue'
+import { isFunction } from '../../../../../readCode/vue3/my-mini-vue/src/shared/index'
+import { useShowMask } from '@corgi/index'
 
 
 interface options {
   title?: string
   type?: 'success' | 'warning' | 'info' | 'error'
   content: string | VNode
+  success?: () => void
+  cancel?: () => void
+  close?: () => void
+  callback?: (type: String) => void
 }
 
 const defaultOptions: options = {
@@ -18,24 +24,35 @@ const defaultOptions: options = {
 export const useConfirm = (options: options = defaultOptions) => {
   const newDom = document.createElement('div')
 
-  const confirmApp = createApp(Confirm, { ...options })
+  const confirmApp = createApp(Confirm, { ...options, isFixed: true })
 
-  const confirmComp = confirmApp.mount(newDom)
+  const confirmComp = confirmApp.mount(newDom) as any
   document.querySelector('body').appendChild(newDom.firstChild)
 
-  const unMount = () => {
-    confirmApp.unmount()
-  }
+  const showMask = useShowMask()
 
-  ;(confirmComp as any).setUnMount(unMount)
+  confirmComp.closeAddFn(() => {
+    showMask.close()
+    confirmApp.unmount()
+  })
+
+  if (options.success && isFunction(options.success)) {
+    confirmComp.confirmAddFn(options.success)
+  }
+  if (options.cancel && isFunction(options.cancel)) {
+    confirmComp.cancelAddFn(options.cancel)
+  }
+  if (options.callback && isFunction(options.callback)) {
+    confirmComp.closeAddFn(options.callback)
+  }
 
   const res = {
     then: fn => {
-      (confirmComp as any).confirmCb(fn)
+      confirmComp.confirmAddFn(fn)
       return res
     },
     catch: fn => {
-      (confirmComp as any).cancelCb(fn)
+      confirmComp.cancelAddFn(fn)
     },
   }
 

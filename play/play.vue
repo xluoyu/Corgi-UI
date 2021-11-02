@@ -3,6 +3,7 @@
   <div class="main">
     <cg-button @click="submit">提示</cg-button>
 
+    <cg-confirm>哈哈哈</cg-confirm>
     <cg-card
       title="这里是标题"
       border
@@ -115,11 +116,15 @@ const submit = () => {
   useConfirm({
     title: '哈哈哈',
     content: h('div', {}, '这是节点'),
-  }).then(() => {
-    console.log('确定额')
-  }).catch(() => {
-    console.log('取消')
+    callback: val => {
+      console.log(val)
+    },
   })
+  // .then(() => {
+  //   console.log('确定额')
+  // }).catch(() => {
+  //   console.log('取消')
+  // })
 }
 
 

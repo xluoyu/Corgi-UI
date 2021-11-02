@@ -8,6 +8,7 @@ import hljs from '../../../site/utils/hljs'
 import dayjs from 'dayjs'
 
 const docTemplate = resolve(__dirname, '../template/doc-template.ejs')
+const controlTemplate = resolve(__dirname, '../template/doc-template.ejs')
 
 async function resolveDemoTitle (fileName, demoEntryPath) {
   const demoStr = readFileSync(
@@ -39,8 +40,11 @@ const docLoader = async (code, path) => {
   let codeObject = lexer(code)
   let compoentList = []
   let demoColumn = 'two'
+  let docType = 'default'
   await Promise.all(codeObject.map(async (item, index) => {
-    if (item.type === 'html' && item.text === '<!-- oneColumn -->\n') {
+    if (item.type === 'html' && item.text === '<!-- control -->\n') {
+      docType = 'control'
+    }else if (item.type === 'html' && item.text === '<!-- oneColumn -->\n') {
       demoColumn = 'one'
     }else if (item.type === 'code' && item.lang === 'demo') {
       compoentList = await filterDemos(item.text, path)
@@ -61,12 +65,12 @@ const docLoader = async (code, path) => {
   })
 
   const lastTime = dayjs(statSync(path).mtime).format('YYYY-MM-DD HH:mm')
-  return renderDocVueComponent(docMainTemplate, compoentList, lastTime)
+  return renderDocVueComponent(docType, docMainTemplate, compoentList, lastTime)
 }
 
-const renderDocVueComponent = (content, componentList, lastTime) => {
+const renderDocVueComponent = (docType = 'docType', content, componentList, lastTime) => {
   return new Promise(reslove => {
-    renderFile(docTemplate, { content, componentList, lastTime }, (err, str) => {
+    renderFile(docType == 'default' ? docTemplate : controlTemplate, { content, componentList, lastTime }, (err, str) => {
       if (err) {
         console.log(err)
         return

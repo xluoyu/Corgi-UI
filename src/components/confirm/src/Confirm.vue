@@ -2,6 +2,9 @@
   <div
     v-if="isShow"
     class="cg-confirm"
+    :class="{
+      'cg-confirm--fixed': isFixed
+    }"
   >
     <div v-if="title" class="cg-confirm-title">{{ title }}</div>
     <slot>
@@ -11,7 +14,7 @@
     <div class="cg-confirm-footer">
       <slot name="footer">
         <cg-space>
-          <cg-button :type="cancelButtonType" @click="close">{{ cancelButtonText }}</cg-button>
+          <cg-button :type="cancelButtonType" @click="cancel">{{ cancelButtonText }}</cg-button>
           <cg-button :type="confirmButtonType" @click="submit">{{ confirmButtonText }}</cg-button>
         </cg-space>
       </slot>
@@ -30,11 +33,15 @@ import { defineComponent, computed, inject, PropType, ref, VNode, onUnmounted } 
 import styleVar from './styleVar'
 import { getComponentCssVar, getGlobalCssVar, IThemeCssVar, isString } from '@corgi/utils'
 import { IButtonType } from '@corgi/components/button/src/Button.vue'
-import { useShowMask, CgSpace, CgButton } from '@corgi/index'
+import { CgSpace, CgButton } from '@corgi/index'
 
 const props = defineProps({
   title: String,
   content: String as PropType<String | VNode>,
+  isFixed: {
+    type: Boolean,
+    default: false,
+  },
   confirmButtonText: {
     type: String,
     default: '确定',
@@ -61,17 +68,23 @@ let cssVar = computed(() => {
 console.log(customTheme)
 const isShow = ref(true)
 
-const showMask = useShowMask()
 
-
-const confirmCbArray = []
-const confirmCb = fn => {
-  confirmCbArray.push(fn)
+const fnArray = {
+  confirm: [],
+  cancel: [],
+  close: [],
 }
 
-const cancelCbArray = []
-const cancelCb = fn => {
-  cancelCbArray.push(fn)
+const confirmAddFn = fn => {
+  fnArray.confirm.push(fn)
+}
+
+const cancelAddFn = fn => {
+  fnArray.cancel.push(fn)
+}
+
+const closeAddFn = fn => {
+  fnArray.close.push(fn)
 }
 
 let unMountFn = null
@@ -79,18 +92,20 @@ const setUnMount = fn => {
   unMountFn = fn
 }
 
-const close = () => {
-  cancelCbArray.forEach(e => e())
-  showMask.close()
+const cancel = () => {
+  fnArray.cancel.forEach(e => e())
   isShow.value = false
-  unMountFn && unMountFn()
+  close('cancel')
 
 }
 const submit = () => {
-  confirmCbArray.forEach(e => e())
-  showMask.close()
+  fnArray.confirm.forEach(e => e())
   isShow.value = false
-  unMountFn && unMountFn()
+  close('confirm')
+}
+
+const close = type => {
+  fnArray.close.forEach(e => e(type))
 }
 
 onUnmounted(() => {
@@ -98,13 +113,21 @@ onUnmounted(() => {
 })
 
 defineExpose({
-  confirm: submit,
-  cancel: close,
+  $confirm: submit, // 确认事件
+  $cancel: cancel, // 取消事件
+  confirmAddFn, // 为确认按钮添加回调
+  cancelAddFn, // 为取消按钮添加回调
+  closeAddFn, // 为关闭添加回调
 })
 </script>
 
 <style lang="less" scoped>
 .cg-confirm{
+  background: #fff;
+  width: v-bind('cssVar.width');
+  height: fit-content;
+}
+.cg-confirm--fixed{
   position: fixed;
   top: v-bind('cssVar.top');
   bottom: 0;
@@ -112,8 +135,5 @@ defineExpose({
   right: 0;
   margin: auto;
   z-index: 1001;
-  background: #fff;
-  width: v-bind('cssVar.width');
-  height: fit-content;
 }
 </style>
