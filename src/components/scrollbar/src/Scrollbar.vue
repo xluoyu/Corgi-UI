@@ -276,7 +276,6 @@ const cssVar = computed(() => {
   .scrollbar-container{
     overflow: hidden;
     height: 100%;
-    font-size: 0;
     &.scrollbar-Y{
       overflow-y: auto;
     }

@@ -1,6 +1,6 @@
 import { createApp, VNode } from 'vue'
 import Confirm from './Confirm.vue'
-import { isFunction } from '../../../../../readCode/vue3/my-mini-vue/src/shared/index'
+import { isFunction } from '@corgi/utils'
 import { useShowMask } from '@corgi/index'
 
 

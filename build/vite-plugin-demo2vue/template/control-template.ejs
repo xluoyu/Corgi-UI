@@ -1,0 +1,18 @@
+<template>
+  <div class="doc">
+    <div class="content">
+      <%- content %>
+      <p class="time">lastTime: <%= lastTime %></p>
+    </div>
+  </div>
+</template>
+
+<script lang="ts" setup>
+import config from "./control.ts"
+import { ref } from 'vue'
+
+const controlKey = ref(new Date())
+const reset = () => {
+  controlKey.value = new Date()
+}
+</script>

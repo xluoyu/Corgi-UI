@@ -1,7 +1,5 @@
-import { h } from 'vue'
-
 export default {
-  name: 'cg-alert',
+  name: 'CgAlert',
   props: [
     {
       key: 'title',
@@ -34,11 +32,6 @@ export default {
       key: 'default',
       value: '<h3>哈哈哈</h3>',
       label: '内容',
-    },
-    {
-      key: 'title',
-      value: '<h3>标题</h3>',
-      label: '标题',
     },
   ],
 }

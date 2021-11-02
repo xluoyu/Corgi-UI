@@ -8,7 +8,7 @@ import hljs from '../../../site/utils/hljs'
 import dayjs from 'dayjs'
 
 const docTemplate = resolve(__dirname, '../template/doc-template.ejs')
-const controlTemplate = resolve(__dirname, '../template/doc-template.ejs')
+const controlTemplate = resolve(__dirname, '../template/control-template.ejs')
 
 async function resolveDemoTitle (fileName, demoEntryPath) {
   const demoStr = readFileSync(
@@ -36,6 +36,10 @@ const genDemosTemplate = (demos, column) => {
   return `<demos column="${column}">${demos.map(e => e.tag).join('\n')}</demos>`
 }
 
+const genControlTemplate = () => {
+  return `<controlBox :key="controlKey" :config="config" @reset="reset"/>`
+}
+
 const docLoader = async (code, path) => {
   let codeObject = lexer(code)
   let compoentList = []
@@ -44,6 +48,11 @@ const docLoader = async (code, path) => {
   await Promise.all(codeObject.map(async (item, index) => {
     if (item.type === 'html' && item.text === '<!-- control -->\n') {
       docType = 'control'
+      codeObject[index] = {
+        type: 'html',
+        pre: false,
+        text: genControlTemplate(path),
+      }
     }else if (item.type === 'html' && item.text === '<!-- oneColumn -->\n') {
       demoColumn = 'one'
     }else if (item.type === 'code' && item.lang === 'demo') {
