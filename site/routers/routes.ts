@@ -33,7 +33,6 @@ const getDocRouters = () => {
     return pre
   }, [])
 }
-console.log(getDocRouters())
 const routes = [
   {
     path: '/',

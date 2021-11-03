@@ -1,6 +1,7 @@
 <script lang="ts">
-import { getSlotsVNodeEls } from '@corgi/utils'
-import { defineComponent, h, onMounted, PropType, ref, VNode } from 'vue'
+import { getComponetApp, getSlotsVNodeEls } from '@corgi/utils'
+import { createApp, defineComponent, h, onMounted, PropType, ref, VNode } from 'vue'
+import { CgPopover } from '@corgi/index'
 
 export default defineComponent({
   name: 'CgTooltip',
@@ -16,18 +17,26 @@ export default defineComponent({
     },
   },
   setup (props, ctx) {
-    const test = () => {
-      console.log('哦是的')
+    const createTool = () => {
+      // const compApp = getComponetApp(popver, {})
+      // console.log(compApp)
     }
-    const tooRef = ref(null)
+    const showTool = () => {
+    }
+    const hideTool = () => {}
     onMounted(() => {
-      console.log(tooRef.value)
+      createTool()
     })
-    return { test,tooRef }
+    return {
+      showTool,
+      hideTool,
+    }
   },
   render () {
     this.$nextTick(() => {
-      console.log(this.$el.nextSibling)
+      console.log(this.$el)
+      this.$el.nextSibling.addEventListener('mouseover', this.showTool)
+      this.$el.nextSibling.addEventListener('mouseout', this.hideTool)
       // const doms = getSlotsVNodeEls(this.$slots.default())
       // console.log(doms)
 
@@ -46,7 +55,7 @@ export default defineComponent({
 
       // console.log(doms)
     })
-    return h(this.$slots.default)
+    return [h(this.$slots.default), h(CgPopover, { content: '这是opopener' })]
   },
 })
 
