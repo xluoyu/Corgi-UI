@@ -1,61 +1,18 @@
 <script lang="ts">
-import { getComponetApp, getSlotsVNodeEls } from '@corgi/utils'
-import { createApp, defineComponent, h, onMounted, PropType, ref, VNode } from 'vue'
+import { defineComponent, h } from 'vue'
 import { CgPopover } from '@corgi/index'
+import { PopoverPorps } from '@corgi/components/popover'
 
 export default defineComponent({
   name: 'CgTooltip',
   props: {
+    ...PopoverPorps,
     content: String,
-    effect: {
-      type: String as PropType<'light' | 'dark'>,
-      default: 'light',
-    },
-    position: {
-      type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
-      default: 'bottom',
-    },
-  },
-  setup (props, ctx) {
-    const createTool = () => {
-      // const compApp = getComponetApp(popver, {})
-      // console.log(compApp)
-    }
-    const showTool = () => {
-    }
-    const hideTool = () => {}
-    onMounted(() => {
-      createTool()
-    })
-    return {
-      showTool,
-      hideTool,
-    }
   },
   render () {
-    this.$nextTick(() => {
-      console.log(this.$el)
-      this.$el.nextSibling.addEventListener('mouseover', this.showTool)
-      this.$el.nextSibling.addEventListener('mouseout', this.hideTool)
-      // const doms = getSlotsVNodeEls(this.$slots.default())
-      // console.log(doms)
-
-      // doms.forEach(item => {
-      // if (item.props) {
-      //   item.props['onClick'] = this.test
-      // } else {
-      //   item.props = {
-      //     onClick: this.test,
-      //   }
-      // }
-      // if (item) {
-      //   item.addEventListener('click', this.test)
-      // }
-      // })
-
-      // console.log(doms)
+    return h(CgPopover, this.$props, {
+      default: this.$slots.default,
     })
-    return [h(this.$slots.default), h(CgPopover, { content: '这是opopener' })]
   },
 })
 

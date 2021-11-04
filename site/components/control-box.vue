@@ -3,15 +3,17 @@
   <div class="control-box">
     <div class="header-bar">
       <cg-space>
-        <cg-popover content="哈哈哈哈哈" />
-        <cg-tooltip content="重置">
-          <cg-button type="success">实施</cg-button>
-          <cg-button type="success">哈哈哈</cg-button>
+        <!-- <cg-popover content="哈哈哈哈哈" effect="light" position="right" /> -->
+        <cg-tooltip content="重置" position="top">
+          <cg-icon><Refresh /></cg-icon>
+        </cg-tooltip>
+        <cg-tooltip content="切换主题" position="top">
+          <cg-icon><Moon /></cg-icon>
+        </cg-tooltip>
+        <cg-tooltip content="生成代码" position="top">
+          <cg-icon><Tickets /></cg-icon>
         </cg-tooltip>
       </cg-space>
-      <cg-icon><Refresh /></cg-icon>
-      <cg-icon><Moon /></cg-icon>
-      <cg-icon><Tickets /></cg-icon>
     </div>
     <div class="canvas">
       <component :is="config.name" v-bind="binds">
@@ -95,5 +97,9 @@ const reset = () => {
 .control{
   width: 100%;
   border: 1px solid #eee;
+}
+.handle{
+  width: 620px;
+  height: 80px;
 }
 </style>

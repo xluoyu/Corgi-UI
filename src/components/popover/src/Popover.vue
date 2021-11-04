@@ -1,57 +1,147 @@
 <template>
-  <div
-    class="cg-popover"
-    :class="[
-      `cg-popover--${effect}`,
-      `cg-popover--${position}`
-    ]"
-  >
-    <div class="cg-popover-arrow-wrapper">
-      <div class="cg-popover-arrow"></div>
-    </div>
-    <slot>
-      <template v-if="isString(content)">{{ content }}</template>
-      <component :is="content" v-else />
-    </slot>
-  </div>
+  <slot></slot>
 </template>
 
 <script lang="ts">
+import { getCgHandleBox, getComponetApp } from '@corgi/utils'
+import { defineComponent, PropType, VNode } from 'vue'
+import popoverBody from './popover-body.vue'
+import popoverProps from './popoverProps'
 export default defineComponent({
   name: 'CgPopover',
-})
-</script>
-
-<script setup lang="ts">
-import { defineProps, PropType, VNode, defineComponent } from 'vue'
-import { isString } from '@corgi/utils'
-const porps = defineProps({
-  content: [String, Object] as PropType<string | VNode>,
-  effect: {
-    type: String as PropType<'light' | 'dark'>,
-    default: 'dark',
+  props: {
+    ...popoverProps,
+    trigger: {
+      type: String as PropType<'hover' | 'click' | 'event'>,
+      default: 'hover',
+    },
   },
-  position: {
-    type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
-    default: 'bottom',
+  data() {
+    return {
+      popEl: null,
+    }
+  },
+  computed: {
+    popApp () {
+      return getComponetApp(popoverBody, { ...this.$props, content: this.$slots.content || this.content })
+    },
+  },
+  mounted () {
+    const handleBox = getCgHandleBox()
+    handleBox.appendChild(this.popApp.$el)
+    // this.popEl = el
+
+    switch(this.trigger) {
+      case 'hover':
+        this.$el.nextSibling.addEventListener('mouseover', () => {
+          this.popApp.show()
+          this.$nextTick(() => {
+            this.counterRun(this.popApp.$el)
+          })
+        })
+        this.$el.nextSibling.addEventListener('mouseout', () => {
+          this.popApp.hide()
+        })
+        break
+    }
+  },
+  methods: {
+    setPosition(popEl, top, left) {
+      popEl.style.top = top + 'px'
+      popEl.style.left = left + 'px'
+    },
+    counterRun(popEl) {
+      const { height: popHeight, width: popWidth } = popEl.getBoundingClientRect()
+      const { height, top, left, width } = this.$el.nextSibling.getBoundingClientRect()
+
+      switch(this.position) {
+        case 'top':
+          this.setPosition(popEl, top - popHeight - 10, (left + width / 2) - popWidth / 2)
+          break
+        case 'right':
+          this.setPosition(popEl, top, left + width + 10)
+          break
+        case 'bottom':
+          this.setPosition(popEl, height + top + 10, (left + width / 2) - popWidth / 2)
+          break
+        case 'left':
+          this.setPosition(popEl, top, left - popWidth - 10)
+          break
+      }
+    },
   },
 })
 </script>
 
 <style lang="less" scoped>
 .cg-popover{
+  --color: #fff;
+  --background: #333;
+  --arrow-height: 8px;
   padding: 8px 14px;
   border-radius: 4px;
-  box-shadow: 0 3px 12px rgba(0, 0, 0, 0.4);
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  position: relative;
+  background: var(--background);
+  color: var(--color);
   &.cg-popover--dark{
-    background: #333;
-    color: #fff;
+    --color: #fff;
+    --background: #333;
+  }
+  &.cg-popover--light{
+    --color: #333;
+    --background: #fff;
   }
   .cg-popover-arrow-wrapper{
+    display: flex;
     position: absolute;
+    bottom: calc(-0.5 * var(--arrow-height));
+    left: 0;
+    width: 100%;
+    height: var(--arrow-height);
     .cg-popover-arrow{
-
+      width: var(--arrow-height);
+      height: var(--arrow-height);
+      background: var(--background);
+      transform: rotate(45deg);
     }
+  }
+
+  &.cg-popover--top .cg-popover-arrow-wrapper{
+    bottom: calc(-0.5 * var(--arrow-height));
+    left: 0;
+    top: none;
+    width: 100%;
+    height: var(--arrow-height);
+    justify-content: center;
+  }
+
+  &.cg-popover--bottom .cg-popover-arrow-wrapper{
+    top: calc(-0.5 * var(--arrow-height));
+    left: 0;
+    bottom: unset;
+    width: 100%;
+    height: var(--arrow-height);
+    justify-content: center;
+  }
+  &.cg-popover--left .cg-popover-arrow-wrapper{
+    top: 0;
+    right: calc(-0.5 * var(--arrow-height));
+    bottom: unset;
+    left: unset;
+    width: var(--arrow-height);
+    height: 100%;
+    align-items: center;
+  }
+  &.cg-popover--right .cg-popover-arrow-wrapper{
+    left: calc(-0.5 * var(--arrow-height));
+    top: 0;
+    bottom: unset;
+    right: unset;
+    width: 100%;
+    width: var(--arrow-height);
+    height: 100%;
+    align-items: center;
   }
 }
 </style>

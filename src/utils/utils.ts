@@ -1,6 +1,12 @@
+let cgHandle = null
 export const getCgHandleBox = () => {
-  const cgHandle = document.querySelector('#cg-handle')
   if (cgHandle) {
+    return cgHandle
+  } else {
+    cgHandle = document.createElement('div')
+    cgHandle.id = '#cg-handle'
+    document.body.appendChild(cgHandle)
+
     return cgHandle
   }
 }
