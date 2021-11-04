@@ -61,9 +61,6 @@ export default defineComponent({
   display: flex;
   flex-wrap: wrap;
 }
-.cg-space-item{
-  margin-bottom: 10px;
-}
 .cg-space--horizontal{
   flex-direction: row;
   .cg-space-item+.cg-space-item{
@@ -75,6 +72,8 @@ export default defineComponent({
   .cg-space-item{
     width: 100%;
     margin-left: 0px;
+  margin-bottom: 10px;
+
   }
 }
 </style>

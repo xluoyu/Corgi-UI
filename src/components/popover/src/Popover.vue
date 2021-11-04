@@ -19,6 +19,7 @@ export default defineComponent({
   data() {
     return {
       popEl: null,
+      isShow: false,
     }
   },
   computed: {
@@ -29,18 +30,20 @@ export default defineComponent({
   mounted () {
     const handleBox = getCgHandleBox()
     handleBox.appendChild(this.popApp.$el)
-    // this.popEl = el
-
     switch(this.trigger) {
       case 'hover':
         this.$el.nextSibling.addEventListener('mouseover', () => {
-          this.popApp.show()
-          this.$nextTick(() => {
-            this.counterRun(this.popApp.$el)
-          })
+          if (!this.isShow) {
+            this.popApp.show()
+            this.isShow = true
+            this.$nextTick(() => {
+              this.counterRun(this.popApp.$el)
+            })
+          }
         })
-        this.$el.nextSibling.addEventListener('mouseout', () => {
+        this.$el.nextSibling.addEventListener('mouseleave', () => {
           this.popApp.hide()
+          this.isShow = false
         })
         break
     }
@@ -51,9 +54,9 @@ export default defineComponent({
       popEl.style.left = left + 'px'
     },
     counterRun(popEl) {
+      console.log('run')
       const { height: popHeight, width: popWidth } = popEl.getBoundingClientRect()
       const { height, top, left, width } = this.$el.nextSibling.getBoundingClientRect()
-
       switch(this.position) {
         case 'top':
           this.setPosition(popEl, top - popHeight - 10, (left + width / 2) - popWidth / 2)

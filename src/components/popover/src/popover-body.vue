@@ -25,26 +25,24 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { defineProps, PropType, VNode, defineComponent, ref, getCurrentInstance } from 'vue'
+import { PropType, VNode, defineComponent, ref, getCurrentInstance } from 'vue'
 import { isString } from '@corgi/utils'
 import popoverProps from './popoverProps'
 const porps = defineProps(popoverProps)
 
 const isShow = ref(false)
-// defineExpose({
 const show = () =>{
   isShow.value = true
 }
 const hide = () =>{
   isShow.value = false
 }
-// })
 </script>
 
 <style lang="less" scoped>
 .cg-popover{
-  --color: #fff;
-  --background: #333;
+  --white: #fff;
+  --black: #3c3c3c;
   --arrow-height: 8px;
   border-radius: 4px;
   box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
@@ -59,12 +57,12 @@ const hide = () =>{
     padding: 8px 14px;
   }
   &.cg-popover--dark{
-    --color: #fff;
-    --background: #333;
+    --color: var(--white);
+    --background: var(--black);
   }
   &.cg-popover--light{
-    --color: #333;
-    --background: #fff;
+    --color: var(--black);
+    --background: var(--white);
   }
   .cg-popover-arrow-wrapper{
     display: flex;

@@ -3,15 +3,20 @@
   <div class="control-box">
     <div class="header-bar">
       <cg-space>
-        <!-- <cg-popover content="哈哈哈哈哈" effect="light" position="right" /> -->
         <cg-tooltip content="重置" position="top">
-          <cg-icon><Refresh /></cg-icon>
+          <div class="flex-center pointer icon-button">
+            <cg-icon><Refresh /></cg-icon>
+          </div>
         </cg-tooltip>
         <cg-tooltip content="切换主题" position="top">
-          <cg-icon><Moon /></cg-icon>
+          <div class="flex-center pointer icon-button">
+            <cg-icon><Moon /></cg-icon>
+          </div>
         </cg-tooltip>
         <cg-tooltip content="生成代码" position="top">
-          <cg-icon><Tickets /></cg-icon>
+          <div class="flex-center pointer icon-button">
+            <cg-icon><Tickets /></cg-icon>
+          </div>
         </cg-tooltip>
       </cg-space>
     </div>
@@ -101,5 +106,10 @@ const reset = () => {
 .handle{
   width: 620px;
   height: 80px;
+}
+.icon-button{
+  width: 40px;
+  height: 40px;
+  font-size: var(--fontSize-2);
 }
 </style>
