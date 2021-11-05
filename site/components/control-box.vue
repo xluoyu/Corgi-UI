@@ -59,12 +59,9 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, reactive, ref, compile, getCurrentInstance, onUpdated, createVNode, onMounted } from 'vue'
+import { defineComponent, computed, reactive, ref, compile, getCurrentInstance, onUpdated, onMounted } from 'vue'
 import { cloneDeep } from 'lodash'
 import { Refresh, Moon, Sunny, Tickets } from '@element-plus/icons'
-import { baseCompile, baseParse, transform } from '@vue/compiler-dom'
-import * as runtimeDom from '@vue/runtime-dom'
-
 
 const props = defineProps({
   config:Object,
@@ -82,18 +79,14 @@ const Instance = getCurrentInstance()
 
 console.log(Instance)
 const htmlToVnode = (html: string) => {
-  const baseComp = baseCompile(html, {
-  })
-  console.log(baseComp)
-  const compRender = new Function('Vue', baseComp.code)(runtimeDom)
-  return compRender({})
+  console.log(compile(html))
+  return compile(html)
 }
 
 onUpdated(() => {
   slots.forEach(item => {
     item.vnode = htmlToVnode(item.value)
   })
-
 })
 
 onMounted(() => {
@@ -106,8 +99,6 @@ onMounted(() => {
 
 const emits = defineEmits(['reset'])
 
-
-const openControl = ref(false)
 
 const reset = () => {
   emits('reset')
