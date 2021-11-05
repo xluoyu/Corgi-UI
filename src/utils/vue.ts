@@ -21,6 +21,8 @@ export const getSlotsVNodeEls = VNode => {
 export const getComponetApp = (comp, props) => {
   const myBox = document.createElement('div')
   const compObj = createApp(comp, props)
+  console.log(compObj)
   const app = compObj.mount(myBox)
+  console.log(myBox)
   return app
 }

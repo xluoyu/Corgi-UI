@@ -65,7 +65,6 @@ const props = defineProps({
 })
 const emits = defineEmits(['change', 'update:modelValue'])
 const customTheme = inject<IThemeCssVar>('theme', null)
-const globalCssVar = getGlobalCssVar(customTheme)
 let cssVar = computed(() => {
   const componentCssVar = getComponentCssVar('Switch', customTheme, styleVar)
   componentCssVar.size = componentCssVar[props.size] || componentCssVar['medium']

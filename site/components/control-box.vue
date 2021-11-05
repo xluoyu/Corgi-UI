@@ -58,9 +58,11 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, reactive, ref } from 'vue'
+import { defineComponent, computed, reactive, ref, compile, getCurrentInstance, onUpdated } from 'vue'
 import { cloneDeep } from 'lodash'
 import { Refresh, Moon, Sunny, Tickets } from '@element-plus/icons'
+// import { vueCompiler } from '@vue/compiler-sfc'
+// import {vueCompiler}
 
 const props = defineProps({
   config:Object,
@@ -73,6 +75,15 @@ const binds = computed(() => {
     pre[cur.key] = cur.value
     return pre
   }, {})
+})
+const Instance = getCurrentInstance()
+
+// console.log(vueCompiler())
+
+onUpdated(() => {
+  slots.forEach(item => {
+    item.vnode = compile(item.value)
+  })
 })
 
 const emits = defineEmits(['reset'])

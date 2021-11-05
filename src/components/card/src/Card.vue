@@ -43,7 +43,6 @@ const props = defineProps({
 })
 
 const customTheme = inject<IThemeCssVar>('theme', null)
-const globalCssVar = getGlobalCssVar(customTheme)
 let cssVar = computed(() => {
   const componentCssVar = getComponentCssVar('Card', customTheme, styleVar)
   componentCssVar.size = componentCssVar[props.size] || componentCssVar['medium']
@@ -63,7 +62,7 @@ const handleClose = () => {
   width: 100%;
   padding: v-bind('cssVar.size.padding');
   background: #fff;
-  transition: all .3s;
+  // transition: all .3s cubic-bezier(1, 0.5, 0.8, 1);
   border-radius: 4px;
   // &:hover{
   //   box-shadow: 0 0 6px rgba(0, 0, 0, .2);

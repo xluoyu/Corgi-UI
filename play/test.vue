@@ -19,6 +19,9 @@ export default {
     options: Object,
     name: String
   },
+  mounted () {
+    console.log('gooo');
+  },
   methods: {
     submit() {
       console.log(this.options)

@@ -27,9 +27,15 @@ export default defineComponent({
       return getComponetApp(popoverBody, { ...this.$props, content: this.$slots.content || this.content })
     },
   },
+  // updated() {
+
+  // },
   mounted () {
-    const handleBox = getCgHandleBox()
-    handleBox.appendChild(this.popApp.$el)
+    this.$nextTick(() => {
+      const handleBox = getCgHandleBox()
+      handleBox.appendChild(this.popApp.$el)
+    })
+
     switch(this.trigger) {
       case 'hover':
         this.$el.nextSibling.addEventListener('mouseover', () => {
@@ -54,7 +60,6 @@ export default defineComponent({
       popEl.style.left = left + 'px'
     },
     counterRun(popEl) {
-      console.log('run')
       const { height: popHeight, width: popWidth } = popEl.getBoundingClientRect()
       const { height, top, left, width } = this.$el.nextSibling.getBoundingClientRect()
       switch(this.position) {
