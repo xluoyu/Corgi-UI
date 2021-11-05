@@ -30,7 +30,7 @@ export default {
   slots: [
     {
       key: 'default',
-      value: '<cg-button type="success">哈哈哈哈</cg-button><h3>哈哈哈</h3>',
+      value: '<div><cg-button type="success">哈哈哈哈</cg-button><h3>哈哈哈</h3></div>',
       label: '内容',
     },
   ],

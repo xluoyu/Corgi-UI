@@ -23,7 +23,8 @@
     <div class="canvas">
       <component :is="config.name" v-bind="binds">
         <template v-for="item in slots" :key="item.key" #[item.key]>
-          <div v-html="item.value"></div>
+          <!-- <div v-html="item.value"></div> -->
+          <component :is="item.vnode" />
         </template>
       </component>
     </div>
@@ -58,18 +59,19 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, reactive, ref, compile, getCurrentInstance, onUpdated } from 'vue'
+import { defineComponent, computed, reactive, ref, compile, getCurrentInstance, onUpdated, createVNode, onMounted } from 'vue'
 import { cloneDeep } from 'lodash'
 import { Refresh, Moon, Sunny, Tickets } from '@element-plus/icons'
-// import { vueCompiler } from '@vue/compiler-sfc'
-// import {vueCompiler}
+import { baseCompile, baseParse, transform } from '@vue/compiler-dom'
+import * as runtimeDom from '@vue/runtime-dom'
+
 
 const props = defineProps({
   config:Object,
 })
 
 let options = reactive(cloneDeep(props.config.props))
-let slots = reactive(cloneDeep(props.config.slots))
+let slots = reactive(props.config.slots)
 const binds = computed(() => {
   return options.reduce((pre, cur) => {
     pre[cur.key] = cur.value
@@ -78,12 +80,28 @@ const binds = computed(() => {
 })
 const Instance = getCurrentInstance()
 
-// console.log(vueCompiler())
+console.log(Instance)
+const htmlToVnode = (html: string) => {
+  const baseComp = baseCompile(html, {
+  })
+  console.log(baseComp)
+  const compRender = new Function('Vue', baseComp.code)(runtimeDom)
+  return compRender({})
+}
 
 onUpdated(() => {
   slots.forEach(item => {
-    item.vnode = compile(item.value)
+    item.vnode = htmlToVnode(item.value)
   })
+
+})
+
+onMounted(() => {
+  slots.forEach(item => {
+    item.vnode = htmlToVnode(item.value)
+  })
+  console.log(slots)
+
 })
 
 const emits = defineEmits(['reset'])
