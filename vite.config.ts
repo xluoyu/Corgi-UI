@@ -20,6 +20,10 @@ export default defineConfig({
         find: 'corgi-box',
         replacement: path.resolve(__dirname, './src/index'),
       },
+      {
+        find: 'vue',
+        replacement: path.resolve(__dirname, 'node_modules/vue/dist/vue.esm-bundler.js'),
+      },
     ],
   },
 })

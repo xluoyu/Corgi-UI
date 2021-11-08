@@ -37,6 +37,11 @@ const show = () =>{
 const hide = () =>{
   isShow.value = false
 }
+
+defineExpose({
+  show,
+  hide,
+})
 </script>
 
 <style lang="less" scoped>

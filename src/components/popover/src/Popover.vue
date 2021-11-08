@@ -35,7 +35,7 @@ export default defineComponent({
       const handleBox = getCgHandleBox()
       handleBox.appendChild(this.popApp.$el)
     })
-
+    console.log(this.popApp)
     switch(this.trigger) {
       case 'hover':
         this.$el.nextSibling.addEventListener('mouseover', () => {

@@ -3,6 +3,7 @@ import { defineComponent, computed, inject, onMounted, getCurrentInstance, h, VN
 import styleVar from './styleVar'
 import { getComponentCssVar, getGlobalCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
+import{ IPosition, IType } from './type'
 import TabNav from './tab-nav.vue'
 export default defineComponent({
   name: 'CgTabs',
@@ -11,10 +12,14 @@ export default defineComponent({
   },
   props: {
     type: {
-      type: String as PropType<'line' | 'card'>,
+      type: String as PropType<IType>,
       default: 'line',
     },
     modelValue: [String, Number],
+    position: {
+      type: String as PropType<IPosition>,
+      default: 'top',
+    },
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
@@ -22,16 +27,17 @@ export default defineComponent({
     const labels = ref([])
     const setNavItem = () => {
       if (!instance.subTree.children || !instance.subTree.children.length) return
-      const contentItems = (instance.subTree.children as VNode[]).find(e => e.props.class === 'cg-tabs-content')
-      labels.value = (contentItems.children as VNode[]).map(e => {
+      console.log(instance.subTree.children)
+      const contentItems = (instance.subTree.children as VNode[]).find(e => e.props?.class === 'cg-tabs-content')
+      labels.value = (contentItems.children as VNode[]).filter(e => e.props && e.props.name).map(e => {
         return {
-          key: e.props.name,
+          name: e.props.name,
           label: e.children['label'] || e.props.label,
         }
       })
     }
 
-    const activeLabel = computed(() => props.modelValue || labels.value[0].key || null)
+    const activeLabel = computed(() => props.modelValue || labels.value[0].name || null)
 
     provide('tabControl', {
       activeLabel,
@@ -41,7 +47,7 @@ export default defineComponent({
       setNavItem()
     })
 
-    const handleActiveItem = key => emit('update:modelValue', key)
+    const handleActiveItem = name => emit('update:modelValue', name)
 
     return {
       labels,
@@ -50,11 +56,15 @@ export default defineComponent({
     }
   },
   render () {
-    const nav = h(TabNav, {
-      labels: this.labels,
-      activeLabel: this.activeLabel,
-      onChangeActive: this.handleActiveItem,
-    })
+    const { type, labels, activeLabel, handleActiveItem, position } = this
+    const nav = this.$slots.header ? this.$slots.header({ labels })
+      : h(TabNav, {
+        labels,
+        type,
+        activeLabel,
+        position,
+        onChangeActive: handleActiveItem,
+      })
     const content = h(
       'div',
       {
@@ -64,12 +74,20 @@ export default defineComponent({
     )
 
     return h('div', {
-      class:'cg-tabs',
-    }, [nav, content])
+      class:['cg-tabs', `cg-tabs--${position}`],
+    }, position === 'bottom' || position === 'right' ? [content, nav] : [nav, content])
   },
 })
 </script>
 
 <style lang="less" scoped>
-
+.cg-tabs{
+  height: 100%;
+}
+.cg-tabs--left, .cg-tabs--right{
+  display: flex;
+  .cg-tabs-content{
+    flex: 1;
+  }
+}
 </style>

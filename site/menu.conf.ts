@@ -73,7 +73,7 @@ const MenuList: IMenuObj[] = [
     label: '实用组件',
     children: [
       {
-        path: 'loadingBar',
+        path: 'loadingbar',
         label: 'loadingBar 加载条',
         key: 'loadingBar',
       },

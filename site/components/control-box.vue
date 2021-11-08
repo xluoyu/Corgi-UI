@@ -23,7 +23,8 @@
     <div class="canvas">
       <component :is="config.name" v-bind="binds">
         <template v-for="item in slots" :key="item.key" #[item.key]>
-          <div v-html="item.value"></div>
+          <!-- <div v-html="item.value"></div> -->
+          <component :is="item.vnode" />
         </template>
       </component>
     </div>
@@ -61,8 +62,6 @@ export default defineComponent({
 import { defineComponent, computed, reactive, ref, compile, getCurrentInstance, onUpdated } from 'vue'
 import { cloneDeep } from 'lodash'
 import { Refresh, Moon, Sunny, Tickets } from '@element-plus/icons'
-// import { vueCompiler } from '@vue/compiler-sfc'
-// import {vueCompiler}
 
 const props = defineProps({
   config:Object,
@@ -78,11 +77,14 @@ const binds = computed(() => {
 })
 const Instance = getCurrentInstance()
 
-// console.log(vueCompiler())
-
+slots.forEach(item => {
+  item.vnode = compile(item.value)
+})
 onUpdated(() => {
+  console.log('up')
   slots.forEach(item => {
     item.vnode = compile(item.value)
+    console.log(item.vnode)
   })
 })
 

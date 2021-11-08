@@ -1,4 +1,4 @@
-import { createApp, h } from '@vue/runtime-dom'
+import { createApp, h } from 'vue'
 import { isObject } from './index'
 
 export const getSlotsVNodeEls = VNode => {
@@ -21,8 +21,6 @@ export const getSlotsVNodeEls = VNode => {
 export const getComponetApp = (comp, props) => {
   const myBox = document.createElement('div')
   const compObj = createApp(comp, props)
-  console.log(compObj)
   const app = compObj.mount(myBox)
-  console.log(myBox)
   return app
 }

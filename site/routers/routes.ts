@@ -5,7 +5,7 @@ import docConf, { IDocMenuObj } from '../doc.conf'
 interface IComponentRoute {
   path: String
   name: String
-  component: () => Promise<typeof import('*.vue')>
+  component: () => Promise<typeof import('*.vue') | typeof import('*.md')>
 }
 
 const getComponentRouters = () => {
@@ -27,12 +27,13 @@ const getDocRouters = () => {
       return {
         path: item.path,
         name: item.key,
-        component: () => import(`../../src/${item.file}/demos/index.md`),
+        component: () => import(`../../src/${item.folder}/${item.file}/demos/index.md`),
       }
     }))
     return pre
   }, [])
 }
+
 const routes = [
   {
     path: '/',
