@@ -4,24 +4,25 @@ export interface IDocMenuObj {
   key: string
   label: string | ((h: any) => VNode)
   path?: string
+  folder?: string
   file?: string
   children?: IDocMenuObj[]
 }
 
 
 const MenuList: IDocMenuObj[] = [
-  {
-    type: 'group',
-    key: 'base',
-    label: 'setup函数',
-    children: [
-      {
-        path: 'icon',
-        label: h => h('span', ['图标', h('b', 'Icon')]),
-        key: 'icon',
-      },
-    ],
-  },
+  // {
+  //   type: 'group',
+  //   key: 'base',
+  //   label: 'setup函数',
+  //   children: [
+  //     {
+  //       path: 'icon',
+  //       label: h => h('span', ['图标', h('b', 'Icon')]),
+  //       key: 'icon',
+  //     },
+  //   ],
+  // },
   {
     type: 'group',
     key: 'route',
@@ -29,24 +30,25 @@ const MenuList: IDocMenuObj[] = [
     children: [
       {
         path: 'loading',
-        file: 'components/loading',
+        folder: 'components',
+        file: 'loading',
         label: 'v-cg-loading 加载',
         key: 'v-cg-loading',
       },
     ],
   },
-  {
-    type: 'group',
-    key: 'route',
-    label: '工具函数',
-    children: [
-      {
-        path: 'alert',
-        label: 'alert 开关',
-        key: 'alert',
-      },
-    ],
-  },
+  // {
+  //   type: 'group',
+  //   key: 'route',
+  //   label: '工具函数',
+  //   children: [
+  //     {
+  //       path: 'alert',
+  //       label: 'alert 开关',
+  //       key: 'alert',
+  //     },
+  //   ],
+  // },
 ]
 
 

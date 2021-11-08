@@ -77,24 +77,19 @@ const binds = computed(() => {
 })
 const Instance = getCurrentInstance()
 
-console.log(Instance)
-const htmlToVnode = (html: string) => {
-  console.log(compile(html))
-  return compile(html)
-}
 
 onUpdated(() => {
+  console.log('up')
   slots.forEach(item => {
-    item.vnode = htmlToVnode(item.value)
+    item.vnode = compile(item.value)
+    console.log(item.vnode)
   })
 })
 
 onMounted(() => {
   slots.forEach(item => {
-    item.vnode = htmlToVnode(item.value)
+    item.vnode = compile(item.value)
   })
-  console.log(slots)
-
 })
 
 const emits = defineEmits(['reset'])

@@ -1,4 +1,4 @@
-import { createApp, h } from '@vue/runtime-dom'
+import { createApp, h } from 'vue'
 import { isObject } from './index'
 
 export const getSlotsVNodeEls = VNode => {
