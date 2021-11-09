@@ -1,17 +1,14 @@
 
 <template>
   <div class="main">
-    <cg-tabs v-model="active" position="right" type="card">
-      <!-- <template #header="{labels}">
-        <div class="my-tab-header">
-          <template v-for="item in labels" :key="item">
-            <div v-if="isString(item.label)" class="myLbarl">还好{{ item.label }}</div>
-            <component :is="item.label" v-else />
+    <cg-tabs v-model="active" position="top" type="card">
+      <cg-tab-item label="props" name="first">
+        <cg-form-item label="滕子京" mode="inline">
+          <template #label>
+            <span>vnodehh </span>
           </template>
-        </div>
-      </template> -->
-      <cg-tab-item label="props" name="first" lazy>
-        <p>没有什么没有什么没有什么没有什么没有什么</p>
+          <cg-input v-model="inputV" />
+        </cg-form-item>
       </cg-tab-item>
       <cg-tab-item label="哈哈哈哈" name="second" lazy>
         <template #label>
@@ -32,7 +29,9 @@ import play from './play.vue'
 import test from './test.vue'
 import { isString } from '@corgi/index'
 
-const active = ref('second')
+const active = ref('first')
+
+const inputV = ref('')
 
 // setTimeout(() => {
 //   active.value = 'third'

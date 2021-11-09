@@ -1,7 +1,7 @@
 const TabsVar = cssVar => {
   return {
     activeColor: cssVar.primary.bg,
-    cardBgColor: '#ececec',
+    cardBgColor: '#f4f4f4',
     cardActiveBg: '#fff',
   }
 }

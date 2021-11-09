@@ -38,6 +38,8 @@ export default defineComponent({
   color: inherit;
   text-align: center;
   line-height: 1em;
+  vertical-align: text-bottom;
+  padding: 0 0.2em;
   &.cg-icon-loading{
     animation: rotating 2s linear infinite;
   }

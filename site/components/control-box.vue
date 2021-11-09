@@ -9,8 +9,9 @@
           </div>
         </cg-tooltip>
         <cg-tooltip content="切换主题" position="top">
-          <div class="flex-center pointer icon-button">
-            <cg-icon><Moon /></cg-icon>
+          <div class="flex-center pointer icon-button" @click="toggleIsDark">
+            <cg-icon v-show="isDark"><Moon /></cg-icon>
+            <cg-icon v-show="!isDark"><Sunny /></cg-icon>
           </div>
         </cg-tooltip>
         <cg-tooltip content="生成代码" position="top">
@@ -20,7 +21,7 @@
         </cg-tooltip>
       </cg-space>
     </div>
-    <div class="canvas">
+    <div class="canvas" :style="{background: isDark ? '#333' : '#fff'}">
       <component :is="config.name" v-bind="binds">
         <template v-for="item in slots" :key="item.key" #[item.key]>
           <!-- <div v-html="item.value"></div> -->
@@ -29,25 +30,28 @@
       </component>
     </div>
     <div class="control">
-      <cg-button type="warning" @click="reset">重置</cg-button>
-      <div class="form">
-        <h3>props</h3>
-        <div v-for="item in options" :key="item.label" class="form-item">
-          <label>{{ item.label }}</label>
-          <input v-if="item.type === 'text'" v-model="item.value">
-          <select v-if="item.type === 'select'" v-model="item.value">
-            <option v-for="op in item.options" :key="op" :value="op">{{ op }}</option>
-          </select>
-          <cg-switch v-if="item.type === 'switch'" v-model="item.value" />
-        </div>
-      </div>
-      <div class="form">
-        <h3>slot</h3>
-        <div v-for="item in slots" :key="item.label" class="form-item">
-          <label>{{ item.label }}</label>
-          <input v-model="item.value">
-        </div>
-      </div>
+      <cg-tabs>
+        <cg-tab-item label="Props" name="props">
+          <div class="form">
+            <div v-for="item in options" :key="item.label" class="form-item">
+              <label>{{ item.label }}</label>
+              <input v-if="item.type === 'text'" v-model="item.value">
+              <select v-if="item.type === 'select'" v-model="item.value">
+                <option v-for="op in item.options" :key="op" :value="op">{{ op }}</option>
+              </select>
+              <cg-switch v-if="item.type === 'switch'" v-model="item.value" />
+            </div>
+          </div>
+        </cg-tab-item>
+        <cg-tab-item label="Slot" name="slot">
+          <div class="form">
+            <div v-for="item in slots" :key="item.label" class="form-item">
+              <label>{{ item.label }}</label>
+              <input v-model="item.value">
+            </div>
+          </div>
+        </cg-tab-item>
+      </cg-tabs>
     </div>
   </div>
 </template>
@@ -94,6 +98,8 @@ onMounted(() => {
 
 const emits = defineEmits(['reset'])
 
+const isDark = ref(false)
+const toggleIsDark = () => isDark.value = !isDark.value
 
 const reset = () => {
   emits('reset')
@@ -111,12 +117,13 @@ const reset = () => {
   border-bottom: 1px solid #eee;
 }
 .canvas{
-  padding: 60px 20px;
+  padding: 40px 20px;
   position: relative;
+  transition: all .3s;
 }
 .control{
   width: 100%;
-  border: 1px solid #eee;
+  padding: 0 20px 20px;
 }
 .handle{
   width: 620px;

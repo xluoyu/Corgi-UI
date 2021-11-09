@@ -27,7 +27,6 @@ export default defineComponent({
     const labels = ref([])
     const setNavItem = () => {
       if (!instance.subTree.children || !instance.subTree.children.length) return
-      console.log(instance.subTree.children)
       const contentItems = (instance.subTree.children as VNode[]).find(e => e.props?.class === 'cg-tabs-content')
       labels.value = (contentItems.children as VNode[]).filter(e => e.props && e.props.name).map(e => {
         return {
@@ -35,9 +34,11 @@ export default defineComponent({
           label: e.children['label'] || e.props.label,
         }
       })
+      if (!props.modelValue){ recordLabel.value = labels.value[0]?.name }
     }
 
-    const activeLabel = computed(() => props.modelValue || labels.value[0].name || null)
+    const recordLabel = ref(null)
+    const activeLabel = computed(() => props.modelValue || recordLabel.value || null)
 
     provide('tabControl', {
       activeLabel,
@@ -47,7 +48,10 @@ export default defineComponent({
       setNavItem()
     })
 
-    const handleActiveItem = name => emit('update:modelValue', name)
+    const handleActiveItem = name => {
+      emit('update:modelValue', name)
+      recordLabel.value = name
+    }
 
     return {
       labels,

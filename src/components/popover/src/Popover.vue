@@ -27,15 +27,11 @@ export default defineComponent({
       return getComponetApp(popoverBody, { ...this.$props, content: this.$slots.content || this.content })
     },
   },
-  // updated() {
-
-  // },
   mounted () {
     this.$nextTick(() => {
       const handleBox = getCgHandleBox()
       handleBox.appendChild(this.popApp.$el)
     })
-    console.log(this.popApp)
     switch(this.trigger) {
       case 'hover':
         this.$el.nextSibling.addEventListener('mouseover', () => {

@@ -34,4 +34,6 @@ inquirer.prompt(promptList).then(answers => {
   if (answers['create'] === 'Directive') {
     createDirective(rootPath, answers)
   }
+
+  console.log('创建成功')
 })

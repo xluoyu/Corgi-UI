@@ -1,7 +1,23 @@
 <template>
   <div class="doc">
     <div class="content">
-      <%- content %>
+      <%- header %>
+      <br/>
+      <cg-tabs type="card" style="background: #fff">
+        <cg-tab-item label="Control" name="first">
+          <template #label>
+            <h2 class="cg-h2"><cg-icon><SetUp /></cg-icon>Control</h2>
+          </template>
+          <controlBox :key="controlKey" :config="config" @reset="reset"/>
+        </cg-tab-item>
+        <cg-tab-item label="Doc" name="second" style="padding: 0 20px 20px">
+        <template #label>
+            <h2 class="cg-h2"><cg-icon><Document /></cg-icon>Doc</h2>
+          </template>
+          <%- content %>
+        </cg-tab-item>
+      </cg-tabs>
+      <br/>
       <p class="time">lastTime: <%= lastTime %></p>
     </div>
   </div>
@@ -10,6 +26,7 @@
 <script lang="ts" setup>
 import config from "./control.ts"
 import { ref } from 'vue'
+import {SetUp, Document} from '@element-plus/icons'
 
 const controlKey = ref(new Date())
 const reset = () => {

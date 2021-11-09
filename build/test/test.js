@@ -1,5 +1,4 @@
-let nums = [2,3,4,5,2,4]
+const text = '<!-- control -->\n\n'
 
-for (let i of nums) {
-  console.log(i)
-}
+const index = text.indexOf('<!-- control -->')
+console.log(index)

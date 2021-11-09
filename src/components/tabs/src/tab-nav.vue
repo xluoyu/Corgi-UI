@@ -213,7 +213,6 @@ onUpdated(() => {
     .cg-tab-nav-item--active{
       &::before {
         top: -10px;
-        border-radius: 0 0 0 10px;
         background: v-bind('cssVar.cardBgColor');
         z-index: 2;
       }
@@ -229,7 +228,6 @@ onUpdated(() => {
         background: v-bind('cssVar.cardActiveBg');
       }
       &::after {
-        border-radius: 10px 0 0 0;
         top: 0;
         background: v-bind('cssVar.cardBgColor');
       }
@@ -249,11 +247,20 @@ onUpdated(() => {
     }
   }
   &.cg-tab-nav--card{
-    .cg-tab-items{
-      flex-direction: column;
+    .cg-tab-nav-item{
       &:not(:first-of-type)::before,
       &:not(:first-of-type)::after {
         right: 0;
+      }
+    }
+    .cg-tab-nav-item--active{
+      &::before {
+        border-radius:  0 0 10px 0 ;
+      }
+    }
+    .cg-tab-nav-item--active + .cg-tab-nav-item {
+      &::after {
+        border-radius: 0 10px 0 0;
       }
     }
   }
@@ -271,11 +278,20 @@ onUpdated(() => {
     }
   }
   &.cg-tab-nav--card{
-    .cg-tab-items{
-      flex-direction: column;
+    .cg-tab-nav-item{
       &:not(:first-of-type)::before,
       &:not(:first-of-type)::after {
         left: 0;
+      }
+    }
+    .cg-tab-nav-item--active{
+      &::before {
+        border-radius: 0 0 0 10px;
+      }
+    }
+    .cg-tab-nav-item--active + .cg-tab-nav-item {
+      &::after {
+        border-radius: 10px 0 0 0;
       }
     }
   }
