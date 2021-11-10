@@ -115,9 +115,9 @@ Corgi-UI
 
 ```js
 if (path.endsWith('.demo.md')){
-    return dmeoLoader(code) // 需要渲染组件示例的card
+  return dmeoLoader(code) // 需要渲染组件示例的card
 } else if (path.endsWith('.md')) {
-    return docLoader(code) // 需要渲染文档页面
+  return docLoader(code) // 需要渲染文档页面
 }
 ```
 
@@ -142,8 +142,8 @@ test
 
 ```js
 const demosIndex = tokens.findIndex(
-    (token) => token.type === 'code' && token.lang === 'demo'
-  )
+  token => token.type === 'code' && token.lang === 'demo',
+)
 ```
 
 找到这些需要再次引入的子文档，以引入`vue`组件的形式拼接在文档页面上
@@ -160,8 +160,8 @@ import sizeDemo from './size.demo.md'
 import textDemo from './text.demo.md'
 
 components: {
-    basicDemo,
-    sizeDemo,
+  basicDemo,
+  sizeDemo,
    	textDemo
 }
 ```
@@ -343,24 +343,24 @@ const plugins = [
 /**
  * 使用fs对所有的组件进行遍历、打包
  */
-const INPUT_PATH = path.resolve(__dirname, "../src")
+const INPUT_PATH = path.resolve(__dirname, '../src')
 
-export default fs.readdirSync(`${INPUT_PATH}/components`).map((name) => {
+export default fs.readdirSync(`${INPUT_PATH}/components`).map(name => {
   const input = `${INPUT_PATH}/components/${name}/index.ts`
   return {
     input,
     plugins: [...plugins],
     external: ['vue'],
     output: {
-      name: "index",
+      name: 'index',
       file: `${OUTPUT_PATH}/cg-${name}/index.js`,
-      format: "es",
-      paths: (id) => {
+      format: 'es',
+      paths: id => {
         // 这里对于组件引用到的其他工具做了路径解析
         // 生成的位置还要看个人的打包需求
         // 改写了路径之后就不会将这些包在打入组件包中了，也实现了功能的分离
         if (/@components/.test(id)) {
-          return '../cg-' + id.slice('@components/'.length);
+          return '../cg-' + id.slice('@components/'.length)
         }
         if (/@hooks/.test(id)) {
           return '../hooks/' + id.slice('@hooks/'.length)
@@ -368,10 +368,10 @@ export default fs.readdirSync(`${INPUT_PATH}/components`).map((name) => {
         if (/@utils/.test(id)) {
           return '../utils/' + id.slice('@utils/'.length)
         }
-      }
+      },
     },
-    onwarn
-  };
+    onwarn,
+  }
 })
 ```
 
@@ -409,116 +409,116 @@ es
 ```js
 const { Project } = require('ts-morph') // 可以更灵活的配置ts类型的导出
 const vueCompiler = require('@vue/compiler-sfc') // 用来解析vue的sfc文件
-const klawSync = require('klaw-sync') // 用来批量获取文件 
+const klawSync = require('klaw-sync') // 用来批量获取文件
 ```
 
 ```js
 // 配置下ts用到的配置
 const project = new Project({
-    compilerOptions: {
-      allowJs: true,
-      declaration: true, // 生成声明文件
-      noEmitOnError: false, // 发送错误时不输出任何文件
-      outDir: getFilePath('../types'), // 目标目录
-      baseUrl: getFilePath('../'),
-      paths: {
-        '@components/*': ["src/components/*"],
-        '@hooks/*': ["src/hooks/*"],
-        '@utils/*': ["src/utils/*"],
-      },
-      exclude: [
-        "node_modules"
-      ]
+  compilerOptions: {
+    allowJs: true,
+    declaration: true, // 生成声明文件
+    noEmitOnError: false, // 发送错误时不输出任何文件
+    outDir: getFilePath('../types'), // 目标目录
+    baseUrl: getFilePath('../'),
+    paths: {
+      '@components/*': ['src/components/*'],
+      '@hooks/*': ['src/hooks/*'],
+      '@utils/*': ['src/utils/*'],
     },
-    tsConfigFilePath: TSCONFIG_PATH,
-    skipAddingFilesFromTsConfig: true,
-  })
+    exclude: [
+      'node_modules',
+    ],
+  },
+  tsConfigFilePath: TSCONFIG_PATH,
+  skipAddingFilesFromTsConfig: true,
+})
 ```
 
 ```js
 
 /**
    * 读取src下的所有文件
-   * 
+   *
    * 过滤测试用文件，只留下.ts/.vue类型的文件
    */
-  const filePaths = klawSync(getFilePath('../src'), {
-    nodir: true,
-  }).map(item => item.path)
-    .filter(e => !/\.spec/.test(e))
-    .filter(e => /\.ts|\.vue/.test(e))
+const filePaths = klawSync(getFilePath('../src'), {
+  nodir: true,
+}).map(item => item.path)
+  .filter(e => !/\.spec/.test(e))
+  .filter(e => /\.ts|\.vue/.test(e))
 ```
 
 ```js
 // 待编译文件数组
- const sourceFiles = []
-  
+const sourceFiles = []
+
 await Promise.all(
-    filePaths.map(async file => {
-      /**
+  filePaths.map(async file => {
+    /**
        * 对vue文件生成vue.d.ts
        */
-      if (file.endsWith('.vue')) {
-        const content = await fs.promises.readFile(file, 'utf-8')
-        const sfc = vueCompiler.parse(content)
-        const {script, scriptSetup} = sfc.descriptor
-        /**
+    if (file.endsWith('.vue')) {
+      const content = await fs.promises.readFile(file, 'utf-8')
+      const sfc = vueCompiler.parse(content)
+      const { script, scriptSetup } = sfc.descriptor
+      /**
          * 因为ts只能是对ts的编译，所以要提取.vue中的ts内容
          */
-        if (script || scriptSetup) {
-          let content = ''
-          let isTS = false
-          // 获取<script>的内容、并标记语言
-          if (script && script.content) {
-            content += script.content
-            if (script.lang === 'ts') isTs = true
-          }
-          /**
+      if (script || scriptSetup) {
+        let content = ''
+        let isTS = false
+        // 获取<script>的内容、并标记语言
+        if (script && script.content) {
+          content += script.content
+          if (script.lang === 'ts') isTs = true
+        }
+        /**
             * 因为是<script setup>的语法，需要额外调用compileScript
-            * 
+            *
             *	该api可以从vue描述符中获取script的内容
 
             * 这里需要一个必填的第二个参数 options{id: string}
             * 主要是用来生成css的hash的，所以此时可以随意填
             */
-          if (scriptSetup) {
-            const compiled = vueCompiler.compileScript(sfc.descriptor, {
-              id: 'xxx',
-            })
-            content += compiled.content
-            if (scriptSetup.lang === 'ts') isTS = true
-          }
-          // 将处理好的内容使用ts-morph的APi生成待编译文件
-          const sourceFile = project.createSourceFile(
-            path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js'),
-            content
-          )
-          // 放到待编译数组中
-          sourceFiles.push(sourceFile)
+        if (scriptSetup) {
+          const compiled = vueCompiler.compileScript(sfc.descriptor, {
+            id: 'xxx',
+          })
+          content += compiled.content
+          if (scriptSetup.lang === 'ts') isTS = true
         }
-      } else if (file.endsWith('.ts')) {
-        // 对于普通的ts 直接添加上文件链接，放到数组中
-        const sourceFile = project.addSourceFileAtPath(file)
+        // 将处理好的内容使用ts-morph的APi生成待编译文件
+        const sourceFile = project.createSourceFile(
+          path.relative(process.cwd(), file) + (isTS ? '.ts' : '.js'),
+          content,
+        )
+        // 放到待编译数组中
         sourceFiles.push(sourceFile)
       }
-    })
-  )
+    } else if (file.endsWith('.ts')) {
+      // 对于普通的ts 直接添加上文件链接，放到数组中
+      const sourceFile = project.addSourceFileAtPath(file)
+      sourceFiles.push(sourceFile)
+    }
+  }),
+)
 
 /**
  * 开始执行编译
  */
 await project.emit({
-   emitOnlyDtsFiles: true, // 只编译指定内容
+  emitOnlyDtsFiles: true, // 只编译指定内容
 })
- 
+
 // 输入编译好的文件
- for (const sourceFile of sourceFiles) {
-    const emitOutput = sourceFile.getEmitOutput()
-    for (const outputFile of emitOutput.getOutputFiles()) {
-      const filepath = outputFile.getFilePath()
-      await fs.promises.writeFile(filepath, outputFile.getText(), 'utf-8')
-    }
- }
+for (const sourceFile of sourceFiles) {
+  const emitOutput = sourceFile.getEmitOutput()
+  for (const outputFile of emitOutput.getOutputFiles()) {
+    const filepath = outputFile.getFilePath()
+    await fs.promises.writeFile(filepath, outputFile.getText(), 'utf-8')
+  }
+}
 
 ```
 
@@ -536,7 +536,7 @@ await project.emit({
 const INPUT_PATH = path.resolve(__dirname, '../types')
 /**
  * 遍历types文件夹
- * 
+ *
  * 删除掉除types根目录以外的.js文件
  */
 function clearJS () {
@@ -566,17 +566,17 @@ function clearJS () {
 ```js
 function deleteFolderRecursive(path) {
   if( fs.existsSync(path) ) {
-      fs.readdirSync(path).forEach(function(file) {
-          var curPath = path + "/" + file;
-          if(fs.statSync(curPath).isDirectory()) {
-              deleteFolderRecursive(curPath);
-          } else {
-              fs.unlinkSync(curPath);
-          }
-      });
-      fs.rmdirSync(path);
+    fs.readdirSync(path).forEach(function(file) {
+      var curPath = path + '/' + file
+      if(fs.statSync(curPath).isDirectory()) {
+        deleteFolderRecursive(curPath)
+      } else {
+        fs.unlinkSync(curPath)
+      }
+    })
+    fs.rmdirSync(path)
   }
-};
+}
 ```
 
 至此，打包已完成。
@@ -671,7 +671,7 @@ onMounted(() => {
 ![image-20210913145848070](https://i.loli.net/2021/09/13/cNS72dkInYUA63W.png)
 
 ```js
-import {NButton} from 'naive-ui'
+import { NButton } from 'naive-ui'
 ```
 
 局部引入时则可以会有相应的提示。
@@ -684,7 +684,7 @@ import {NButton} from 'naive-ui'
 
 直接修改该参数就会出现提示。该参数为vue的data属性。猜测`any`直接覆盖了原本需要提示的`props`。
 
-在review时发现做ts类型到处时
+在review时发现做ts类型导出时
 
 ```js
 if (script && script.content) {

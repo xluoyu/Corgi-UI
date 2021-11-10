@@ -1,14 +1,14 @@
 <template>
-  <div 
+  <div
     class="cg-form"
   >
-
+    <slot></slot>
   </div>
 </template>
 
 <script lang="ts">
 export default defineComponent({
-  name: 'CgForm'
+  name: 'CgForm',
 })
 </script>
 
@@ -21,19 +21,19 @@ import { IThemeCssVar } from '@corgi/utils/type'
 const props = defineProps({
   type: {
     type: String,
-    default: 'default'
-  }
+    default: 'default',
+  },
 })
 
-const customTheme = inject<IThemeCssVar>('theme', null)
-const globalCssVar = getGlobalCssVar(customTheme)
-let cssVar = computed(() => {
-  const componentCssVar = getComponentCssVar('Form', customTheme, styleVar)
-  if (props.color) {
-    composeVar.color = props.color
-  }
-  return componentCssVar
-})
+// const customTheme = inject<IThemeCssVar>('theme', null)
+// const globalCssVar = getGlobalCssVar(customTheme)
+// let cssVar = computed(() => {
+//   const componentCssVar = getComponentCssVar('Form', customTheme, styleVar)
+//   if (props.color) {
+//     composeVar.color = props.color
+//   }
+//   return componentCssVar
+// })
 </script>
 
 <style lang="less" scoped>

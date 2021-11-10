@@ -32,9 +32,10 @@ export default defineComponent({
       const handleBox = getCgHandleBox()
       handleBox.appendChild(this.popApp.$el)
     })
+    const currentEl = this.$el.nextSibling
     switch(this.trigger) {
       case 'hover':
-        this.$el.nextSibling.addEventListener('mouseover', () => {
+        currentEl.addEventListener('mouseover', e => {
           if (!this.isShow) {
             this.popApp.show()
             this.isShow = true
@@ -43,12 +44,15 @@ export default defineComponent({
             })
           }
         })
-        this.$el.nextSibling.addEventListener('mouseleave', () => {
+        currentEl.addEventListener('mouseleave', () => {
           this.popApp.hide()
           this.isShow = false
         })
         break
     }
+  },
+  unmounted() {
+    this.popApp.unMount()
   },
   methods: {
     setPosition(popEl, top, left) {
@@ -60,16 +64,16 @@ export default defineComponent({
       const { height, top, left, width } = this.$el.nextSibling.getBoundingClientRect()
       switch(this.position) {
         case 'top':
-          this.setPosition(popEl, top - popHeight - 10, (left + width / 2) - popWidth / 2)
+          this.setPosition(popEl, top - popHeight, (left + width / 2) - popWidth / 2)
           break
         case 'right':
-          this.setPosition(popEl, top, left + width + 10)
+          this.setPosition(popEl, top, left + width)
           break
         case 'bottom':
-          this.setPosition(popEl, height + top + 10, (left + width / 2) - popWidth / 2)
+          this.setPosition(popEl, height + top, (left + width / 2) - popWidth / 2)
           break
         case 'left':
-          this.setPosition(popEl, top, left - popWidth - 10)
+          this.setPosition(popEl, top, left - popWidth)
           break
       }
     },

@@ -22,5 +22,6 @@ export const getComponetApp = (comp, props) => {
   const myBox = document.createElement('div')
   const compObj = createApp(comp, props)
   const app = compObj.mount(myBox)
+  ;(app as typeof app & { unMount: () => void; }).unMount = compObj.unmount
   return app
 }

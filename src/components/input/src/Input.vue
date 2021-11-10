@@ -1,19 +1,23 @@
 <template>
   <div
     class="cg-input"
+    :class="{
+      'cg-input--label-inline': inputLabelInline
+    }"
   >
-    <template v-if="formItemProd?.mode === 'inline'">
-      <div class="label">
-        {{ isString(formItemProd.label) ? formItemProd.label : <component :is="formItemProd.label" /> }}
-      </div>
-    </template>
     <input
       :value="modelValue"
       class="cg-input-inner"
-      type="text"
+      :type="type"
       :placeholder="placeholder"
       @input="changeInput"
     >
+    <template v-if="inputLabelInline">
+      <div class="input-label">
+        <template v-if="isString(formItemProd.label)">{{ formItemProd.label }}</template>
+        <component :is="formItemProd.label" v-else />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -24,7 +28,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, inject } from 'vue'
+import { defineComponent, computed, inject, ref, PropType } from 'vue'
 import styleVar from './styleVar'
 import { getComponentCssVar, getGlobalCssVar, isString } from '@corgi/utils'
 import { IThemeCssVar } from '@corgi/utils/type'
@@ -34,7 +38,14 @@ const props = defineProps({
     type: [String, Number],
     default: '',
   },
-  placeholder: String,
+  placeholder: {
+    type: String,
+    default: ' ',
+  },
+  type: {
+    type: String,
+    default: 'text',
+  },
 })
 
 const emits = defineEmits(['update:modelValue', 'change'])
@@ -47,9 +58,8 @@ let cssVar = computed(() => {
 })
 
 const formItemProd = inject('formItem', null)
-if (formItemProd?.mode === 'inline') {
-  console.log(formItemProd.label)
-}
+const inputLabelInline = ref(false)
+inputLabelInline.value = formItemProd?.mode === 'inline'
 
 const changeInput = e => {
   const val = e.target.value
@@ -67,13 +77,35 @@ const changeInput = e => {
 .cg-input-inner{
   border: 1px solid #efefef;
   outline: none;
-  height: 34px;
-  line-height: 34px;
-  box-sizing: border-box;
+  height: 26px;
+  line-height: 26px;
   padding: 4px 6px;
   border-radius: 4px;
   &:hover, &:focus{
     border-color: v-bind('cssVar.activeColor');
+  }
+}
+
+&.cg-input--label-inline{
+  position: relative;
+  .cg-input-inner:placeholder-shown::placeholder {
+    color: transparent;
+    user-select: none;
+  }
+  .input-label{
+    position: absolute;
+    line-height: 26px;
+    top: 4px;
+    left: 6px;
+    color: #666;
+    pointer-events: none;
+    transition: all .3s;
+    background: #fff;
+    font-size: v-bind('cssVar.fontSizeH4');
+  }
+  .cg-input-inner:not(:placeholder-shown) ~ .input-label,
+  .cg-input-inner:focus ~ .input-label {
+    transform: scale(0.75) translate(-12px, -22px);
   }
 }
 </style>

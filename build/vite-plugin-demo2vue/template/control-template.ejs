@@ -4,15 +4,15 @@
       <%- header %>
       <br/>
       <cg-tabs type="card" style="background: #fff">
-        <cg-tab-item label="Control" name="first">
+        <cg-tab-item name="first">
           <template #label>
-            <h2 class="cg-h2"><cg-icon><SetUp /></cg-icon>Control</h2>
+            <h2 class="cg-h2"><cg-icon><SetUp /></cg-icon>控制台</h2>
           </template>
           <controlBox :key="controlKey" :config="config" @reset="reset"/>
         </cg-tab-item>
-        <cg-tab-item label="Doc" name="second" style="padding: 0 20px 20px">
+        <cg-tab-item name="second" style="padding: 0 20px 20px">
         <template #label>
-            <h2 class="cg-h2"><cg-icon><Document /></cg-icon>Doc</h2>
+            <h2 class="cg-h2"><cg-icon><Document /></cg-icon>文档</h2>
           </template>
           <%- content %>
         </cg-tab-item>

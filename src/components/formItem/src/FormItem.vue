@@ -44,7 +44,7 @@ let cssVar = computed(() => {
 })
 
 const slots = useSlots()
-console.log(slots)
+// console.log(slots)
 provide('formItem', {
   mode: props.mode,
   label: slots?.label || props.label,

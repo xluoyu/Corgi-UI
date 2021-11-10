@@ -13,23 +13,26 @@
   </div>
 </template>
 
-<script>
-export default {
-  props: {
-    options: Object,
-    name: String
-  },
-  mounted () {
-    console.log('gooo');
-  },
-  methods: {
-    submit() {
-      console.log(this.options)
-      console.log(this.name)
-      this.$emit('submit')
-    }
-  },
+<script lang="ts" setup>
+import { onMounted, defineExpose, ref } from 'vue'
+const props = defineProps({
+  options: Object,
+  name: String
+})
+
+onMounted(() => {
+  console.log('mount test')
+})
+const submit = () => {
+  console.log(props.options)
+  console.log(props.name)
 }
+
+const myAge = ref(132)
+
+// defineExpose({
+//   hhh: '哈哈哈'
+// })
 </script>
 
 <style lang="scss" scoped>

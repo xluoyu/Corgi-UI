@@ -3,18 +3,18 @@
   <div class="control-box">
     <div class="header-bar">
       <cg-space>
-        <cg-tooltip content="重置" position="top">
-          <div class="flex-center pointer icon-button">
+        <cg-tooltip content="重置">
+          <div class="flex-center pointer icon-button" @click="reset">
             <cg-icon><Refresh /></cg-icon>
           </div>
         </cg-tooltip>
-        <cg-tooltip content="切换主题" position="top">
+        <cg-tooltip content="切换主题">
           <div class="flex-center pointer icon-button" @click="toggleIsDark">
             <cg-icon v-show="isDark"><Moon /></cg-icon>
             <cg-icon v-show="!isDark"><Sunny /></cg-icon>
           </div>
         </cg-tooltip>
-        <cg-tooltip content="生成代码" position="top">
+        <cg-tooltip content="生成代码">
           <div class="flex-center pointer icon-button">
             <cg-icon><Tickets /></cg-icon>
           </div>
@@ -32,16 +32,15 @@
     <div class="control">
       <cg-tabs>
         <cg-tab-item label="Props" name="props">
-          <div class="form">
-            <div v-for="item in options" :key="item.label" class="form-item">
-              <label>{{ item.label }}</label>
-              <input v-if="item.type === 'text'" v-model="item.value">
+          <cg-form>
+            <cg-form-item v-for="item in options" :key="item.label" :label="item.label">
+              <cg-input v-if="item.type === 'text'" v-model="item.value" />
               <select v-if="item.type === 'select'" v-model="item.value">
                 <option v-for="op in item.options" :key="op" :value="op">{{ op }}</option>
               </select>
               <cg-switch v-if="item.type === 'switch'" v-model="item.value" />
-            </div>
-          </div>
+            </cg-form-item>
+          </cg-form>
         </cg-tab-item>
         <cg-tab-item label="Slot" name="slot">
           <div class="form">
@@ -63,7 +62,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, reactive, ref, compile, getCurrentInstance, onUpdated, onMounted } from 'vue'
+import { defineComponent, computed, reactive, ref, compile, getCurrentInstance, onUpdated, onMounted, watchEffect } from 'vue'
 import { cloneDeep } from 'lodash'
 import { Refresh, Moon, Sunny, Tickets } from '@element-plus/icons'
 
@@ -72,25 +71,15 @@ const props = defineProps({
 })
 
 let options = reactive(cloneDeep(props.config.props))
-let slots = reactive(props.config.slots)
+let slots = reactive(cloneDeep(props.config.slots))
 const binds = computed(() => {
   return options.reduce((pre, cur) => {
     pre[cur.key] = cur.value
     return pre
   }, {})
 })
-const Instance = getCurrentInstance()
 
-
-onUpdated(() => {
-  console.log('up')
-  slots.forEach(item => {
-    item.vnode = compile(item.value)
-    console.log(item.vnode)
-  })
-})
-
-onMounted(() => {
+watchEffect(() => {
   slots.forEach(item => {
     item.vnode = compile(item.value)
   })

@@ -8,6 +8,6 @@ export default {
   },
   position: {
     type: String as PropType<'top' | 'right' | 'bottom' | 'left'>,
-    default: 'bottom',
+    default: 'top',
   },
 }

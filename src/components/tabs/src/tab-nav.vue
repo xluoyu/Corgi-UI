@@ -66,7 +66,6 @@ const setLineActivebarWidth = () => {
   lineActiveBar.width = Math.floor(width - parseFloat(paddingLeft) - parseFloat(paddingRight))
   lineActiveBar.top = item.offsetTop - item.parentElement.offsetTop + parseFloat(paddingTop)
   lineActiveBar.height = Math.floor(height - parseFloat(paddingTop) - parseFloat(paddingBottom))
-  console.log(lineActiveBar.height)
 
 }
 
