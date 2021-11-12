@@ -2,19 +2,7 @@
 
 可以触发某些操作
 
-# 示例
-```demo
-type
-color
-size
-ghost
-circle
-disabled
-icon
-loading
-text
-iconText
-```
+<!-- control -->
 
 # Props
 

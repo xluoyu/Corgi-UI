@@ -4,7 +4,7 @@ export const getCgHandleBox = () => {
     return cgHandle
   } else {
     cgHandle = document.createElement('div')
-    cgHandle.id = '#cg-handle'
+    cgHandle.id = 'cg-handle'
     document.body.appendChild(cgHandle)
 
     return cgHandle

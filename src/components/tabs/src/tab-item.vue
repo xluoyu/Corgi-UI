@@ -11,7 +11,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, inject, getCurrentInstance, ref, onMounted, watchEffect, onUpdated } from 'vue'
+import { defineComponent, computed, inject, ref, onMounted, watchEffect, onUpdated } from 'vue'
 import styleVar from './styleVar'
 import { getComponentCssVar, getGlobalCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
@@ -30,7 +30,6 @@ const activeLabel = tabControl.activeLabel
 
 const isShow = computed(() => props.name === activeLabel.value)
 const isLoad = ref(false)
-const Instance = getCurrentInstance()
 
 onUpdated(() => {
   if (props.lazy && !isLoad.value) {

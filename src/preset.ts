@@ -4,7 +4,7 @@ import version from './version'
 import { App } from 'vue'
 
 const componentArray = Object.keys(components).map(key => components[key])
-const directivesArray = Object.keys(directives).map(key => directives[key as keyof typeof components])
+const directivesArray = Object.keys(directives).map(key => Object.assign(directives[key], { key }))
 const create = {
   version,
   install (app: App) {
@@ -17,7 +17,11 @@ const create = {
       }
     })
     directivesArray.forEach(directive => {
-      app.use(directive)
+      app.use({
+        install: app => {
+          app.directive(directive.key, directive)
+        },
+      })
     })
   },
 }

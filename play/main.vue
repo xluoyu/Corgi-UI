@@ -1,6 +1,6 @@
 <template>
   <div class="main">
-    <test ref="testRf" />
+    <cg-button @click="end">测试</cg-button>
     <cg-tabs v-model="active" position="top" type="card">
       <cg-tab-item label="props" name="first">
         <cg-form-item label="滕子京" mode="inline">
@@ -9,7 +9,7 @@
               <span>請輸入地名</span>
             </div>
           </template>
-          <cg-input v-model="inputV" type="number" placeholder="哦哈哈哈哈哈" />
+          <cg-input v-model="inputV" />
         </cg-form-item>
 
         <cg-form-item label="选择">
@@ -39,7 +39,7 @@ import { Moon } from '@element-plus/icons'
 const active = ref('first')
 
 const inputV = ref('')
-const selectV = ref('')
+const selectV = ref('asd')
 const options = [
   { label: '这是1', value: '1' },
   { label: '这是2', value: '2' },
@@ -47,13 +47,17 @@ const options = [
 ]
 
 const testRf = ref(null)
-onMounted(() => {
-  console.log(testRf.value.$.ctx.myAge)
-})
+let timer = null
+
 
 // setTimeout(() => {
 //   active.value = 'third'
 // }, 1000)
+
+const end = () => {
+  clearTimeout(timer)
+  timer = null
+}
 </script>
 
 <style lang="less">

@@ -30,7 +30,7 @@ function createRenderer() {
       return `<p class="cg-p">${text}</p>`
     },
     link (href, title, text) {
-      return `<a class="cg-a" href="${href}">${text}<cg-icon><Link /></cg-icon></a>`
+      return `<a class="cg-a" href="${href}" target="_blank">${text}<cg-icon><Link /></cg-icon></a>`
     },
   }
 

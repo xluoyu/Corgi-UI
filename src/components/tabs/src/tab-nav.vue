@@ -32,14 +32,14 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, PropType, inject, computed, onMounted, getCurrentInstance, ref, nextTick, onUpdated, reactive } from 'vue'
+import { defineComponent, PropType, inject, computed, onMounted, ref, nextTick, onUpdated, reactive } from 'vue'
 import { getComponentCssVar, isString, IThemeCssVar } from '@corgi/utils'
 import ITabProvide from './tabProvide'
 import styleVar from './styleVar'
 import{ IPosition, IType } from './type'
 const props = defineProps({
   type: String as PropType<IType>,
-  labels: Array as PropType<string[]>,
+  labels: Array as PropType<any[]>,
   activeLabel: String,
   position: String as PropType<IPosition>,
 })
@@ -66,7 +66,6 @@ const setLineActivebarWidth = () => {
   lineActiveBar.width = Math.floor(width - parseFloat(paddingLeft) - parseFloat(paddingRight))
   lineActiveBar.top = item.offsetTop - item.parentElement.offsetTop + parseFloat(paddingTop)
   lineActiveBar.height = Math.floor(height - parseFloat(paddingTop) - parseFloat(paddingBottom))
-
 }
 
 const lineActiveBar = reactive({

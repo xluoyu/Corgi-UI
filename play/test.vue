@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, defineExpose, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 const props = defineProps({
   options: Object,
   name: String

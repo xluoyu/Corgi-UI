@@ -40,7 +40,7 @@ const props = defineProps({
   },
   placeholder: {
     type: String,
-    default: ' ',
+    default: '哈哈哈哈哈大撒大撒',
   },
   type: {
     type: String,
@@ -80,6 +80,7 @@ const changeInput = e => {
   height: 26px;
   line-height: 26px;
   padding: 4px 6px;
+  font-size: v-bind('cssVar.fontSizeH3');
   border-radius: 4px;
   &:hover, &:focus{
     border-color: v-bind('cssVar.activeColor');
@@ -105,7 +106,7 @@ const changeInput = e => {
   }
   .cg-input-inner:not(:placeholder-shown) ~ .input-label,
   .cg-input-inner:focus ~ .input-label {
-    transform: scale(0.75) translate(-12px, -22px);
+    transform: scale(0.75) translate(-12px, -24px);
   }
 }
 </style>

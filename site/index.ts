@@ -8,10 +8,15 @@ import DocNav from './views/component/page/docNav.vue'
 import CodeBox from './views/component/page/code-box.vue'
 import ControlBox from './components/control-box.vue'
 import './styles/base.less'
+import * as elementIcon from '@element-plus/icons'
 
 import router from './routers'
 
 const app = createApp(App)
+
+Object.keys(elementIcon).forEach(key => {
+  app.component(key, elementIcon[key])
+})
 
 app.use(Corgi)
 app.use(router)

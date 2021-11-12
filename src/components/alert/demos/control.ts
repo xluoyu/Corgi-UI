@@ -34,4 +34,11 @@ export default {
       label: '内容',
     },
   ],
+  events: [
+    {
+      key: 'close',
+      value: '() => {alert("关闭了")}',
+      label: '关闭事件',
+    },
+  ],
 }

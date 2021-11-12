@@ -21,8 +21,8 @@
         </cg-tooltip>
       </cg-space>
     </div>
-    <div class="canvas" :style="{background: isDark ? '#333' : '#fff'}">
-      <component :is="config.name" v-bind="binds">
+    <div class="flex-center canvas" :style="{background: isDark ? '#333' : '#fff'}">
+      <component :is="config.name" v-bind="binds" v-on="eventsBind">
         <template v-for="item in slots" :key="item.key" #[item.key]>
           <!-- <div v-html="item.value"></div> -->
           <component :is="item.vnode" />
@@ -34,7 +34,7 @@
         <cg-tab-item label="Props" name="props">
           <cg-form>
             <cg-form-item v-for="item in options" :key="item.label" :label="item.label">
-              <cg-input v-if="item.type === 'text'" v-model="item.value" />
+              <cg-input v-if="item.type === 'text'" v-model.lazy="item.value" />
               <select v-if="item.type === 'select'" v-model="item.value">
                 <option v-for="op in item.options" :key="op" :value="op">{{ op }}</option>
               </select>
@@ -43,8 +43,30 @@
           </cg-form>
         </cg-tab-item>
         <cg-tab-item label="Slot" name="slot">
+          <div class="cg-table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>名称</th>
+                  <th>字段</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr v-for="item in slots" :key="item.label" class="form-item">
+                  <td>{{ item.label }}</td>
+                  <td>{{ item.key }}</td>
+                  <td>
+                    <input v-model.lazy="item.value">
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </cg-tab-item>
+        <cg-tab-item label="Events" name="events">
           <div class="form">
-            <div v-for="item in slots" :key="item.label" class="form-item">
+            <div v-for="item in events" :key="item.label" class="form-item">
               <label>{{ item.label }}</label>
               <input v-model="item.value">
             </div>
@@ -62,19 +84,26 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, reactive, ref, compile, getCurrentInstance, onUpdated, onMounted, watchEffect } from 'vue'
+import { defineComponent, computed, reactive, ref, compile, onUpdated, onMounted, watchEffect } from 'vue'
 import { cloneDeep } from 'lodash'
-import { Refresh, Moon, Sunny, Tickets } from '@element-plus/icons'
 
 const props = defineProps({
   config:Object,
 })
 
-let options = reactive(cloneDeep(props.config.props))
-let slots = reactive(cloneDeep(props.config.slots))
+let options = reactive(cloneDeep(props.config.props) || [])
+let slots = reactive(cloneDeep(props.config.slots) || [])
+let events = reactive(cloneDeep(props.config.events) || [])
 const binds = computed(() => {
   return options.reduce((pre, cur) => {
     pre[cur.key] = cur.value
+    return pre
+  }, {})
+})
+
+const eventsBind = computed(() => {
+  return events.reduce((pre, cur) => {
+    pre[cur.key] = new Function('return ' + cur.value)()
     return pre
   }, {})
 })

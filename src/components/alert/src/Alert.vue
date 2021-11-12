@@ -66,6 +66,8 @@ const props = defineProps({
   },
 })
 
+const emits = defineEmits(['close'])
+
 const customTheme = inject<IThemeCssVar>('theme', null)
 const globalCssVar = getGlobalCssVar(customTheme)
 let cssVar = computed(() => {
@@ -75,10 +77,9 @@ let cssVar = computed(() => {
 })
 
 const showAlert = ref(true)
-const emits = defineEmits(['onClose'])
 const handleClose = () => {
   showAlert.value = false
-  emits('onClose')
+  emits('close')
 }
 </script>
 

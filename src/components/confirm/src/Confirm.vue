@@ -65,7 +65,6 @@ let cssVar = computed(() => {
   const componentCssVar = getComponentCssVar('Confirm', customTheme, styleVar)
   return componentCssVar
 })
-console.log(customTheme)
 const isShow = ref(true)
 
 

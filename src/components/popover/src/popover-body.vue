@@ -25,23 +25,12 @@ export default defineComponent({
 </script>
 
 <script setup lang="ts">
-import { PropType, VNode, defineComponent, ref, getCurrentInstance, computed } from 'vue'
+import { PropType, VNode, defineComponent, ref, computed } from 'vue'
 import { isString } from '@corgi/utils'
 import popoverProps from './popoverProps'
-const porps = defineProps(popoverProps)
-
-const isShow = ref(false)
-const show = () =>{
-  isShow.value = true
-}
-const hide = () =>{
-  isShow.value = false
-}
-
-const int = getCurrentInstance()
-defineExpose({
-  show,
-  hide,
+const porps = defineProps({
+  ...popoverProps,
+  isShow: Boolean,
 })
 </script>
 
@@ -51,7 +40,7 @@ defineExpose({
   --black: #3c3c3c;
   --arrow-height: 8px;
   border-radius: 4px;
-  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
   position: fixed;
   top: 0;
   left: 0;
