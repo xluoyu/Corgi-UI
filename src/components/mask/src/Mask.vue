@@ -26,12 +26,10 @@ let cssVar = computed(() => {
   return componentCssVar
 })
 
-const isShow = ref(true)
+const isShow = ref(false)
 
-defineExpose({
-  $show: () => isShow.value = true,
-  $hide: () => isShow.value = false,
-})
+const show = () => isShow.value = true
+const hide = () => isShow.value = false
 </script>
 
 <style lang="less" scoped>

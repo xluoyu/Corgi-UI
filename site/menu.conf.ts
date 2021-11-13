@@ -41,6 +41,16 @@ const MenuList: IMenuObj[] = [
         label: 'switch 开关',
         key: 'switch',
       },
+      {
+        path: 'input',
+        label: 'input 输入框',
+        key: 'input',
+      },
+      {
+        path: 'select',
+        label: 'select 选择器',
+        key: 'select',
+      },
     ],
   },
   {
@@ -55,18 +65,6 @@ const MenuList: IMenuObj[] = [
       },
     ],
   },
-  // {
-  //   type: 'group',
-  //   key: 'route',
-  //   label: '导航组件',
-  //   children: [
-  //     {
-  //       path: 'Menu',
-  //       label: 'Menu 菜单',
-  //       key: 'menu',
-  //     },
-  //   ],
-  // },
   {
     type: 'group',
     key: 'route',
@@ -76,6 +74,11 @@ const MenuList: IMenuObj[] = [
         path: 'loadingbar',
         label: 'loadingBar 加载条',
         key: 'loadingBar',
+      },
+      {
+        path: 'tabs',
+        label: 'tabs 选项卡',
+        key: 'tabs',
       },
     ],
   },

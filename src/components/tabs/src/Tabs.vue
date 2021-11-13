@@ -20,6 +20,7 @@ export default defineComponent({
       type: String as PropType<IPosition>,
       default: 'top',
     },
+    bulge: Boolean,
   },
   emits: ['update:modelValue'],
   setup(props, { emit }) {
@@ -60,13 +61,14 @@ export default defineComponent({
     }
   },
   render () {
-    const { type, labels, activeLabel, handleActiveItem, position } = this
+    const { type, labels, activeLabel, handleActiveItem, position, bulge } = this
     const nav = this.$slots.header ? this.$slots.header({ labels })
       : h(TabNav, {
         labels,
         type,
         activeLabel,
         position,
+        bulge,
         onChangeActive: handleActiveItem,
       })
     const content = h(
@@ -78,7 +80,7 @@ export default defineComponent({
     )
 
     return h('div', {
-      class:['cg-tabs', `cg-tabs--${position}`],
+      class:['cg-tabs', `cg-tabs--${position}`, { 'cg-tabs--card': type === 'card' }],
     }, position === 'bottom' || position === 'right' ? [content, nav] : [nav, content])
   },
 })
@@ -86,7 +88,9 @@ export default defineComponent({
 
 <style lang="less" scoped>
 .cg-tabs{
-  height: 100%;
+  &.cg-tabs--card{
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.122), 0 0 6px rgba(0, 0, 0, 0.039);
+  }
 }
 .cg-tabs--left, .cg-tabs--right{
   display: flex;

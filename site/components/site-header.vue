@@ -55,6 +55,7 @@ export default defineComponent({
   display: grid;
   grid-template-columns: 250px 1fr auto;
   align-items: center;
+  background: var(--backgroundColorH2);
 }
 .site-logo{
   height: 40px;

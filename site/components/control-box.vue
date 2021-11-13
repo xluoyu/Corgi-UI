@@ -21,10 +21,14 @@
         </cg-tooltip>
       </cg-space>
     </div>
-    <div class="flex-center canvas" :style="{background: isDark ? '#333' : '#fff'}">
-      <component :is="config.name" v-bind="binds" v-on="eventsBind">
+    <div class="flex-center canvas" :style="{background: isDark ? '#18181c' : '#fff'}">
+      <component
+        :is="config.name"
+        v-model="vmodel"
+        v-bind="binds"
+        v-on="eventsBind"
+      >
         <template v-for="item in slots" :key="item.key" #[item.key]>
-          <!-- <div v-html="item.value"></div> -->
           <component :is="item.vnode" />
         </template>
       </component>
@@ -33,11 +37,13 @@
       <cg-tabs>
         <cg-tab-item label="Props" name="props">
           <cg-form>
+            <cg-form-item v-if="props.config.vmodel" label="v-model">
+              <cg-input v-model.lazy="vmodel" />
+            </cg-form-item>
             <cg-form-item v-for="item in options" :key="item.label" :label="item.label">
               <cg-input v-if="item.type === 'text'" v-model.lazy="item.value" />
-              <select v-if="item.type === 'select'" v-model="item.value">
-                <option v-for="op in item.options" :key="op" :value="op">{{ op }}</option>
-              </select>
+              <cg-input v-if="item.type === 'code'" v-model.lazy="item.value" readonly />
+              <cg-select v-if="item.type === 'select'" v-model="item.value" :options="item.options" />
               <cg-switch v-if="item.type === 'switch'" v-model="item.value" />
             </cg-form-item>
           </cg-form>
@@ -57,7 +63,7 @@
                   <td>{{ item.label }}</td>
                   <td>{{ item.key }}</td>
                   <td>
-                    <input v-model.lazy="item.value">
+                    <cg-input v-model.lazy="item.value" type="textarea" />
                   </td>
                 </tr>
               </tbody>
@@ -91,14 +97,22 @@ const props = defineProps({
   config:Object,
 })
 
+
+let vmodel = props.config.vmodel ? ref(props.config.vmodel) : ''
 let options = reactive(cloneDeep(props.config.props) || [])
 let slots = reactive(cloneDeep(props.config.slots) || [])
 let events = reactive(cloneDeep(props.config.events) || [])
 const binds = computed(() => {
-  return options.reduce((pre, cur) => {
-    pre[cur.key] = cur.value
+  let attrs = options.reduce((pre, cur) => {
+    if (cur.type == 'code') {
+      pre[cur.key] = new Function('return ' + cur.value)()
+    } else {
+      pre[cur.key] = cur.value
+    }
     return pre
   }, {})
+
+  return attrs
 })
 
 const eventsBind = computed(() => {
@@ -128,7 +142,6 @@ const reset = () => {
 <style lang="less" scoped>
 .control-box{
   font-size: 14px;
-  background: #fff;
 }
 .header-bar{
   color: #666;

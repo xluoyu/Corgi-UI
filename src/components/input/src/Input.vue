@@ -5,13 +5,27 @@
       'cg-input--label-inline': inputLabelInline
     }"
   >
-    <input
+    <textarea
+      v-if="type === 'textarea'"
       :value="modelValue"
+      class="cg-input-inner cg-input-textarea"
+      rows="3"
+      :placeholder="placeholder"
+      :readonly="readonly"
+      @input="changeInput"
+      @change="changeInput"
+    ></textarea>
+    <input
+      v-else
+      :value="modelValue || value"
       class="cg-input-inner"
       :type="type"
       :placeholder="placeholder"
-      @input="changeInput"
+      :readonly="readonly"
+      @input="hadnleInput"
+      @change="changeInput"
     >
+
     <template v-if="inputLabelInline">
       <div class="input-label">
         <template v-if="isString(formItemProd.label)">{{ formItemProd.label }}</template>
@@ -34,21 +48,26 @@ import { getComponentCssVar, getGlobalCssVar, isString } from '@corgi/utils'
 import { IThemeCssVar } from '@corgi/utils/type'
 
 const props = defineProps({
+  value: [String, Number],
   modelValue: {
     type: [String, Number],
     default: '',
   },
+  modelModifiers: {
+    type: Object,
+    default: () => ({}),
+  },
   placeholder: {
     type: String,
-    default: '哈哈哈哈哈大撒大撒',
+    default: ' ',
   },
   type: {
     type: String,
     default: 'text',
   },
+  readonly: Boolean,
 })
-
-const emits = defineEmits(['update:modelValue', 'change'])
+const emits = defineEmits(['update:modelValue', 'change', 'input'])
 
 const customTheme = inject<IThemeCssVar>('theme', null)
 let cssVar = computed(() => {
@@ -61,6 +80,13 @@ const formItemProd = inject('formItem', null)
 const inputLabelInline = ref(false)
 inputLabelInline.value = formItemProd?.mode === 'inline'
 
+const hadnleInput = e => {
+  if (props.modelModifiers?.lazy) return
+  const val = e.target.value
+  emits('input', val)
+  emits('update:modelValue', val)
+}
+
 const changeInput = e => {
   const val = e.target.value
   emits('update:modelValue', val)
@@ -71,12 +97,14 @@ const changeInput = e => {
 
 <style lang="less" scoped>
 .cg-input{
+  width: fit-content;
   display: inline-flex;
   font-size: v-bind('cssVar.fontSizeH4');
 }
 .cg-input-inner{
   border: 1px solid #efefef;
   outline: none;
+  width: 160px;
   height: 26px;
   line-height: 26px;
   padding: 4px 6px;
@@ -85,6 +113,10 @@ const changeInput = e => {
   &:hover, &:focus{
     border-color: v-bind('cssVar.activeColor');
   }
+}
+.cg-input-textarea{
+  width: 100%;
+  min-height: 60px;
 }
 
 &.cg-input--label-inline{

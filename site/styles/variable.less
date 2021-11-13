@@ -3,6 +3,7 @@
   --border-color: #eee;
   --theme: #ff8f5b;
   --theme-hover: #fce8c9;
+  --backgroundColorH2: #fff;
 
   --doc-nav-width: 4px;
 
@@ -11,6 +12,17 @@
   --fontSize-3: 14px;
 
   --color: #333;
+}
+
+:root[theme="dark"]{
+  --color: #fff;
+  --border-color: rgba(255,255,255,.1);
+  --backgroundColorH2: #18181c;
+
+  body{
+    color: rgba(255,255,255,.8);
+    background: rgb(16, 16, 20);
+  }
 }
 
 .flex-center{
@@ -22,3 +34,4 @@
 .pointer{
   cursor: pointer;
 }
+

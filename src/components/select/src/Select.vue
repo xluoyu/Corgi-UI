@@ -6,9 +6,14 @@
     trigger="click"
   >
     <template #content>
-      <div ref="selectBodyEl" class="cg-select-options" :style="{width: rootWidth + 'px'}">
-        <div v-for="item in options" :key="item.value" class="cg-select-option">
-          {{ item.label }}
+      <div ref="selectBodyEl" class="cg-select-options" :style="{width: rootWidth + 'px', ...ownCssVar}">
+        <div
+          v-for="item in options"
+          :key="getItemValue(item)"
+          class="cg-select-option"
+          @click="clickOption(item)"
+        >
+          {{ getItemLabel(item) }}
         </div>
       </div>
     </template>
@@ -16,7 +21,12 @@
       ref="selectEl"
       class="cg-select"
     >
-      <input type="text" :readonly="!filterable" class="cg-select-inner">
+      <input
+        type="text"
+        :value="showLabel"
+        :readonly="!filterable"
+        class="cg-select-inner"
+      >
       <cg-icon :style="{transition: 'transform .2s', transform: popover?.isShow ? `rotate(180deg)` : ''}">
         <ArrowDown />
       </cg-icon>
@@ -33,7 +43,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, PropType, ref, onMounted } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar } from '@corgi/utils/index'
+import { getComponentCssVar, getGlobalCssVar, isString } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
 import { CgPopover, CgIcon } from '@corgi/index'
 import { ArrowDown } from '@element-plus/icons'
@@ -44,17 +54,21 @@ const props = defineProps({
     type: Array as PropType<any[]>,
     default: () => [],
   },
-  optionsLabel: String,
-  optionsValue: String,
+  optionsLabel: {
+    type: String,
+    default: 'label',
+  },
+  optionsValue: {
+    type: String,
+    default: 'value',
+  },
   modelValue: [String, Number],
+  value: [String, Number],
   filterable: Boolean,
 })
+const emits = defineEmits(['update:modelValue'])
 
 const popover = ref(null)
-
-onMounted(() => {
-  console.log(popover)
-})
 
 const customTheme = inject<IThemeCssVar>('theme', null)
 const globalCssVar = getGlobalCssVar(customTheme)
@@ -63,8 +77,21 @@ let cssVar = computed(() => {
   return componentCssVar
 })
 
+const ownCssVar = {
+  '--hoverBackgroundColor': cssVar.value.hoverBackgroundColor,
+}
 const selectEl = ref(null)
 const selectBodyEl = ref(null)
+
+const getItemLabel = item => item ? isString(item) ? item : item[props.optionsLabel] : ''
+const getItemValue = item => item ? isString(item) ? item : item[props.optionsValue] : ''
+
+const showLabel = computed(() => getItemLabel(props.options.find(e => getItemValue(e) == (props.modelValue || props.value))))
+
+const clickOption = val => {
+  emits('update:modelValue', getItemValue(val))
+  popover.value.hide()
+}
 
 const rootWidth = ref(0)
 
@@ -76,6 +103,7 @@ onMounted(() => {
 
 <style lang="less" scoped>
 .cg-select{
+  width: fit-content;
   border: 1px solid v-bind('cssVar.borderColor');
   padding: 4px 6px;
   border-radius: 4px;
@@ -88,14 +116,22 @@ onMounted(() => {
   height: 26px;
   line-height: 26px;
   border: none;
+  width: 160px;
+  font-size: v-bind('cssVar.fontSizeH3');
   &[readonly] {
     cursor: pointer;
   }
 }
 .cg-select-options{
   width: 100%;
-  .cg-select-option + .cg-select-option{
-    border-top: 1px solid v-bind('cssVar.borderColor');
+  padding: 4px 0;
+  .cg-select-option{
+    padding: 6px 4px;
+    line-height: 26px;
+    cursor: pointer;
+    &:hover{
+      background: var(--hoverBackgroundColor);
+    }
   }
 }
 </style>

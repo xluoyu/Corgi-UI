@@ -13,7 +13,7 @@ export default {
   fontSizeH5: '12px', // 辅助文字
   fontColor: '#333',
   fontColor2: '#666',
-  fontColor3: '#999',
+  fontColor3: '#909399',
 
   borderColor: '#efefef',
   borderActiveColor: 'rgb(255, 172, 77)',

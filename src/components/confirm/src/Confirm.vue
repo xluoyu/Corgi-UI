@@ -38,6 +38,7 @@ import { CgSpace, CgButton } from '@corgi/index'
 const props = defineProps({
   title: String,
   content: String as PropType<String | VNode>,
+  type: String,
   isFixed: {
     type: Boolean,
     default: false,

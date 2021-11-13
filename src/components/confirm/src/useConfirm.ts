@@ -14,22 +14,18 @@ interface options {
   callback?: (type: String) => void
 }
 
-const defaultOptions: options = {
-  title: '提示',
-  content: '这是弹框内容',
-  type: 'success',
-}
 
-
-export const useConfirm = (options: options = defaultOptions) => {
+export const useConfirm = (options: options) => {
   const newDom = document.createElement('div')
 
   const confirmApp = createApp(Confirm, { ...options, isFixed: true })
 
   const confirmComp = confirmApp.mount(newDom) as any
-  document.querySelector('body').appendChild(newDom.firstChild)
 
+  console.log(confirmComp.submit)
+  document.querySelector('body').appendChild(newDom.firstChild)
   const showMask = useShowMask()
+  showMask.show()
 
   confirmComp.closeAddFn(() => {
     showMask.close()
@@ -57,4 +53,21 @@ export const useConfirm = (options: options = defaultOptions) => {
   }
 
   return res
+}
+
+useConfirm.success = options => {
+  options.type = 'success'
+  useConfirm(options)
+}
+useConfirm.warning = options => {
+  options.type = 'warning'
+  useConfirm(options)
+}
+useConfirm.error = options => {
+  options.type = 'error'
+  useConfirm(options)
+}
+useConfirm.info = options => {
+  options.type = 'info'
+  useConfirm(options)
 }

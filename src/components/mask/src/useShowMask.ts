@@ -1,24 +1,20 @@
 import Mask from './Mask.vue'
-import { createApp } from 'vue'
+import { computed, createApp } from 'vue'
 
 const MaskApp = createApp(Mask)
 const newDom = document.createElement('div')
-const maskVNode = MaskApp.mount(newDom) as any
+let MaskEl = null
 let curEl = null
+
+interface IMask { isShow: Boolean; show: () => void; hide: () => void; }
 export const useShowMask = () => {
-  const show = () => {
-    if (!curEl) {
-      curEl = document.querySelector('body').appendChild(newDom.firstChild)
-    } else {
-      maskVNode.$show()
-    }
+  if (!curEl) {
+    MaskEl = MaskApp.mount(newDom) as unknown as IMask
+    curEl = document.querySelector('body').appendChild(newDom.firstChild)
   }
-  const close = () => {
-    maskVNode.$hide()
-  }
-  show()
   return {
-    show,
-    close,
+    status: computed(() => MaskEl.isShow),
+    show: MaskEl.show,
+    close: MaskEl.hide,
   }
 }

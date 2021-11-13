@@ -37,6 +37,7 @@ onBeforeRouteUpdate(() => {
   width: 240px;
   height: calc(100vh - var(--header-height));
   border-right: 1px solid var(--border-color);
+  background: var(--backgroundColorH2);
   .menu{
     width: 100%;
   }

@@ -102,6 +102,7 @@ export const getGlobalCssVar = (customTheme?: IThemeCssVar): IThemeCssVar => {
   //     defaultVar[key] = customTheme[key]
   //   }
   // })
+
   return defaultVar
 }
 

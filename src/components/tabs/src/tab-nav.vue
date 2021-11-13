@@ -13,7 +13,8 @@
         :key="item.name"
         class="cg-tab-nav-item"
         :class="{
-          'cg-tab-nav-item--active': activeLabel == item.name
+          'cg-tab-nav-item--active': activeLabel == item.name,
+          'cg-tab-nav-item--bulge': bulge
         }"
         @click="handleActiveItem(item.name)"
       >
@@ -42,6 +43,7 @@ const props = defineProps({
   labels: Array as PropType<any[]>,
   activeLabel: String,
   position: String as PropType<IPosition>,
+  bulge: Boolean,
 })
 const emits = defineEmits(['changeActive'])
 const ctxRef = ref(null)
@@ -112,6 +114,7 @@ onUpdated(() => {
     line-height: 40px;
     font-size: v-bind('cssVar.fontSizeH4');
     user-select: none;
+    color: v-bind('cssVar.cardColor');
     &.cg-tab-nav-item--active{
       color: v-bind('cssVar.activeColor')
     }
@@ -163,10 +166,12 @@ onUpdated(() => {
       }
     }
     .cg-tab-nav-item--active{
-      height: 50px;
-      line-height: 50px;
-      margin-top: -10px;
-      border-radius: var(--radius) var(--radius) 0 0;
+      &.cg-tab-nav-item--bulge{
+        margin-top: -10px;
+        border-radius: var(--radius) var(--radius) 0 0;
+        height: 50px;
+        line-height: 50px;
+      }
       &::before {
         left: -10px;
         border-radius: 0 0 10px 0;
@@ -289,6 +294,7 @@ onUpdated(() => {
     }
     .cg-tab-nav-item--active + .cg-tab-nav-item {
       &::after {
+        color: #2d3842;
         border-radius: 10px 0 0 0;
       }
     }

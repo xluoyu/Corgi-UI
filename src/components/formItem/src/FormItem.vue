@@ -53,6 +53,7 @@ provide('formItem', {
 
 <style lang="less" scoped>
 .cg-form-item{
+  padding: 6px 4px;
   .label{
     font-size: v-bind('cssVar.fontSizeH4');
     color: v-bind('cssVar.fontColor2');
