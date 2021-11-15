@@ -5,7 +5,7 @@ import { resolve } from 'path'
 
 
 export default defineConfig({
-  mode: 'production',
+  // mode: 'production',
   build: {
     rollupOptions: {
       input: {
@@ -31,7 +31,7 @@ export default defineConfig({
       },
       {
         find: 'vue',
-        replacement: resolve(__dirname, 'node_modules/vue/dist/vue.esm-bundler.js'),
+        replacement: 'vue/dist/vue.esm-bundler.js',
       },
     ],
   },

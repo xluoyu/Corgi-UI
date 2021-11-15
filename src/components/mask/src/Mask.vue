@@ -1,11 +1,14 @@
 <template>
-  <transition name="slide-fade">
-    <div
-      v-show="isShow"
-      class="cg-mask"
-    >
-    </div>
-  </transition>
+  <teleport to="body">
+    <transition name="slide-fade">
+      <div
+        v-show="isShow"
+        class="cg-mask"
+      >
+      </div>
+    </transition>
+  </teleport>
+  <slot></slot>
 </template>
 
 <script lang="ts">

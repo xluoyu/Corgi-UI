@@ -1,11 +1,13 @@
 <template>
-  <div
-    class="cg-dialog"
-  >
-    <slot></slot>
-    <slot name="footer">
-    </slot>
-  </div>
+  <cg-mask>
+    <div
+      class="cg-dialog"
+    >
+      <slot></slot>
+      <slot name="footer">
+      </slot>
+    </div>
+  </cg-mask>
 </template>
 
 <script lang="ts">

@@ -12,7 +12,7 @@
       rows="3"
       :placeholder="placeholder"
       :readonly="readonly"
-      @input="changeInput"
+      @input="hadnleInput"
       @change="changeInput"
     ></textarea>
     <input
@@ -25,7 +25,6 @@
       @input="hadnleInput"
       @change="changeInput"
     >
-
     <template v-if="inputLabelInline">
       <div class="input-label">
         <template v-if="isString(formItemProd.label)">{{ formItemProd.label }}</template>

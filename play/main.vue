@@ -32,7 +32,7 @@
       </cg-tab-item>
     </cg-tabs>
 
-    <!-- <cg-dialog title="这是标题">
+    <cg-dialog title="这是标题">
       <div>
         这里是一些内容
       </div>
@@ -40,7 +40,7 @@
         <cg-button ghost>取消</cg-button>
         <cg-button type="success">提交</cg-button>
       </template>
-    </cg-dialog> -->
+    </cg-dialog>
   </div>
 </template>
 
