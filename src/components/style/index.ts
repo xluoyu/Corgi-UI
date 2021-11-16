@@ -15,6 +15,8 @@ export default {
   fontColor2: '#666',
   fontColor3: '#909399',
 
+  background: '#fff',
+
   borderColor: '#efefef',
   borderActiveColor: 'rgb(255, 172, 77)',
 

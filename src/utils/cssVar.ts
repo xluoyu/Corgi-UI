@@ -82,7 +82,7 @@ export const assignThemecustom = (customTheme: IThemeCssVar, defaultTheme: IThem
 }
 
 import defaultCssVar from '@corgi/components/style/index'
-import { createTextVNode, VNodeChild } from 'vue'
+import { createTextVNode, VNodeChild, computed, reactive } from 'vue'
 
 /**
  *  获取全局预设变量
@@ -96,12 +96,6 @@ export const getGlobalCssVar = (customTheme?: IThemeCssVar): IThemeCssVar => {
   if (!customTheme && !isObject(customTheme)) return defaultVar
   // 混淆预设与自定义
   merge(defaultVar, customTheme)
-  // Object.keys(defaultVar).forEach(key => {
-  //   if (isObject(customTheme[key])) {
-  //   } else {
-  //     defaultVar[key] = customTheme[key]
-  //   }
-  // })
 
   return defaultVar
 }
@@ -115,7 +109,7 @@ export const getGlobalCssVar = (customTheme?: IThemeCssVar): IThemeCssVar => {
  * @returns
  */
 export const getComponentCssVar = (componentName: string, customTheme: IThemeCssVar, componentVarFn?: (cssvar?: IThemeCssVar) => IThemeCssVar ) => {
-  const defaultVar = getGlobalCssVar()
+  const defaultVar = getGlobalCssVar(customTheme)
   let componentCssVar: IThemeCssVar = {}
   if (componentVarFn) {
     componentCssVar = componentVarFn(defaultVar) // 组件独有
@@ -124,4 +118,29 @@ export const getComponentCssVar = (componentName: string, customTheme: IThemeCss
     merge(componentCssVar, customTheme[componentName])
   }
   return { ...defaultVar, ...componentCssVar }
+}
+
+// 当前的挂载在body上的css变量
+const CgBodyCssVar = reactive({})
+
+const mountBodyCssVar = () => {
+  const defaultVar = getGlobalCssVar()
+  // 默认的
+  Object.keys(defaultVar).forEach(key => {
+    if (!CgBodyCssVar[key]) {
+      CgBodyCssVar[key] = defaultVar[key]
+    }
+  })
+}
+
+export const useGlobalCssVar = (componentName: string, customTheme: IThemeCssVar, componentVarFn?: (cssvar?: IThemeCssVar) => IThemeCssVar ) => {
+  const onwCssVar = reactive({})
+
+  // return computed(() => {
+  //   CgBodyCssVar
+  // })
+}
+
+export const cssObjToCssVar = obj => {
+
 }

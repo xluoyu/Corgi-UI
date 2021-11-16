@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <cg-button style="position: fixed; z-index: 9999" @click="end">测试</cg-button>
+    <!-- <cg-button style="position: fixed; z-index: 9999" @click="end">测试</cg-button> -->
     <cg-tabs
       v-model="active"
       position="top"
@@ -32,7 +32,7 @@
       </cg-tab-item>
     </cg-tabs>
 
-    <cg-dialog title="这是标题">
+    <cg-dialog ref="dialogRef" title="这是标题" append-to-body>
       <div>
         这里是一些内容
       </div>
@@ -41,13 +41,15 @@
         <cg-button type="success">提交</cg-button>
       </template>
     </cg-dialog>
+    <cg-button @click="full">打开全屏</cg-button>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { nextTick, onMounted, ref } from 'vue'
 import play from './play.vue'
-import { isString, useShowMask, useConfirm } from '@corgi/index'
+import test from './test.vue'
+import { isString, useShowMask, useConfirm, isObject, extendWithObject } from '@corgi/index'
 import { Moon } from '@element-plus/icons'
 
 const active = ref('first')
@@ -65,18 +67,50 @@ let timer = null
 // setTimeout(() => {
 //   active.value = 'third'
 // }, 1000)
-const { status, show, close } = useShowMask()
+// const { status, show, close } = useShowMask()
 // useConfirm.error({
 //   title: '这是标题',
 //   content: '这是内容',
 // })
-const end = () => {
-  if (status.value) {
-    close()
-  } else {
-    show()
-  }
+// const end = () => {
+//   if (status.value) {
+//     close()
+//   } else {
+//     show()
+//   }
+// }
+const dialogVisible = ref(true)
+const dialogRef = ref(null)
+
+const full = () => {
+  dialogRef.value.$el.nextElementSibling.requestFullscreen()
+
 }
+
+const a = {
+  name: '小明',
+  age: 13,
+  class: {
+    num: 2,
+    name: '精英',
+  },
+}
+
+const b = {
+  age: 14,
+  class: {
+    name: '00',
+  },
+  stu: {
+    name: 'aass',
+  },
+  ggj: 'asdsd',
+}
+
+
+let c = extendWithObject(a, b)
+
+console.log(c)
 </script>
 
 <style lang="less">

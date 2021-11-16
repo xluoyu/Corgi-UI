@@ -2,8 +2,8 @@
   <teleport to="body">
     <transition name="slide-fade">
       <div
-        v-show="isShow"
         class="cg-mask"
+        :style="costomCssVar"
       >
       </div>
     </transition>
@@ -20,7 +20,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, ref } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar } from '@corgi/utils/index'
+import { getComponentCssVar, useGlobalCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
 
 const customTheme = inject<IThemeCssVar>('theme', null)
@@ -29,10 +29,14 @@ let cssVar = computed(() => {
   return componentCssVar
 })
 
-const isShow = ref(false)
+const costomCssVar = useGlobalCssVar('Mask', customTheme, styleVar)
 
-const show = () => isShow.value = true
-const hide = () => isShow.value = false
+// const costomCssVar = computed(() => {
+//   return `
+//     --Cg-Mask-background: ${cssVar.value.background};
+//     --Cg-popupMaskZIndex: ${cssVar.value.popupMaskZIndex}
+//   `
+// })
 </script>
 
 <style lang="less" scoped>
@@ -42,10 +46,9 @@ const hide = () => isShow.value = false
   position: fixed;
   top: 0;
   left: 0;
-  z-index: 1000;
+  z-index: var(--Cg-popupMaskZIndex);
   width: 100vw;
   height: 100vh;
-  background: v-bind('cssVar.background');
+  background: var(--Cg-Mask-background);
 }
-
 </style>

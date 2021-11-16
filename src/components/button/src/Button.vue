@@ -73,7 +73,7 @@ export default defineComponent({
   props: buttonProps,
   setup (props) {
     const customTheme = inject<IThemeCssVar>('theme', null)
-    const globalCssVar = getGlobalCssVar()
+    const globalCssVar = getGlobalCssVar(customTheme)
     let cssVar = computed(() => {
       const componentCssVar = getComponentCssVar('button', customTheme, styleVar)
       componentCssVar.theme = globalCssVar[props.type] || globalCssVar['default']

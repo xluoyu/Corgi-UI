@@ -1,12 +1,15 @@
-let cgHandle = null
-export const getCgHandleBox = () => {
-  if (cgHandle) {
-    return cgHandle
-  } else {
-    cgHandle = document.createElement('div')
-    cgHandle.id = 'cg-handle'
-    document.body.appendChild(cgHandle)
 
-    return cgHandle
-  }
+import { mergeWith, isNull, omitBy, cloneDeep } from 'lodash'
+import { isObject } from '.'
+
+
+export const extendWithObject = (a, b) => {
+  const ctx = cloneDeep(a)
+  return omitBy(mergeWith(ctx, b, (old, cur) => {
+    if (old && isObject(old)) {
+      return extendWithObject(old, cur)
+    }
+    return old ? cur : null
+  }), isNull)
 }
+

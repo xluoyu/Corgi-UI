@@ -7,9 +7,10 @@
       <select v-if="item.type === 'select'" v-model="item.value">
         <option v-for="op in item.options" :key="op" :value="op">{{ op }}</option>
       </select>
-      <cg-switch v-if="item.type === 'switch'" v-model="item.value" />
     </div>
-    <cg-button @click="submit">提交</cg-button>
+      <cg-switch ref="switcher" />
+
+    <cg-button  @click="submit">提交</cg-button>
   </div>
 </template>
 
@@ -19,9 +20,11 @@ const props = defineProps({
   options: Object,
   name: String
 })
+const switcher = ref(null)
 
 onMounted(() => {
   console.log('mount test')
+  console.log(switcher.value)
 })
 const submit = () => {
   console.log(props.options)
