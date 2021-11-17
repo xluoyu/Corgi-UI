@@ -43,13 +43,27 @@ export default {
   slots: [
     {
       key: 'default',
-      value: '这里是内容',
+      value: `这是一个按钮`,
       label: '内容',
     },
     {
       key: 'icon',
-      value: '',
+      value: `<!-- <template #icon> -->
+  <cg-icon>
+    <Apple />
+  </cg-icon>
+<!-- </template> -->
+      `,
       label: '图标',
+    },
+  ],
+  events: [
+    {
+      key: 'click',
+      value: `() => {
+  alert('你点击了')
+}`,
+      label: '点击事件',
     },
   ],
 }

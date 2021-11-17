@@ -78,6 +78,7 @@
   ],
   "dependencies": {
     "corgi-box": "^0.0.0-beta0.2.9",
-    "loadsh": "^0.0.4"
+    "loadsh": "^0.0.4",
+    "monaco-editor": "^0.30.1"
   }
 }

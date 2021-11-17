@@ -32,13 +32,18 @@
       </cg-tab-item>
     </cg-tabs>
 
-    <cg-dialog ref="dialogRef" title="这是标题" append-to-body>
+    <cg-dialog
+      ref="dialogRef"
+      v-model="dialogVisible"
+      title="这是标题"
+      append-to-body
+    >
       <div>
         这里是一些内容
       </div>
       <template #footer>
-        <cg-button ghost>取消</cg-button>
-        <cg-button type="success">提交</cg-button>
+        <cg-button ghost @click="full">取消</cg-button>
+        <cg-button type="info">提交</cg-button>
       </template>
     </cg-dialog>
     <cg-button @click="full">打开全屏</cg-button>
@@ -51,6 +56,7 @@ import play from './play.vue'
 import test from './test.vue'
 import { isString, useShowMask, useConfirm, isObject, extendWithObject } from '@corgi/index'
 import { Moon } from '@element-plus/icons'
+import hljs from '@site/utils/hljs'
 
 const active = ref('first')
 
@@ -80,12 +86,12 @@ let timer = null
 //   }
 // }
 const dialogVisible = ref(true)
-const dialogRef = ref(null)
 
 const full = () => {
-  dialogRef.value.$el.nextElementSibling.requestFullscreen()
-
+  dialogVisible.value = !dialogVisible.value
 }
+
+// const code = hljs.highlight(, { language: 'html' })
 
 const a = {
   name: '小明',

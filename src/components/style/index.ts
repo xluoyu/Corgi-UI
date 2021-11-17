@@ -4,7 +4,7 @@ export default {
   info: { bg:'rgb(32, 128, 240)', transparentBg: '#E8F2FD', color: '#fff' },
   warning: { bg:'rgb(240, 160, 32)', transparentBg: '#FDF5E8', color: '#fff' },
   error: { bg:'rgb(208, 48, 80)', transparentBg: '#FAEAED', color: '#fff' },
-  default: { bg:'rgb(144, 146, 152)', transparentBg: '#F4F4F4', color: '#fff' },
+  default: { bg:'rgb(167, 168, 170)', transparentBg: 'rgba(244, 244, 244, .5)', color: '#fff' },
 
   fontSizeH1: '24px', // 大标题
   fontSizeH2: '18px', // 标题

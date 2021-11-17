@@ -1,43 +1,36 @@
 <template>
-  <div class="form">
-    <input type="text" v-model="name">
-    <div v-for="item in options" :key="item.label" class="form-item">
-      <label>{{ item.label }}</label>
-      <input v-if="item.type === 'text'" v-model="item.value">
-      <select v-if="item.type === 'select'" v-model="item.value">
-        <option v-for="op in item.options" :key="op" :value="op">{{ op }}</option>
-      </select>
-    </div>
-      <cg-switch ref="switcher" />
-
-    <cg-button  @click="submit">提交</cg-button>
-  </div>
+<cg-button @click="submit">提交</cg-button>
+  <div class="container" ref="box"></div>
 </template>
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-const props = defineProps({
-  options: Object,
-  name: String
-})
-const switcher = ref(null)
-
+import {editor} from 'monaco-editor/esm/vs/editor/editor.api.js';
+import 'monaco-editor/esm/vs/basic-languages/javascript/javascript.contribution';
+import 'monaco-editor/esm/vs/basic-languages/html/html.contribution';
+const box = ref(null)
+let monacoInstance = null
 onMounted(() => {
-  console.log('mount test')
-  console.log(switcher.value)
+  monacoInstance = editor.create(box.value, {
+    value:``,
+    theme: 'vs',
+    language:"html"
+  })
+
+// monacoInstance.dispose();//使用完成销毁实例
 })
+
 const submit = () => {
-  console.log(props.options)
-  console.log(props.name)
+  console.log(monacoInstance.getValue())
+
 }
 
-const myAge = ref(132)
-
-// defineExpose({
-//   hhh: '哈哈哈'
-// })
 </script>
 
-<style lang="scss" scoped>
-
+<style lang="less" scoped>
+.container{
+  width: 600px;
+  height: 800px;
+  background: #eee;
+}
 </style>

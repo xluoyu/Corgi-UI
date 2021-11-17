@@ -16,7 +16,7 @@ const buttonVar = cssvar => {
     },
     medium: {
       height: '32px',
-      fontSize: cssvar.fontSizeH3,
+      fontSize: cssvar.fontSizeH4,
       circle: '16px',
       padding: '0 12px',
     },

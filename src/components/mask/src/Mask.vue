@@ -2,8 +2,10 @@
   <teleport to="body">
     <transition name="slide-fade">
       <div
+        v-show="modelValue"
         class="cg-mask"
         :style="costomCssVar"
+        @click="emits('click')"
       >
       </div>
     </transition>
@@ -18,10 +20,18 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, inject, ref } from 'vue'
+import { defineComponent, computed, inject, ref, onMounted, onUnmounted, watch } from 'vue'
 import styleVar from './styleVar'
 import { getComponentCssVar, useGlobalCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
+
+const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
+})
+const emits = defineEmits(['click'])
 
 const customTheme = inject<IThemeCssVar>('theme', null)
 let cssVar = computed(() => {
@@ -29,14 +39,17 @@ let cssVar = computed(() => {
   return componentCssVar
 })
 
-const costomCssVar = useGlobalCssVar('Mask', customTheme, styleVar)
+watch(() => props.modelValue, val => {
+  document.body.style.overflow = val ? 'hidden' : 'auto'
+})
 
-// const costomCssVar = computed(() => {
-//   return `
-//     --Cg-Mask-background: ${cssVar.value.background};
-//     --Cg-popupMaskZIndex: ${cssVar.value.popupMaskZIndex}
-//   `
-// })
+useGlobalCssVar(['popupMaskZIndex'])
+
+const costomCssVar = computed(() => {
+  return `
+    --Cg-Mask-background: ${cssVar.value.background};
+  `
+})
 </script>
 
 <style lang="less" scoped>

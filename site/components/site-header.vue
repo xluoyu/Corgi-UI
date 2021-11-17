@@ -1,5 +1,5 @@
 <template>
-  <div class="site-header">
+  <div class="site-header" :style="{background: isIndex ? 'transparent': ''}">
     <div class="site-logo">
       <img src="../assets/logo.png" alt="">
       <span>Corgi UI</span>
@@ -17,7 +17,8 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { computed, defineComponent } from 'vue'
+import { useRoute } from 'vue-router'
 
 export default defineComponent({
   setup () {
@@ -38,7 +39,12 @@ export default defineComponent({
         path: '/component',
       },
     ]
+    const isIndex = computed(() => {
+      const { path } = useRoute()
+      return path == '/'
+    })
     return {
+      isIndex,
       menuOptions,
     }
   },

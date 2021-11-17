@@ -15,7 +15,7 @@
           </div>
         </cg-tooltip>
         <cg-tooltip content="生成代码">
-          <div class="flex-center pointer icon-button">
+          <div class="flex-center pointer icon-button" @click="generateCode">
             <cg-icon><Tickets /></cg-icon>
           </div>
         </cg-tooltip>
@@ -63,7 +63,12 @@
                   <td>{{ item.label }}</td>
                   <td>{{ item.key }}</td>
                   <td>
-                    <cg-input v-model.lazy="item.value" type="textarea" />
+                    <cg-input
+                      v-model.lazy="item.value"
+                      type="textarea"
+                      readonly
+                      @click="handleClickCode(item, 'slot')"
+                    />
                   </td>
                 </tr>
               </tbody>
@@ -74,12 +79,25 @@
           <div class="form">
             <div v-for="item in events" :key="item.label" class="form-item">
               <label>{{ item.label }}</label>
-              <input v-model="item.value">
+              <cg-input
+                v-model.lazy="item.value"
+                type="textarea"
+                readonly
+                @click="handleClickCode(item, 'events')"
+              />
             </div>
           </div>
         </cg-tab-item>
       </cg-tabs>
     </div>
+
+    <ControlCode
+      v-model="showCodeOptions.show"
+      :label="showCodeOptions.label"
+      :code="showCodeOptions.code"
+      :lang="showCodeOptions.lang"
+      @submit="submitCode"
+    />
   </div>
 </template>
 
@@ -92,6 +110,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, reactive, ref, compile, onUpdated, onMounted, watchEffect } from 'vue'
 import { cloneDeep } from 'lodash'
+import ControlCode from './control-code.vue'
 
 const props = defineProps({
   config:Object,
@@ -124,6 +143,7 @@ const eventsBind = computed(() => {
 
 watchEffect(() => {
   slots.forEach(item => {
+    console.log(item.value)
     item.vnode = compile(item.value)
   })
 })
@@ -137,6 +157,31 @@ const reset = () => {
   emits('reset')
 }
 
+const showCodeOptions = reactive({
+  key: '',
+  show: false,
+  label: '',
+  code: '',
+  lang: 'html',
+})
+const submitCode = val => {
+  const changeValue = (obj, key, val) => {
+    obj.find(item => item.key === key).value = val
+  }
+
+  changeValue(showCodeOptions.lang == 'javascript' ? events : slots, showCodeOptions.key, val)
+}
+const handleClickCode = (item, type) => {
+  showCodeOptions.label = item.label
+  showCodeOptions.code = item.value
+  showCodeOptions.show = true
+  showCodeOptions.key = item.key
+  showCodeOptions.lang = type == 'slot' ? 'html' : 'javascript'
+}
+
+const generateCode = () => {
+  let code = ``
+}
 </script>
 
 <style lang="less" scoped>

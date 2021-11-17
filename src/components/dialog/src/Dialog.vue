@@ -1,27 +1,35 @@
 <template>
   <teleport to="body" :disabled="!appendToBody">
-    <cg-mask>
-      <div
-        class="cg-dialog"
-        :style="[cssVar, {
-          width,
-          top
-        }]"
-      >
-        <cg-icon class="closeIcon">
-          <Close />
-        </cg-icon>
-        <div v-if="title || $slots.title" class="cg-dialog-title">
-          <slot name="title">
-            {{ title }}
-          </slot>
+    <cg-mask
+      v-model="visible"
+      @click="closeDialog"
+    >
+      <transition name="slide-fade">
+        <div
+          v-show="visible"
+          class="cg-dialog"
+          :style="[cssVar, {
+            width,
+            top
+          }]"
+        >
+          <cg-icon class="closeIcon" @click="closeDialog">
+            <Close />
+          </cg-icon>
+          <div v-if="title || $slots.title" class="cg-dialog-title">
+            <slot name="title">
+              {{ title }}
+            </slot>
+          </div>
+          <div class="cg-dialog-container">
+            <slot></slot>
+          </div>
+          <div v-if="$slots.footer" class="cg-dialog-footer">
+            <slot name="footer">
+            </slot>
+          </div>
         </div>
-        <slot></slot>
-        <div v-if="$slots.footer" class="cg-dialog-footer">
-          <slot name="footer">
-          </slot>
-        </div>
-      </div>
+      </transition>
     </cg-mask>
   </teleport>
 </template>
@@ -33,14 +41,18 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, inject, Teleport } from 'vue'
+import { defineComponent, computed, inject, ref } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar } from '@corgi/utils/index'
+import { getComponentCssVar, useGlobalCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
 import { CgMask, CgIcon } from '@corgi/components'
 import { Close } from '@element-plus/icons'
 
 const props = defineProps({
+  modelValue: {
+    type: Boolean,
+    default: false,
+  },
   title: {
     type: String,
     default: 'default',
@@ -63,25 +75,31 @@ const props = defineProps({
   },
 })
 
+const emits = defineEmits(['update:modelValue'])
+
 const customTheme = inject<IThemeCssVar>('theme', null)
-const globalCssVar = getGlobalCssVar(customTheme)
-// let cssVar = computed(() => {
-//   const componentCssVar = getComponentCssVar('Dialog', customTheme, styleVar)
-//   return componentCssVar
-// })
+
+useGlobalCssVar(['background', 'popupZIndex', 'radiusMedium', 'borderColor'])
 
 const cssVar = computed(() => {
   const componentCssVar = getComponentCssVar('Dialog', customTheme, styleVar)
   return `
-    --Cg-background: ${componentCssVar.background};
-    --Cg-popupZIndex: ${componentCssVar.popupZIndex};
-    --Cg-radiusMedium: ${componentCssVar.radiusMedium};
-    --Cg-borderColor: ${componentCssVar.borderColor};
   `
 })
+
+const visible = computed({
+  get: () => props.modelValue,
+  set: val => emits('update:modelValue', val),
+})
+
+const closeDialog = () => {
+  emits('update:modelValue', false)
+}
+
 </script>
 
 <style lang="less" scoped>
+@import url('../../style/animes.less');
 .cg-dialog{
   background: var(--Cg-background);
   position: fixed;
@@ -93,8 +111,17 @@ const cssVar = computed(() => {
   border-radius: var(--Cg-radiusMedium);
   overflow: hidden;
   .cg-dialog-title{
-    padding: 8px 6px ;
+    padding: 10px 10px;
     border-bottom: 1px solid var(--Cg-borderColor);
+  }
+  .cg-dialog-container{
+    padding: 16px 10px;
+  }
+  .cg-dialog-footer{
+    border-top: 1px solid var(--Cg-borderColor);
+    padding: 10px;
+    display: flex;
+    justify-content: flex-end;
   }
 }
 .closeIcon{

@@ -43,7 +43,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, ref, PropType } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar, isString } from '@corgi/utils'
+import { getComponentCssVar, getGlobalCssVar, isString, useGlobalCssVar } from '@corgi/utils'
 import { IThemeCssVar } from '@corgi/utils/type'
 
 const props = defineProps({
@@ -67,6 +67,8 @@ const props = defineProps({
   readonly: Boolean,
 })
 const emits = defineEmits(['update:modelValue', 'change', 'input'])
+
+useGlobalCssVar(['fontSizeH4', 'fontSizeH3'])
 
 const customTheme = inject<IThemeCssVar>('theme', null)
 let cssVar = computed(() => {
@@ -98,7 +100,7 @@ const changeInput = e => {
 .cg-input{
   width: fit-content;
   display: inline-flex;
-  font-size: v-bind('cssVar.fontSizeH4');
+  font-size: var(--Cg-fontSizeH4);
 }
 .cg-input-inner{
   border: 1px solid #efefef;
@@ -107,7 +109,7 @@ const changeInput = e => {
   height: 26px;
   line-height: 26px;
   padding: 4px 6px;
-  font-size: v-bind('cssVar.fontSizeH3');
+  font-size: var(--Cg-fontSizeH3);
   border-radius: 4px;
   &:hover, &:focus{
     border-color: v-bind('cssVar.activeColor');

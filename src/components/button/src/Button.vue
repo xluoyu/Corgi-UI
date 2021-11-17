@@ -122,6 +122,9 @@ export default defineComponent({
   cursor: pointer;
   user-select: none;
   .flex-center();
+  &+.cg-button{
+    margin-left: 10px;
+  }
   &:hover {
     opacity: 0.7;
   }

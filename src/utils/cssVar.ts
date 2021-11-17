@@ -82,7 +82,6 @@ export const assignThemecustom = (customTheme: IThemeCssVar, defaultTheme: IThem
 }
 
 import defaultCssVar from '@corgi/components/style/index'
-import { createTextVNode, VNodeChild, computed, reactive } from 'vue'
 
 /**
  *  获取全局预设变量
@@ -121,26 +120,43 @@ export const getComponentCssVar = (componentName: string, customTheme: IThemeCss
 }
 
 // 当前的挂载在body上的css变量
-const CgBodyCssVar = reactive({})
+const CgBodyCssVar = {}
+const defaultVar = getGlobalCssVar()
 
-const mountBodyCssVar = () => {
-  const defaultVar = getGlobalCssVar()
-  // 默认的
-  Object.keys(defaultVar).forEach(key => {
-    if (!CgBodyCssVar[key]) {
+type TCssVar = { [x: string]: string | TCssVar; }
+const mountBodyCssVar = (changeList: TCssVar) => {
+  const bodyStyle = getComputedStyle(document.body)
+
+  const runList = (list: TCssVar, prefix: string) => {
+    Object.keys(list).forEach(key => {
+      const valKey = prefix + '-' + key
+      if (isObject(changeList[key])) {
+        runList(changeList[key] as TCssVar, valKey)
+      } else {
+        const oldVal = bodyStyle.getPropertyValue(valKey)
+        if (oldVal != list[key]) {
+          document.body.style.setProperty(valKey, list[key] as string)
+        }
+      }
+    })
+  }
+
+  runList(changeList, '--Cg')
+}
+
+/**
+ *
+ * 根据传入的所需字段，比对当前绑定在body上的css变量，挂在上所需的变量
+ *
+ * @param varList cssVar[] 传入默认的css变量中所需的字段
+ */
+export const useGlobalCssVar = varList => {
+  const changeList = {}
+  varList.forEach(key => {
+    if (!CgBodyCssVar[key] || CgBodyCssVar[key] != defaultVar[key] && defaultVar[key]) {
+      changeList[key] = defaultVar[key]
       CgBodyCssVar[key] = defaultVar[key]
     }
   })
-}
-
-export const useGlobalCssVar = (componentName: string, customTheme: IThemeCssVar, componentVarFn?: (cssvar?: IThemeCssVar) => IThemeCssVar ) => {
-  const onwCssVar = reactive({})
-
-  // return computed(() => {
-  //   CgBodyCssVar
-  // })
-}
-
-export const cssObjToCssVar = obj => {
-
+  mountBodyCssVar(changeList)
 }
