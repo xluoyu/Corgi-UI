@@ -5,6 +5,7 @@ const vue = require('rollup-plugin-vue') // 处理vue文件
 const fs = require('fs-extra') // 写文件
 const postcss = require('rollup-plugin-postcss')
 const { INPUT_PATH, OUTPUT_PATH, onwarn, PREFIX } = require('./config')
+const commonjs = require('@rollup/plugin-commonjs')
 
 const plugins = [
   nodeResolve(),
@@ -17,7 +18,6 @@ const plugins = [
     use: ['less'],
   }),
   esbuild({ jsxFactory: 'vueJsxCompat' }),
-
 ]
 
 export default fs.readdirSync(`${INPUT_PATH}/components`).filter(e => e != 'index.ts').map(name => {
@@ -25,7 +25,7 @@ export default fs.readdirSync(`${INPUT_PATH}/components`).filter(e => e != 'inde
   return {
     input,
     plugins: [...plugins],
-    external: ['vue', 'element-plus'],
+    external: ['lodash', 'vue', 'element-plus'],
     output: {
       name: 'index',
       file: `${OUTPUT_PATH}/components/${name}/index.js`,

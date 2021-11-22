@@ -93,6 +93,7 @@
 
     <ControlCode
       v-model="showCodeOptions.show"
+      :is-code-example="showCodeOptions.key == 'codeExample'"
       :label="showCodeOptions.label"
       :code="showCodeOptions.code"
       :lang="showCodeOptions.lang"
@@ -111,6 +112,7 @@ export default defineComponent({
 import { defineComponent, computed, reactive, ref, compile, onUpdated, onMounted, watchEffect } from 'vue'
 import { cloneDeep } from 'lodash'
 import ControlCode from './control-code.vue'
+import renderCode from './renderCode'
 
 const props = defineProps({
   config:Object,
@@ -143,7 +145,6 @@ const eventsBind = computed(() => {
 
 watchEffect(() => {
   slots.forEach(item => {
-    console.log(item.value)
     item.vnode = compile(item.value)
   })
 })
@@ -180,7 +181,13 @@ const handleClickCode = (item, type) => {
 }
 
 const generateCode = () => {
-  let code = ``
+  const code = renderCode(props.config.name, options,slots,events)
+
+  showCodeOptions.label = '代码示例'
+  showCodeOptions.code = code
+  showCodeOptions.show = true
+  showCodeOptions.key = 'codeExample'
+  showCodeOptions.lang = 'html'
 }
 </script>
 

@@ -48,12 +48,9 @@ export default {
     },
     {
       key: 'icon',
-      value: `<!-- <template #icon> -->
-  <cg-icon>
-    <Apple />
-  </cg-icon>
-<!-- </template> -->
-      `,
+      value: `<cg-icon>
+  <Apple />
+</cg-icon>`,
       label: '图标',
     },
   ],

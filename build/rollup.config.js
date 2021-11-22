@@ -6,10 +6,12 @@ const vue = require('rollup-plugin-vue') // 处理vue文件
 const postcss = require('rollup-plugin-postcss')
 const typescript2 = require('rollup-plugin-typescript2')
 const path = require('path')
+const commonjs = require('@rollup/plugin-commonjs')
 
 export default {
   input: `${INPUT_PATH}/index.ts`,
   plugins: [
+    commonjs(),
     nodeResolve(),
     typescript2({
       tsconfig: path.resolve(__dirname, '../tsconfig.json'),
@@ -43,7 +45,7 @@ export default {
     //   ],
     // }),
   ],
-  external: ['vue', 'element-plus'],
+  external: ['lodash', 'vue', 'element-plus'],
   output: {
     name: 'index',
     file: `${OUTPUT_PATH}/index.esm.js`,

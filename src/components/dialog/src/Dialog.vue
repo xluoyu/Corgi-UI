@@ -1,6 +1,7 @@
 <template>
   <teleport to="body" :disabled="!appendToBody">
     <cg-mask
+      ref="maskEl"
       v-model="visible"
       @click="closeDialog"
     >
@@ -41,7 +42,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, inject, ref } from 'vue'
+import { defineComponent, computed, inject, ref, watch } from 'vue'
 import styleVar from './styleVar'
 import { getComponentCssVar, useGlobalCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
@@ -91,6 +92,14 @@ const visible = computed({
   get: () => props.modelValue,
   set: val => emits('update:modelValue', val),
 })
+const maskEl = ref(null)
+
+watch(() => props.modelValue, val => {
+  if (val) {
+    console.log(maskEl.value)
+  }
+}, { immediate: true })
+
 
 const closeDialog = () => {
   emits('update:modelValue', false)

@@ -1,6 +1,6 @@
 {
   "name": "corgi-box",
-  "version": "0.0.1-beta",
+  "version": "0.0.4-beta",
   "main": "es/index.js",
   "module": "es/index.js",
   "scripts": {
@@ -25,6 +25,7 @@
   "devDependencies": {
     "@element-plus/icons": "^0.0.11",
     "@rollup/plugin-alias": "^3.1.5",
+    "@rollup/plugin-commonjs": "^21.0.1",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@types/jest": "^27.0.1",
     "@types/lodash": "^4.14.172",
@@ -71,13 +72,11 @@
     "vue-router": "4",
     "vue-tsc": "^0.2.2"
   },
-  "sideEffects": false,
   "files": [
     "es",
     "README.md"
   ],
   "dependencies": {
-    "corgi-box": "^0.0.0-beta0.2.9",
     "loadsh": "^0.0.4",
     "monaco-editor": "^0.30.1"
   }
