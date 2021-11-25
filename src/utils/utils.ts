@@ -13,3 +13,5 @@ export const extendWithObject = (a, b) => {
   }), isNull)
 }
 
+// 首字母大写
+export const toUpperCase = (str: String) => str.charAt(0).toUpperCase() + str.slice(1)

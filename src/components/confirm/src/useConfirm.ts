@@ -1,8 +1,7 @@
-import { createApp, VNode } from 'vue'
+import { createApp, VNode, nextTick } from 'vue'
 import Confirm from './Confirm.vue'
 import { isFunction } from '@corgi/utils'
-import { useShowMask } from '@corgi/index'
-
+// import { useShowMask } from '@corgi/index'
 
 interface options {
   title?: string
@@ -20,16 +19,27 @@ export const useConfirm = (options: options) => {
 
   const confirmApp = createApp(Confirm, { ...options, isFixed: true })
 
-  const confirmComp = confirmApp.mount(newDom) as any
+  const confirmComp = confirmApp.mount(newDom).$root as any
 
-  console.log(confirmComp.submit)
+  console.log(confirmComp)
   document.querySelector('body').appendChild(newDom.firstChild)
-  const showMask = useShowMask()
-  showMask.show()
+
+  nextTick(() => {
+    confirmComp.visible = true
+  })
+  // const showMask = useShowMask()
+  // showMask.show()
 
   confirmComp.closeAddFn(() => {
-    showMask.close()
-    confirmApp.unmount()
+    // showMask.close()
+    confirmComp.visible = false
+    setTimeout(() => {
+      confirmApp.unmount()
+
+    }, 500)
+    // nextTick(() => {
+    //   confirmApp.unmount()
+    // })
   })
 
   if (options.success && isFunction(options.success)) {

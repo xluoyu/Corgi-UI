@@ -1,6 +1,6 @@
 const ConfirmVar = cssVar => {
   return {
-    top: '300px',
+    top: '30px',
     width: '450px',
   }
 }

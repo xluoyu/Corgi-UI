@@ -2,10 +2,11 @@ import { defineConfig } from 'vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import transformDemo from './build/vite-plugin-demo2vue/index'
 import { resolve } from 'path'
+import commonjs from '@rollup/plugin-commonjs'
 
 
 export default defineConfig({
-  // mode: 'production',
+  mode: 'production',
   build: {
     rollupOptions: {
       input: {
@@ -14,7 +15,7 @@ export default defineConfig({
       },
     },
   },
-  plugins: [vueJsx(), transformDemo()],
+  plugins: [commonjs(), vueJsx(), transformDemo()],
   resolve: {
     alias: [
       {

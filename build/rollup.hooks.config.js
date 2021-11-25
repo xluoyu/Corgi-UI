@@ -1,9 +1,11 @@
 const { nodeResolve } = require('@rollup/plugin-node-resolve') // 告诉 Rollup 如何查找外部模块
 const esbuild = require('rollup-plugin-esbuild')
 const fs = require('fs-extra') // 写文件
+const commonjs = require('@rollup/plugin-commonjs')
 const { INPUT_PATH, OUTPUT_PATH, onwarn, PREFIX } = require('./config')
 
 const plugins = [
+  commonjs(),
   nodeResolve(),
   esbuild(),
 ]
@@ -13,7 +15,7 @@ const hooks = fs.readdirSync(`${INPUT_PATH}/hooks`).filter(e => e !== 'test').ma
   return {
     input,
     plugins: [...plugins],
-    external: ['vue'],
+    external: ['lodash', 'vue'],
     output: {
       name,
       file: `${OUTPUT_PATH}/hooks/${name}.js`,

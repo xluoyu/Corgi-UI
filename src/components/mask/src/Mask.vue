@@ -1,16 +1,14 @@
 <template>
-  <teleport to="body">
-    <transition name="slide-fade">
-      <div
-        v-show="modelValue"
-        class="cg-mask"
-        :style="costomCssVar"
-        @click="emits('click')"
-      >
-      </div>
-    </transition>
-  </teleport>
-  <slot></slot>
+  <transition name="slide-fade">
+    <div
+      v-show="modelValue"
+      class="cg-mask"
+      :style="costomCssVar"
+      @click.self="emits('click')"
+    >
+      <slot></slot>
+    </div>
+  </transition>
 </template>
 
 <script lang="ts">
@@ -41,6 +39,8 @@ let cssVar = computed(() => {
 
 watch(() => props.modelValue, val => {
   document.body.style.overflow = val ? 'hidden' : 'auto'
+}, {
+  immediate: true,
 })
 
 useGlobalCssVar(['popupMaskZIndex'])

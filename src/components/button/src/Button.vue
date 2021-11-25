@@ -34,6 +34,7 @@ import type { PropType } from 'vue'
 import { Loading } from '@element-plus/icons'
 import styleVar from './styleVar'
 import { IThemeCssVar } from '@corgi/utils/type'
+import { CgIcon } from '@corgi/components'
 
 const buttonProps = {
   round: {
@@ -69,6 +70,7 @@ export default defineComponent({
   name: 'CgButton',
   components: {
     Loading,
+    CgIcon,
   },
   props: buttonProps,
   setup (props) {
