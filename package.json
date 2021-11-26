@@ -53,6 +53,7 @@
     "lodash": "^4.17.21",
     "marked": "^3.0.0",
     "postcss": "^8.3.6",
+    "rimraf": "^3.0.2",
     "rollup": "^2.56.3",
     "rollup-plugin-alias": "^2.2.0",
     "rollup-plugin-buble": "^0.19.8",

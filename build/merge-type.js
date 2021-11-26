@@ -1,6 +1,7 @@
 const fs = require('fs')
 const path = require('path')
 const ora = require('ora')
+const rimraf = require('rimraf')
 const klawSync = require('klaw-sync')
 
 
@@ -27,10 +28,10 @@ function fsExistsSync(path) {
  *
  * @param {string} input => 入口地址
  */
+
 const copyFile = async (input, path = '') => {
   const inputPath = input + path
   const files = fs.readdirSync(inputPath) //读取入口目录下的所有文件
-
   return Promise.all(files.map(file => {
     return new Promise(async resolve => {
       const inputFile = inputPath + '/' + file // 单个文件
@@ -73,23 +74,6 @@ const copyFile = async (input, path = '') => {
   }))
 }
 
-const path = require('path')
-const INPUT_PATH = path.resolve(__dirname, '../types')
-async function deleteFolderRecursive(path) {
-  if( fs.existsSync(path) ) {
-    fs.readdirSync(path).forEach(function(file) {
-      var curPath = path + '/' + file
-      if(fs.statSync(curPath).isDirectory()) {
-        deleteFolderRecursive(curPath)
-      } else {
-        fs.unlinkSync(curPath)
-      }
-    })
-    fs.rmdirSync(path)
-  }
-}
-
-
 /**
  * 遍历types文件夹
  *
@@ -113,8 +97,9 @@ const stats = async () => {
   await clearJS()
   return copyFile(INPUT_PATH).then(() => {
     console.log('复制文件完成')
-    deleteFolderRecursive(INPUT_PATH)
-    console.log('移除临时文件夹完成')
+    rimraf(INPUT_PATH, () => {
+      console.log('移除临时文件夹完成')
+    })
   }).catch(err => console.log(err))
 }
 
