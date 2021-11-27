@@ -2,7 +2,6 @@ import { defineConfig } from 'vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import transformDemo from './build/vite-plugin-demo2vue/index'
 import { resolve } from 'path'
-import commonjs from '@rollup/plugin-commonjs'
 
 
 export default defineConfig({
@@ -15,7 +14,7 @@ export default defineConfig({
       },
     },
   },
-  plugins: [commonjs(), vueJsx(), transformDemo()],
+  plugins: [vueJsx(), transformDemo()],
   resolve: {
     alias: [
       {

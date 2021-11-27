@@ -1,7 +1,6 @@
 import { createApp } from 'vue'
-import Corgi from '../es/index'
+import Corgi from '@corgi/index'
 import App from './App.vue'
-// import example from './blank-test/example1.vue'
 import MdComponent from './views/component/page/demo-box.vue'
 import Demos from './views/component/page/demos.vue'
 import DocNav from './views/component/page/docNav.vue'
