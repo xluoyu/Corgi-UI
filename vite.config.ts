@@ -5,11 +5,11 @@ import { resolve } from 'path'
 
 
 export default defineConfig({
-  mode: 'production',
+  // mode: 'production',
   build: {
     rollupOptions: {
       input: {
-        main: resolve(__dirname, 'index.html'),
+        // main: resolve(__dirname, 'index.html'),
         play: resolve(__dirname, 'play/index.html'),
       },
     },

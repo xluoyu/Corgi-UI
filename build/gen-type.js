@@ -42,6 +42,7 @@ const getTypes = async() => {
     nodir: true,
   }).map(item => item.path)
     .filter(e => !/\.spec/.test(e))
+    .filter(e => !/demos/.test(e))
     .filter(e => /\.ts|\.vue/.test(e))
 
 

@@ -1,11 +1,11 @@
 const { nodeResolve } = require('@rollup/plugin-node-resolve') // 告诉 Rollup 如何查找外部模块
 const esbuild = require('rollup-plugin-esbuild')
 const fs = require('fs-extra') // 写文件
-// const commonjs = require('@rollup/plugin-commonjs')
+const commonjs = require('@rollup/plugin-commonjs')
 const { INPUT_PATH, OUTPUT_PATH, onwarn, PREFIX } = require('./config')
 
 const plugins = [
-  // commonjs(),
+  commonjs(),
   nodeResolve(),
   esbuild(),
 ]

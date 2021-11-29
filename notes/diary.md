@@ -707,3 +707,6 @@ if (script && script.content) {
 
 :target 选择器可用于选取当前活动的目标元素。
 
+## 记一个BUG
+
+由于当前使用的是 SFC 写法，样式文件直接和组件一起打包，使用`postcss` 将样式
