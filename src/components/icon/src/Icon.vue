@@ -31,8 +31,8 @@ export default defineComponent({
 <style lang="less" scoped>
 .cg-icon{
   display: inline-block;
-  height: 1em;
   width: 1em;
+  height: 1em;
   font-size: 1em;
   fill: currentColor;
   color: inherit;

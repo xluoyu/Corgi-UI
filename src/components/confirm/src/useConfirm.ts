@@ -1,7 +1,7 @@
-import { createApp, VNode, nextTick } from 'vue'
-import Confirm from './Confirm.vue'
+import { createApp, VNode, nextTick, h } from 'vue'
+import MessageBox from './Confirm.vue'
 import { isFunction } from '@corgi/utils'
-// import { useShowMask } from '@corgi/index'
+import { CgMask } from '@corgi/components'
 
 interface options {
   title?: string
@@ -13,71 +13,78 @@ interface options {
   callback?: (type: String) => void
 }
 
+interface MessageBoxResult {
+  then: (fn: Function) => MessageBoxResult
+  catch: (fn: Function) => void
+}
 
-export const useConfirm = (options: options) => {
+const createMessageBox = (options: options, type: 'confirm' | 'alert'): MessageBoxResult => {
   const newDom = document.createElement('div')
+  const componentApp = createApp(CgMask, { slot: h(MessageBox, { ...options, useType: type, isFixed: true }) } )
 
-  const confirmApp = createApp(Confirm, { ...options, isFixed: true })
+  const componentAppMounted = componentApp.mount(newDom).$root as any
 
-  const confirmComp = confirmApp.mount(newDom).$root as any
-
-  console.log(confirmComp)
   document.querySelector('body').appendChild(newDom.firstChild)
 
   nextTick(() => {
-    confirmComp.visible = true
+    componentAppMounted.visible = true
+
+    const confirmComp = componentAppMounted.slotRef
+
+    confirmComp.addFn(() => {
+      componentAppMounted.visible = false
+
+      setTimeout(() => {
+        componentApp.unmount()
+      }, 500)
+    }, 'close')
+
+    if (options.success && isFunction(options.success)) {
+      confirmComp.addFn(options.success, 'confirm')
+    }
+    if (options.cancel && isFunction(options.cancel)) {
+      confirmComp.addFn(options.cancel, 'cancel')
+    }
+    if (options.callback && isFunction(options.callback)) {
+      confirmComp.addFn(options.callback, 'close')
+    }
   })
-  // const showMask = useShowMask()
-  // showMask.show()
 
-  confirmComp.closeAddFn(() => {
-    // showMask.close()
-    confirmComp.visible = false
-    setTimeout(() => {
-      confirmApp.unmount()
-
-    }, 500)
-    // nextTick(() => {
-    //   confirmApp.unmount()
-    // })
-  })
-
-  if (options.success && isFunction(options.success)) {
-    confirmComp.confirmAddFn(options.success)
-  }
-  if (options.cancel && isFunction(options.cancel)) {
-    confirmComp.cancelAddFn(options.cancel)
-  }
-  if (options.callback && isFunction(options.callback)) {
-    confirmComp.closeAddFn(options.callback)
-  }
-
-  const res = {
+  const res: MessageBoxResult = {
     then: fn => {
-      confirmComp.confirmAddFn(fn)
+      nextTick(() => {
+        componentAppMounted.slotRef.addFn(fn, 'confirm')
+      })
       return res
     },
     catch: fn => {
-      confirmComp.cancelAddFn(fn)
+      nextTick(() => {
+        componentAppMounted.slotRef.addFn(fn, 'cancel')
+      })
     },
   }
 
   return res
 }
 
-useConfirm.success = options => {
+export const useConfirm = (options: options) => {
+  return createMessageBox(options, 'confirm')
+}
+
+export const useAlert = (options: options) => {
+  return createMessageBox(options, 'alert')
+}
+
+useAlert.success = (options: options) => {
   options.type = 'success'
-  useConfirm(options)
+  return useAlert(options)
 }
-useConfirm.warning = options => {
+useAlert.warning = (options: options) => {
   options.type = 'warning'
-  useConfirm(options)
+  return useAlert(options)
 }
-useConfirm.error = options => {
+useAlert.error = (options: options) => {
   options.type = 'error'
-  useConfirm(options)
+  return useAlert(options)
 }
-useConfirm.info = options => {
-  options.type = 'info'
-  useConfirm(options)
-}
+

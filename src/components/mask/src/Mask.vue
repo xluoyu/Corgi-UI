@@ -1,12 +1,16 @@
 <template>
   <transition name="slide-fade">
     <div
-      v-show="modelValue"
+      v-show="visible"
       class="cg-mask"
       :style="costomCssVar"
       @click.self="emits('click')"
     >
-      <slot></slot>
+      <transition name="slide-fade">
+        <slot>
+          <component :is="slot" v-if="slot" ref="slotRef" />
+        </slot>
+      </transition>
     </div>
   </transition>
 </template>
@@ -18,7 +22,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { defineComponent, computed, inject, ref, onMounted, onUnmounted, watch } from 'vue'
+import { defineComponent, computed, inject, ref, watch } from 'vue'
 import styleVar from './styleVar'
 import { getComponentCssVar, useGlobalCssVar } from '@corgi/utils/index'
 import { IThemeCssVar } from '@corgi/utils/type'
@@ -28,8 +32,13 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  slot: {
+    type: Object,
+  },
 })
 const emits = defineEmits(['click'])
+
+const visible = ref(props.modelValue)
 
 const customTheme = inject<IThemeCssVar>('theme', null)
 let cssVar = computed(() => {
@@ -39,6 +48,7 @@ let cssVar = computed(() => {
 
 watch(() => props.modelValue, val => {
   document.body.style.overflow = val ? 'hidden' : 'auto'
+  visible.value = val
 }, {
   immediate: true,
 })
@@ -50,6 +60,8 @@ const costomCssVar = computed(() => {
     --Cg-Mask-background: ${cssVar.value.background};
   `
 })
+
+const slotRef = ref(null)
 </script>
 
 <style lang="less" scoped>
