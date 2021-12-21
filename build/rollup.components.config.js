@@ -15,6 +15,7 @@ const plugins = [
   vueJsx(),
   postcss({
     use: ['less'],
+    extract: true,
   }),
   esbuild({ jsxFactory: 'vueJsxCompat' }),
 ]

@@ -11,7 +11,7 @@ const path = require('path')
 export default {
   input: `${INPUT_PATH}/index.ts`,
   plugins: [
-    // commonjs(),
+    commonjs(),
     nodeResolve(),
     typescript2({
       tsconfig: path.resolve(__dirname, '../tsconfig.json'),
@@ -24,7 +24,9 @@ export default {
       preprocessStyles: true,
       target: 'browser',
     }),
-    postcss(),
+    postcss({
+
+    }),
     vueJsx(),
     esbuild({ jsxFactory: 'vueJsxCompat' }),
 

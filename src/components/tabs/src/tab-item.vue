@@ -21,6 +21,7 @@ const props = defineProps({
     type: String,
     default: 'default',
   },
+  label: String,
   name: String,
   lazy: Boolean,
 })

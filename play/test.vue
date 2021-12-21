@@ -1,6 +1,12 @@
 <template>
-<cg-button @click="submit">提交</cg-button>
-
+<!-- <div> -->
+  <!-- <cg-button @click="submit">提交</cg-button> -->
+  <b>哈哈哈</b>
+  <!-- <teleport to="body"> -->
+    <div class="text">看看我的颜色</div>
+  <!-- </teleport> -->
+<!-- </div> -->
+  
 </template>
 
 <script lang="ts" setup>
@@ -16,6 +22,9 @@ const box = ref(null)
 
 
 const confirmRef = ref(null)
+
+const textcolor = ref('#ff7904')
+
 onMounted(() => {
   console.log(confirmRef.value)
 
@@ -32,10 +41,14 @@ onMounted(() => {
 
 </script>
 
-<style lang="less" scoped>
+<style lang="less">
 .container{
   width: 600px;
   height: 800px;
   background: #eee;
+}
+.text{
+  color: v-bind('textcolor');
+  font-size: 18px;
 }
 </style>
