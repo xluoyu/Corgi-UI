@@ -4,7 +4,7 @@ const mdRenderer = createRenderer()
 import { lexer, parser } from 'marked'
 import { renderFile } from 'ejs'
 import { resolve } from 'path'
-import hljs from '../../../site/utils/hljs'
+import hljs from '../../../website/utils/hljs'
 import dayjs from 'dayjs'
 
 const controlTemplate = resolve(__dirname, '../template/control-template.ejs')

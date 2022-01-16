@@ -1,7 +1,7 @@
 import { parser, lexer } from 'marked'
 import { renderFile } from 'ejs'
 import createRenderer from './md-renderer'
-import hljs from '../../../site/utils/hljs'
+import hljs from '../../../website/utils/hljs'
 const mdRenderer = createRenderer()
 import { resolve } from 'path'
 
