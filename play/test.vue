@@ -6,7 +6,7 @@
     <div class="text">看看我的颜色</div>
   <!-- </teleport> -->
 <!-- </div> -->
-  
+  <div class="boxTest"></div>
 </template>
 
 <script lang="ts" setup>
@@ -50,5 +50,15 @@ onMounted(() => {
 .text{
   color: v-bind('textcolor');
   font-size: 18px;
+}
+.boxTest{
+  width: 375px;
+  height: 800px;
+  color: transparent;
+  background: linear-gradient(to bottom, transparent 60%, #fff), linear-gradient(30deg, rgba(247, 151, 20, 0.2) 40%,rgba(46, 84, 234, 0.2));
+  // background-size: 100% 600px;
+  // background-repeat: no-repeat;
+  background-blend-mode: lighten darken;
+  // background-color: #f8f8f8;
 }
 </style>
