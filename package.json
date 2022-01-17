@@ -1,5 +1,8 @@
 {
-  "name": "corgi-box",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
   "version": "0.0.4-beta",
   "main": "es/index.js",
   "module": "es/index.js",

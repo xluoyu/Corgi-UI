@@ -15,7 +15,7 @@ const hooks = fs.readdirSync(`${INPUT_PATH}/hooks`).filter(e => e !== 'test').ma
   return {
     input,
     plugins: [...plugins],
-    external: ['lodash', 'vue'],
+    external: ['lodash-es', 'vue'],
     output: {
       name,
       file: `${OUTPUT_PATH}/hooks/${name}.js`,

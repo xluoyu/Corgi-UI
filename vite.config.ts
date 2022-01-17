@@ -2,15 +2,16 @@ import { defineConfig } from 'vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import transformDemo from './build/vite-plugin-demo2vue/index'
 import { resolve } from 'path'
-
+import { corgiRoot, pkgRoot } from './config/paths'
 
 export default defineConfig({
   // mode: 'production',
+  // root: './website',
   build: {
     rollupOptions: {
       input: {
-        // main: resolve(__dirname, 'index.html'),
-        play: resolve(__dirname, 'play/index.html'),
+        // main: resolve(__dirname, 'website/index.html'),
+        play: resolve(__dirname, 'webtest/index.html'),
       },
     },
   },
@@ -19,15 +20,7 @@ export default defineConfig({
     alias: [
       {
         find: '@site',
-        replacement: resolve(__dirname, './site'),
-      },
-      {
-        find: '@corgi',
-        replacement: resolve(__dirname, './src'),
-      },
-      {
-        find: 'corgi-box',
-        replacement: resolve(__dirname, './src/index'),
+        replacement: resolve(__dirname, './website'),
       },
       {
         find: 'vue',

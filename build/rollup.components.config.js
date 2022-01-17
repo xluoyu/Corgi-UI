@@ -25,7 +25,7 @@ export default fs.readdirSync(`${INPUT_PATH}/components`).filter(e => e != 'inde
   return {
     input,
     plugins: [...plugins],
-    external: ['lodash', 'vue', 'element-plus'],
+    external: ['lodash-es', 'vue', 'element-plus'],
     output: {
       name: 'index',
       file: `${OUTPUT_PATH}/components/${name}/index.js`,

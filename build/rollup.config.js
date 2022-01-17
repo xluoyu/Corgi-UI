@@ -47,7 +47,7 @@ export default {
     //   ],
     // }),
   ],
-  external: ['lodash', 'vue', 'element-plus'],
+  external: ['lodash-es', 'vue', 'element-plus'],
   output: {
     name: 'index',
     file: `${OUTPUT_PATH}/index.esm.js`,

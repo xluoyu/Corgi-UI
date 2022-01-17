@@ -1,0 +1,9 @@
+{
+  "name": "@corgi-box/components",
+  "version": "1.0.0-dev0.1",
+  "main": "index.ts",
+  "license": "MIT",
+  "dependencies": {
+    "lodash-es": "^4.17.21"
+  }
+}
