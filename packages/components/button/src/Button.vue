@@ -28,12 +28,11 @@
 
 <script lang="ts">
 import { defineComponent, computed, inject } from 'vue'
-import { getComponentCssVar, getGlobalCssVar, isLight } from '@corgi-box/utils/index'
-import { isString } from '@corgi-box/utils/typeTool'
+import { getComponentCssVar, getGlobalCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { isLight, isString } from '@corgi-box/utils'
 import type { PropType } from 'vue'
 import { Loading } from '@element-plus/icons'
 import styleVar from './styleVar'
-import { IThemeCssVar } from '@corgi-box/utils/type'
 import { CgIcon } from '@corgi-box/components'
 
 const buttonProps = {
