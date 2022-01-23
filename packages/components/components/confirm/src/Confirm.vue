@@ -52,7 +52,7 @@ import { defineComponent, computed, inject, PropType, ref, VNode, onUnmounted } 
 import styleVar from './styleVar'
 import { getComponentCssVar, getGlobalCssVar, IThemeCssVar, useGlobalCssVar } from '@corgi-box/components/utils'
 import { isString } from '@corgi-box/utils'
-import { IButtonType } from '@corgi-box/components/button'
+import { IButtonType } from '@corgi-box/components'
 import { CgButton, CgIcon } from 'corgi-box'
 import { SuccessFilled, WarningFilled, CircleCloseFilled, Close } from '@element-plus/icons'
 
@@ -154,7 +154,7 @@ defineExpose({
 </script>
 
 <style lang="less" scoped>
-@import url('../../style/animes.less');
+@import url('../../../style/animes.less');
 .cg-confirm{
   background: #fff;
   height: fit-content;

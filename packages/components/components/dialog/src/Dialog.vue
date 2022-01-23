@@ -107,7 +107,7 @@ const closeDialog = () => {
 </script>
 
 <style lang="less" scoped>
-@import url('../../style/animes.less');
+@import url('../../../style/animes.less');
 .cg-dialog{
   background: var(--Cg-background);
   position: fixed;

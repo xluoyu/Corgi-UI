@@ -4,6 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "dependencies": {
+    "@vue/compiler-sfc": "^3.2.28",
     "lodash-es": "^4.17.21",
     "rollup": "^2.66.0"
   }

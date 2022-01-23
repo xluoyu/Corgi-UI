@@ -64,7 +64,7 @@ const slotRef = ref(null)
 </script>
 
 <style lang="less" scoped>
-@import url('../../style/animes.less');
+@import url('../../../style/animes.less');
 
 .cg-mask{
   position: fixed;

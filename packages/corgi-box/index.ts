@@ -1,6 +1,6 @@
 export { default } from './preset'
 
-export * from '../components'
-export * from '../hooks'
-export * from '../directives'
-export * from '../utils'
+export * from '@corgi-box/components'
+export * from '@corgi-box/hooks'
+export * from '@corgi-box/directives'
+export * from '@corgi-box/utils'
