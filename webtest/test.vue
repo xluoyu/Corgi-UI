@@ -1,6 +1,6 @@
 <template>
 <!-- <div> -->
-  <!-- <cg-button @click="submit">提交</cg-button> -->
+  <cg-button @click="submit">提交</cg-button>
   <b>哈哈哈</b>
   <!-- <teleport to="body"> -->
     <div class="text">看看我的颜色</div>
@@ -11,14 +11,14 @@
 
 <script lang="ts" setup>
 import { onMounted, ref } from 'vue'
-import {CgButton} from '@corgi/index'
+import {CgButton, useConfirm} from 'corgi-box'
 const box = ref(null)
-// const submit = () => {
-//   useConfirm({
-//     title: '这是标题',
-//     content: '哈哈哈哈'
-//   })
-// }
+const submit = () => {
+  useConfirm({
+    title: '这是标题',
+    content: '哈哈哈哈'
+  })
+}
 
 
 const confirmRef = ref(null)

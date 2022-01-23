@@ -43,8 +43,8 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, ref, PropType } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar, isString, useGlobalCssVar } from '@corgi-box/utils'
-import { IThemeCssVar } from '@corgi-box/utils/type'
+import { getComponentCssVar, getGlobalCssVar, useGlobalCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { isString } from '@corgi-box/utils'
 
 const props = defineProps({
   value: [String, Number],

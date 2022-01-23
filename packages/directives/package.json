@@ -4,6 +4,7 @@
   "main": "index.ts",
   "license": "MIT",
   "dependencies": {
-    "lodash-es": "^4.17.21"
+    "lodash-es": "^4.17.21",
+    "rollup": "^2.66.0"
   }
 }

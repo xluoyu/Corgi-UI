@@ -13,6 +13,7 @@
     "build:site22": "vue-cli-service build",
     "build:site": "vite build",
     "build:comps": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.components.config.js",
+    "build:comps-t": "rimraf es/components && esno ./build/components.ts",
     "build:hooks": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.hooks.config.js",
     "build:src": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.config.js",
     "build:type": "node ./build/gen-type",

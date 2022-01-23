@@ -24,8 +24,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, PropType, provide, useSlots } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar } from '@corgi-box/utils'
-import { IThemeCssVar } from '@corgi-box/utils/type'
+import { getComponentCssVar, getGlobalCssVar, IThemeCssVar } from '@corgi-box/components/utils'
 
 const props = defineProps({
   label: String,

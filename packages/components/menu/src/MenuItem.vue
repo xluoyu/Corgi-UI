@@ -2,9 +2,8 @@
 import { computed, defineComponent, inject, PropType, h } from 'vue'
 import { IMenuItem, menuProvideKey } from './type'
 import styleVar from './styleVar'
-import { getComponentCssVar } from '@corgi-box/utils'
-import { IThemeCssVar } from '@corgi-box/utils/type'
-import { isFunction } from '@corgi-box/utils/typeTool'
+import { getComponentCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { isFunction } from '@corgi-box/utils'
 export default defineComponent({
   name: 'CgMenuItem',
   props: {

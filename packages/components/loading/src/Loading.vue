@@ -12,8 +12,7 @@
 
 <script lang="ts">
 import { defineComponent, inject } from 'vue'
-import { IThemeCssVar } from '@corgi-box/utils/type'
-import { getGlobalCssVar } from '@corgi-box/utils'
+import { IThemeCssVar, getGlobalCssVar } from '@corgi-box/components/utils'
 
 export default defineComponent({
   name: 'CgLoading',

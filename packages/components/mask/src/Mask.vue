@@ -24,8 +24,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, ref, watch } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, useGlobalCssVar } from '@corgi-box/utils'
-import { IThemeCssVar } from '@corgi-box/utils/type'
+import { getComponentCssVar, useGlobalCssVar, IThemeCssVar } from '@corgi-box/components/utils'
 
 const props = defineProps({
   modelValue: {

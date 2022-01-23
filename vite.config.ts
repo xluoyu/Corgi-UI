@@ -2,7 +2,7 @@ import { defineConfig } from 'vite'
 import vueJsx from '@vitejs/plugin-vue-jsx'
 import transformDemo from './build/vite-plugin-demo2vue/index'
 import { resolve } from 'path'
-import { corgiRoot, pkgRoot } from './config/paths'
+import { corgiRoot, pkgRoot } from './build/paths'
 
 export default defineConfig({
   // mode: 'production',

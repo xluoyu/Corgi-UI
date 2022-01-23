@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 import menuConf, { IMenuObj } from '../menu.conf'
 import docConf, { IDocMenuObj } from '../doc.conf'
-import { compRoot, pkgRoot } from '../../config/paths'
+import { compRoot, pkgRoot } from '../../build/paths'
 import { resolve } from 'path'
 import { defineAsyncComponent } from 'vue'
 

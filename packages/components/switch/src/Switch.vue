@@ -34,8 +34,7 @@ export default defineComponent({
 import { CgLoading } from 'corgi-box'
 import { defineComponent, computed, inject, PropType, ref } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar } from '@corgi-box/utils'
-import { IThemeCssVar } from '@corgi-box/utils/type'
+import { getComponentCssVar, getGlobalCssVar, IThemeCssVar } from '@corgi-box/components/utils'
 const props = defineProps({
   modelValue: [String, Boolean, Number],
   size: {

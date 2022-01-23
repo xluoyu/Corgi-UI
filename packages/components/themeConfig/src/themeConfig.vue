@@ -7,7 +7,7 @@
 <script lang="ts">
 import { merge } from 'lodash-es'
 import { defineComponent, inject, provide } from 'vue'
-import { getGlobalCssVar } from '@corgi-box/utils'
+import { getGlobalCssVar } from '@corgi-box/components/utils'
 
 
 export default defineComponent({

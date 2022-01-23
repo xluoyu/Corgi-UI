@@ -16,8 +16,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar } from '@corgi-box/utils'
-import { IThemeCssVar } from '@corgi-box/utils/type'
+import { getComponentCssVar, getGlobalCssVar, IThemeCssVar } from '@corgi-box/components/utils'
 import { useGroupHeader } from './use-group-header'
 
 const props = defineProps({

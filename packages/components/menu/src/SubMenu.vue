@@ -1,6 +1,5 @@
 <script lang="tsx">
-import { getComponentCssVar } from '@corgi-box/utils'
-import { IThemeCssVar } from '@corgi-box/utils/type'
+import { IThemeCssVar, getComponentCssVar } from '@corgi-box/components/utils'
 import { defineComponent, computed, inject } from 'vue'
 import itemRender from './itemRender'
 import styleVar from './styleVar'
