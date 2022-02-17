@@ -147,7 +147,7 @@ const buildOtherFile = async () => {
 
 ;(async () => {
   yellow('开始生成类型说明')
-  await getDts(compRoot)
+  await getDts(compRoot, true)
   green('类型说明生成完成')
 
   yellow('开始打包组件')

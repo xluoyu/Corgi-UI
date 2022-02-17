@@ -1,0 +1,12 @@
+{
+  "name": "@corgi-box/ui",
+  "version": "1.0.0-dev0.1",
+  "main": "index.ts",
+  "license": "MIT",
+  "scripts": {
+    "build": "rimraf ./dist && esno ../../build/components.ts"
+  },
+  "dependencies": {
+    "lodash-es": "^4.17.21"
+  }
+}

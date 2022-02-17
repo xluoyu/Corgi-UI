@@ -37,7 +37,7 @@ const getComponentRouters = () => {
       return {
         path: item.path,
         name: item.key,
-        component: defineAsyncComponent(() => import(`../../packages/components/${item.path}/demos/index.md`)),
+        component: defineAsyncComponent(() => import(`../../packages/components/components/${item.path}/demos/index.md`)),
       }
     }))
     return pre

@@ -13,7 +13,6 @@
     "build:site22": "vue-cli-service build",
     "build:site": "vite build",
     "build:comps": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.components.config.js",
-    "build:comps-t": "rimraf packages/components/dist && esno ./build/components.ts",
     "build:hooks": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.hooks.config.js",
     "build:src": "cross-env NODE_ENV=production yarn rollup -c ./build/rollup.config.js",
     "build:type": "node ./build/gen-type",
@@ -22,7 +21,7 @@
     "lint": "eslint --fix \"{src,build,scripts,site}/**/*.{ts,js,vue,md}*\"",
     "serve": "vite preview",
     "test": "jest",
-    "new": "node ./corgi-cli/index.js"
+    "new": "node ./scripts/create/index.js"
   },
   "peerDependencies": {
     "vue": "^3.2.0"
@@ -85,5 +84,6 @@
   "dependencies": {
     "loadsh": "^0.0.4",
     "monaco-editor": "^0.30.1"
-  }
+  },
+  "name": "Corgi-box"
 }

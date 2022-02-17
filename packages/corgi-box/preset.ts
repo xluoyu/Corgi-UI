@@ -1,8 +1,8 @@
-import * as components from '../components'
-import * as directives from '../directives'
+import * as components from '@corgi-box/components'
+import * as directives from '@corgi-box/directives'
 import version from './version'
 import { App } from 'vue'
-
+console.log(components)
 const componentArray = Object.keys(components).map(key => components[key])
 const directivesArray = Object.keys(directives).map(key => Object.assign(directives[key], { key }))
 const create = {

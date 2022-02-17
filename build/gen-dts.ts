@@ -1,7 +1,7 @@
 /**
  * 生成所需的.d.ts
  */
-import { resolve, dirname } from 'path'
+import { resolve } from 'path'
 import fs from 'fs'
 import { Project } from 'ts-morph'
 import * as vueCompiler from '@vue/compiler-sfc'
@@ -11,18 +11,17 @@ const getFilePath = url => resolve(__dirname, url)
 
 const TSCONFIG_PATH = getFilePath('../tsconfig.json')
 
-const genDts = async (entry: string) => {
+const genDts = async (entry: string, declarationOnly = false) => {
   const project = new Project({
     compilerOptions: {
       allowJs: true,
       declaration: true, // 生成声明文件
       noEmitOnError: false, // 发送错误时不输出任何文件
-      emitDeclarationOnly: true,
       outDir: resolve(entry, './dist'),
-      baseUrl: getFilePath('../'),
-      paths: {
-        '@corgi/*': ['src/*'],
-      },
+      baseUrl: getFilePath('./'),
+      // paths: {
+      //   '@corgi/*': ['src/*'],
+      // },
       skipLibCheck: true,
     },
     tsConfigFilePath: TSCONFIG_PATH,
@@ -112,7 +111,7 @@ const genDts = async (entry: string) => {
    * 开始执行编译
    */
   await project.emit({
-    emitOnlyDtsFiles: true, // 只编译指定内容
+    emitOnlyDtsFiles: declarationOnly, // 只编译指定内容
   })
 
   // for (const sourceFile of sourceFiles) {

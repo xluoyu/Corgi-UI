@@ -1,11 +1,10 @@
 <script lang="ts">
 import { defineComponent, h } from 'vue'
-import { CgPopover, PopoverPorps } from '@corgi-box/components/popover'
-
+import { CgPopover, PopoverPorps } from '@corgi-box/components'
 export default defineComponent({
   name: 'CgTooltip',
   props: {
-    ...PopoverPorps,
+    // ...PopoverPorps,
     content: String,
   },
   render () {

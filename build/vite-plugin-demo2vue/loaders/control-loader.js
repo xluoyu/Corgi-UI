@@ -33,9 +33,7 @@ const docLoader = async (code, path) => {
     gfm: true,
     renderer: mdRenderer,
   })
-
-  console.log(docMainTemplate)
-
+  // 这里拿去文件的修改时间
   const lastTime = dayjs(statSync(path).mtime).format('YYYY-MM-DD HH:mm')
 
   return renderControlVueComponent(docMainTemplate, compoentList, lastTime)

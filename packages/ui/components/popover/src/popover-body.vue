@@ -17,14 +17,7 @@
   </div>
 </template>
 
-<script lang="ts">
-
-export default defineComponent({
-  name: 'CgPopoverBody',
-})
-</script>
-
-<script setup lang="ts">
+<script setup lang="ts" name="CgPopoverBody">
 import { PropType, VNode, defineComponent, ref, computed } from 'vue'
 import { isString } from '@corgi-box/utils'
 import popoverProps from './popoverProps'

@@ -1,9 +1,8 @@
-import { isFunction } from '../../utils'
+import { isFunction } from '@corgi-box/utils'
 
 const nodeList = new Map()
 
 const runHandler = el => {
-
   nodeList.forEach(i => {
     i.forEach(t => {
       if (!t.el.contains(el.target) && (t.white && t.white.every(w => !w.contains(el.target)))) {

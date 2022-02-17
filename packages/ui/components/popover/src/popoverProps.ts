@@ -1,6 +1,6 @@
 import { PropType, VNode } from 'vue'
 
-export default {
+const props = {
   content: [String, Function] as PropType<string | VNode>,
   effect: {
     type: String as PropType<'light' | 'dark'>,
@@ -11,3 +11,5 @@ export default {
     default: 'top',
   },
 }
+
+export default props

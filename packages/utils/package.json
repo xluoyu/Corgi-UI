@@ -3,6 +3,9 @@
   "version": "1.0.0",
   "main": "index.ts",
   "license": "MIT",
+  "scripts": {
+    "build": "rimraf ./dist && cross-env BUILD_KEY=utils esno ../../build/rollup.common.ts"
+  },
   "dependencies": {
     "@vue/compiler-sfc": "^3.2.28",
     "lodash-es": "^4.17.21",
