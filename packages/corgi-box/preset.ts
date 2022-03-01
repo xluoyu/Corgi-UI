@@ -1,4 +1,4 @@
-import * as components from '@corgi-box/components'
+import * as components from '@corgi-box/ui'
 import * as directives from '@corgi-box/directives'
 import version from './version'
 import { App } from 'vue'

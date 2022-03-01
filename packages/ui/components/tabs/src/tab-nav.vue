@@ -34,7 +34,7 @@ export default defineComponent({
 
 <script lang="ts" setup>
 import { defineComponent, PropType, inject, computed, onMounted, ref, nextTick, onUpdated, reactive } from 'vue'
-import { getComponentCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { getComponentCssVar, IThemeCssVar } from '@corgi-box/ui/utils'
 import { isString } from '@corgi-box/utils'
 import ITabProvide from './tabProvide'
 import styleVar from './styleVar'

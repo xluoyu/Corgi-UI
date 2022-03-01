@@ -50,9 +50,9 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, PropType, ref, VNode, onUnmounted } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar, IThemeCssVar, useGlobalCssVar } from '@corgi-box/components/utils'
+import { getComponentCssVar, getGlobalCssVar, IThemeCssVar, useGlobalCssVar } from '@corgi-box/ui/utils'
 import { isString } from '@corgi-box/utils'
-import { IButtonType } from '@corgi-box/components'
+import { IButtonType } from '@corgi-box/ui'
 import { CgButton, CgIcon } from 'corgi-box'
 import { SuccessFilled, WarningFilled, CircleCloseFilled, Close } from '@element-plus/icons'
 

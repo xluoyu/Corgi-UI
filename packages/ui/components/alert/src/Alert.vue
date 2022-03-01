@@ -41,7 +41,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, PropType, ref } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { getComponentCssVar, getGlobalCssVar, IThemeCssVar } from '@corgi-box/ui/utils'
 import { Flag, InfoFilled, SuccessFilled, WarningFilled, CircleCloseFilled, Close } from '@element-plus/icons'
 
 const props = defineProps({

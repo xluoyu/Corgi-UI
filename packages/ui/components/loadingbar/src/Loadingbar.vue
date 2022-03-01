@@ -21,7 +21,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { getComponentCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { getComponentCssVar, IThemeCssVar } from '@corgi-box/ui/utils'
 import { defineComponent, computed, ref, Ref, provide, inject } from 'vue'
 import { loadBarProvideKey } from './type'
 import { warn } from '@corgi-box/utils/warn'

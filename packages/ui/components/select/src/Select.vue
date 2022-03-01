@@ -43,7 +43,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, PropType, ref, onMounted } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { getComponentCssVar, getGlobalCssVar, IThemeCssVar } from '@corgi-box/ui/utils'
 import { isString } from '@corgi-box/utils'
 import { CgPopover, CgIcon } from 'corgi-box'
 import { ArrowDown } from '@element-plus/icons'

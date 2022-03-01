@@ -44,7 +44,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, ref, watch } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, useGlobalCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { getComponentCssVar, useGlobalCssVar, IThemeCssVar } from '@corgi-box/ui/utils'
 import { CgMask, CgIcon } from 'corgi-box'
 import { Close } from '@element-plus/icons'
 

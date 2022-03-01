@@ -85,11 +85,11 @@ const getFileId = path => {
   return fileNames[0]
 }
 
-const demoLoader = (code, path) => {
+const demoLoader = async (code, path) => {
   const tokens = lexer(code)
   const demoCompoentObj = getCompoentObj(tokens)
   demoCompoentObj.id = getFileId(path)
-  return renderVueComponent(demoCompoentObj)
+  return await renderVueComponent(demoCompoentObj)
 }
 
 

@@ -93,7 +93,7 @@ export default defineComponent({
 </script>
 
 <script lang="ts" setup>
-import { getComponentCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { getComponentCssVar, IThemeCssVar } from '@corgi-box/ui/utils'
 import { number2Px } from '@corgi-box/utils'
 import { computed, defineComponent, inject, nextTick, onMounted, onUnmounted, PropType, reactive, ref, watchEffect } from 'vue'
 import styleVar from './styleVar'

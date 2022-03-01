@@ -28,7 +28,7 @@ export default defineComponent({
 <script lang="ts" setup>
 import { defineComponent, computed, inject, PropType, ref } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { getComponentCssVar, IThemeCssVar } from '@corgi-box/ui/utils'
 import { Close } from '@element-plus/icons'
 
 const props = defineProps({

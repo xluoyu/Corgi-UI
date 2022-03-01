@@ -12,7 +12,7 @@
       "@site/*": ["./website/*"],
       "corgi-box": ["./packages/corgi-box/index"],
       // "@corgi-box/utils": ["./packages/utils"],
-      // "@corgi-box/components": ["./packages/components"],
+      // "@corgi-box/ui": ["./packages/components"],
       // "@corgi-box/hooks": ["./packages/hooks"],
       // "@corgi-box/directives": ["./packages/directives"],
     },

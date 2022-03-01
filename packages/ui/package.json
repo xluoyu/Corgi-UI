@@ -7,6 +7,7 @@
     "build": "rimraf ./dist && esno ../../build/components.ts"
   },
   "dependencies": {
+    "@rollup/plugin-babel": "^5.3.1",
     "lodash-es": "^4.17.21"
   }
 }

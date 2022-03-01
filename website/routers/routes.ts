@@ -37,7 +37,7 @@ const getComponentRouters = () => {
       return {
         path: item.path,
         name: item.key,
-        component: defineAsyncComponent(() => import(`../../packages/components/components/${item.path}/demos/index.md`)),
+        component: () => import(`../../packages/ui/components/${item.path}/demos/index.md`),
       }
     }))
     return pre
@@ -75,7 +75,18 @@ const routes = [
     component: () => import('../views/component/index.vue'),
     name: 'component',
     redirect: '/component/button',
-    children: getComponentRouters(),
+    children: [
+      {
+        path: 'button',
+        name: 'button',
+        component: () => import('../../packages/ui/components/button/demos/index.md'),
+      },
+      {
+        path: 'icon',
+        name: 'icon',
+        component: () => import('../../packages/ui/components/icon/demos/index.md'),
+      },
+    ],
     // [
     //   {
     //     path: 'button',

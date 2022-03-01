@@ -13,7 +13,8 @@ const vuePlugin = createVuePlugin({
 const getTargetFile = async path => {
   const code = await fs.readFileSync(path, 'utf-8')
   if (path.endsWith('.demo.md')) {
-    return demoLoader(code, path)
+    const res = await demoLoader(code, path)
+    return res
   } else if(path.endsWith('.control.md')) {
     return controlLoader(code, path)
   } else {

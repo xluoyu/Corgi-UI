@@ -1,7 +1,7 @@
 <script lang="ts">
 import { defineComponent, computed, inject, onMounted, getCurrentInstance, h, VNode, ref, provide, PropType } from 'vue'
 import styleVar from './styleVar'
-import { getComponentCssVar, getGlobalCssVar, IThemeCssVar } from '@corgi-box/components/utils'
+import { getComponentCssVar, getGlobalCssVar, IThemeCssVar } from '@corgi-box/ui/utils'
 import{ IPosition, IType } from './type'
 import TabNav from './tab-nav.vue'
 export default defineComponent({

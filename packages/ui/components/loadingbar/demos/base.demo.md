@@ -11,7 +11,7 @@
 ```
 
 ```js-setup
-import { useLoadingBar } from 'index'
+import { useLoadingBar } from 'corgi-box'
 
 const {start, finish, error} = useLoadingBar()
 ```
